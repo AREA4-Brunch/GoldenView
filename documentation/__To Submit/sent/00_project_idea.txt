@@ -1,0 +1,8 @@
+Projekat je web aplikacija za trgovinu na berzi, slična programu "Bloomberg Terminal". Korisnici sa svojim napravljenim nalogom će moći da prate i analiziraju cene akcija u realnom vremenu, kao i da pristupe ostalim informacijama koje su za to bitne. 
+Što se tiče tri kategorije korisnika koje će postojati: 
+1) Obični korisnik - može da prati cene akcija i kreira svoj portfolio
+2) Brokeri - mogu dodavati i brisati akcije iz portfolija korisnika
+3) Administratori - tipična administracija sistema, korisnika itd. u vidu upravljanja sistemom i korisnicima, ažuriranje informacija o akcijama.
+Moguće je možda ubaciti i još neke kategorije korisnika ali će to biti odlučeno u sledećoj fazi projekta. 
+Sistem bi se oslanjao na API-je koji pružaju informacije o cenama akcija u realnom vremenu i prate relevantne finansijske događaje. 
+Cilj projekta je da se napravi web aplikacija za trgovinu akcijama koja poseduje prijateljski interfejs (dobar UX) za praćenje i analizu podataka na berzi.
