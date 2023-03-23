@@ -1,0 +1,10 @@
+Eligibility: The app is intended for use by individuals who are at least 18 years old and are legally permitted to participate in stock trading activities.
+Risk Disclosure: Stock trading involves risk, including the potential loss of principal. Users are responsible for understanding the risks associated with trading and making informed decisions.
+Use of Information: All information provided by the app, including market data and trading recommendations, is for informational purposes only and should not be considered financial advice. Users should perform their own research and consult with a licensed financial advisor before making any trading decisions.
+Account Security: Users are responsible for keeping their account login credentials secure and should not share them with others. The app is not responsible for any unauthorized access to user accounts.
+Fees: The app may charge fees for various services, such as trading commissions or account maintenance fees. Users should review the fee schedule before using the app.
+Termination: The app reserves the right to terminate user accounts for any reason, including violation of these terms and conditions.
+Intellectual Property: The app's content and intellectual property, including trademarks and copyrights, are owned by the app and should not be used or reproduced without permission.
+Limitation of Liability: The app is not liable for any losses or damages resulting from the use of the app or any information provided by the app.
+Governing Law: These terms and conditions are governed by the laws of the state or jurisdiction in which the app is located.
+Changes: The app may update or modify these terms and conditions at any time. Users will be notified of any changes and should review the updated terms before using the app.
