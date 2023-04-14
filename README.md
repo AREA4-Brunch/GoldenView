@@ -17,21 +17,27 @@ GoldenView/
 │   ├───src
 │   └───libs (for external libraries and dependencies)
 |
-├───database
+├───database (physical - implementation)
 |
 ├───documentation
 │   │   environment-setup.md
 │   │
 │   ├───__to_submit
-│   │   ├───development (editor files, etc)
+│   │   ├───development (prototype, editor files, etc)
 │   │   └───sent (officially submitted via email)
 │   │
-│   ├───ideas (final stuff from WhatsApp that is agreed upon)
-│   │       design.docx
-│   │       features.docx
-│   │       tech_stack.docx
+│   ├───features_specs (main project file and specs of use case scenarios)
 │   │
-│   └───uml_diagrams ( the good stuff ;) )
+│   ├───formal_review (of GoldenView, done by other team)
+│   │
+│   ├───database (logical - models)
+│   │
+│   ├───uml_diagrams ( the good stuff ;) )
+│   │
+│   └───ideas (final stuff from WhatsApp that is agreed upon)
+│           design.docx
+│           features.docx
+│           tech_stack.docx
 |
 ├───frontend
 │   ├───assets
