@@ -64,3 +64,5 @@ beacuse some of those could store the binded by contract id information.
 AssetTransactions are entirely stored in nosql.
 PricePrediction is a nosql table ???
 BindedByContract can be nosql table or embedded into trade request.
+Techincal Support Request should be in nosql, Msg, Name, Email, Status
+
