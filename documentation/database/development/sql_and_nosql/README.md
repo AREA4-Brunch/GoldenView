@@ -62,7 +62,7 @@ bool as it is useful info for further analysis.
 TradeRequest in SQL db represents the one that is not yet filled, else it would be moved to nosql where it becomes unstructered
 beacuse some of those could store the binded by contract id information.
 AssetTransactions are entirely stored in nosql.
-PricePrediction is a nosql table ???
 BindedByContract can be nosql table or embedded into trade request.
+PricePrediction is a nosql table ???
 Techincal Support Request should be in nosql, Msg, Name, Email, Status
 
