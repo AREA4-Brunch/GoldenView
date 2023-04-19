@@ -1,5 +1,6 @@
 {
     "_id": 5,
+    "is_purchase": true,
     "id_user": 1,
     "id_asset": 1,
     "quantity": 500,
