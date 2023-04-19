@@ -2,7 +2,13 @@
     <!-- from the SQL db - ActiveTradeRequest table -->
     "_id": 5,
 
-    <!-- id of user whose account receieves/sends funds
+    <!-- whether the request for purchasing or selling an asset and
+         was tranferred from table in SQL db - PurchaseRequest table
+         or from the table in SQL db - SalesRequest table
+    -->
+    "is_purchase": true,
+
+    <!-- id of user whose account purchases/sells asset (id_asset)
          in SQL db - Trader entity - IdUser
     -->
     "id_user": 1,
@@ -10,7 +16,9 @@
     <!-- id of asset the request is regarding in SQL db - Asset table -->
     "id_asset": 1,
 
-    <!-- total number of assets transactioned -->
+    <!-- total number of assets transactioned, quantity 0 if it was cancelled
+         and no transactions took place
+    -->
     "quantity": 500,
 
     <!-- value of all assets transactioned (rounded to 2 decimals) -->
