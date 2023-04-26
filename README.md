@@ -73,11 +73,14 @@ GoldenView/
 ## Rules
 
 - Only main and develop branches are long lived. All other labels should be cleared once done.
-- Never work directly on `develop` or `main`.
+- Never work directly on `develop` or `main` branches.
 - Do not ever merge into `main` directly from branches other than `release` or `hotfix` _types_ of branches.
 - Before starting any new feature, make sure your `develop` branch is up-to-date with the latest changes from `main`.
 - Use clear and descriptive branch names, such as `feature/my-new-feature` or `hotfix/bug-fix`.
 - Commit often and with descriptive commit messages.
+- Once `develop` is considered ready for release but was not yet entirely tested then according `release` branch <br/>
+  is to be created where the software gets tested, and if found ready for release then that `release` branch is <br/>
+  to be merged into `main` and back into `develop` and then deleted.
 
 ## Workflow
 
