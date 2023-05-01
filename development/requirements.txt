@@ -1,0 +1,4 @@
+# Backend:
+Django==4.2
+
+# Frontend:

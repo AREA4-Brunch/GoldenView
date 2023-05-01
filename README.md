@@ -12,13 +12,86 @@ GoldenView/
 │   .gitattributes
 │   .gitignore
 │   README.md ( you are here ;) )
+|
+├───deployment
+│   │   README.md
+│   │
+│   ├───databases
+│   │
+│   └───trading_platform
+│       ├───compose
+|       ├───config
+|       ├───dockerfiles
+│       └───src
+|
+├───development
+│   │   requirements.txt (modules needed; used in venv)
+│   │   README.md
+│   │
+│   ├───databases (physical - implementation)
+│   │
+│   └───trading_platform (Django project dev dir)
+│       │   manage.py
+│       │
+│       ├───trading_platform (Django project config files)
+│       │
+|       ├───management
+│       │   └───commands (scripts for automating tasks)
+│       │
+|       ├───assets
+|       │   ├───development (editor files, etc)
+|       │   │   ├───fonts
+|       │   │   ├───images
+|       │   │   └───other_assets     
+|       │   │
+|       │   └───output (exported .png, etc)
+|       │       ├───fonts
+|       │       ├───images
+|       │       └───other_assets
+|       │
+│       └───apps (encapsulating independent functionalities)
+|           ├───common (used across multiple apps)
+|           |   └───frontend
+|           |       ├───config
+|           |       ├───static
+|           |       └───src
+|           |           ├───components (e.g. buttons/ )
+|           |           └───templates (e.g. footer/ )
+|           |
+│           └───client_app
+|               │   admin.py
+|               │   apps.py
+|               │   models.py
+|               │   tests.py
+|               │   views.py
+|               │   __init__.py
+|               │
+|               │
+|               ├───backend (server-side code)
+|               │   ├───libs (for external libraries and dependencies)
+|               │   └───src
+|               │       ├───models
+|               │       └───utils
+|               │
+|               ├───frontend
+|               │   │
+|               │   ├───config (configuring code variables, e.g. endpoints urls)
+|               │   │
+|               │   ├───static (contains literally nothing dynamic)
+|               │   │   |   favicon.ico
+|               │   │   |   robots.txt
+|               │   │   |
+|               │   │   ├───images
+|               │   │   ├───libs  (for external libraries and dependencies)
+|               │   │   ├───css
+|               │   │   └───js
+|               │   │
+|               │   └───src (html, views, etc)
+|               │       ├───components (e.g. buttons/ )
+|               │       └───templates (e.g. footer/ )
+|               │
+|               └───migrations
 │
-├───backend (server-side code)
-│   ├───src
-│   └───libs (for external libraries and dependencies)
-|
-├───database (physical - implementation)
-|
 ├───documentation
 │   │   environment-setup.md
 │   │
@@ -30,29 +103,18 @@ GoldenView/
 │   │
 │   ├───formal_review (of GoldenView, done by other team)
 │   │
-│   ├───database (logical - models)
+│   ├───databases (logical - models)
+│   │   ├───development (prototypes, editor files, etc)
+│   │   └───output (db models being used in the implementation)
 │   │
 │   ├───uml_diagrams ( the good stuff ;) )
+│   │
+│   ├───api (documentation of endpoints)
 │   │
 │   └───ideas (final stuff from WhatsApp that is agreed upon)
 │           design.docx
 │           features.docx
 │           tech_stack.docx
-|
-├───frontend
-│   ├───assets
-│   │   ├───development (editor files, etc)
-│   │   │   ├───fonts
-│   │   │   ├───images
-│   │   │   └───other_assets
-│   │   └───output (exported .png, etc)
-│   │       ├───fonts
-│   │       ├───images
-│   │       └───other_assets
-│   │
-│   ├───libs (for external libraries and dependencies)
-│   │
-│   └───src (client-side code)
 |
 └───testing
     ├───backend
