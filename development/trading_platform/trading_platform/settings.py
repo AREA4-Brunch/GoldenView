@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os  # for db config environ vars
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,9 +78,13 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {  # trading_platform mysql db
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
+        # 'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
+        # 'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
+        # 'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
+        # 'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
     }
 }
 
@@ -123,3 +129,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Custom globals:
+
+READ_MNGMNT_CMNDS_DOCS_MSG = r"\nCheckout management/commands/README.md on how to use this command."

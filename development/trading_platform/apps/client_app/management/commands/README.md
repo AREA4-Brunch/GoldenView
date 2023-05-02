@@ -1,0 +1,63 @@
+# Management Command
+Commands represent scripts that automate tasks, for example updating the
+assets values predictions once a day.
+
+Commands are to be run as:
+```cmd
+python manage.py <command_name>
+```
+<br/>
+
+# Available commands:
+
+
+
+## **configure_db**
+
+This command serves as shortcut which sets the environment variables for all the databases configurations by calling all configure_db_* commands instead of the user calling each one individually. Takes no args and relies on default configuration folder paths of the commands.
+
+Must be run before starting a server for changes to take place. Needed to be run once per shell/cmd session as the environment variables are tied only to a specific session.
+
+<br/>
+
+### Usage:
+To execute the command:
+```cmd
+python manage.py configure_db
+```
+
+<br/>
+
+## **configure_db_trading_platform**
+
+This command sets the environment variables for the database(s) configuration.
+
+Must be run before starting a server for changes to take place. Needed to be run once per shell/cmd session as the environment variables are tied only to a specific session.
+
+<br/>
+
+### Usage:
+To execute the command:
+```cmd
+python manage.py configure_db_trading_platform [OPTIONS]
+```
+
+The command takes the following options:
+
+- `-cs` or `--config-src`: [Optional] specifies path to folder that contains db_connection.ini file to be used to setup the db config. Cannot be used with `all`argument.
+
+<br/>
+
+### Examples:
+
+- To set up the configuration for the Trading Platform database using default db_config path:
+
+    ```cmd
+    python manage.py configure_db_trading_platform
+    ```
+
+    and using a custom config folder path that has a db_connection.ini file inside:
+
+    ```cmd
+    python manage.py configure_db_trading_platform --config-src="../databases/trading_platform/db_config"
+    ```
