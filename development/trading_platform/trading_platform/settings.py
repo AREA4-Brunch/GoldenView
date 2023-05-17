@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 
 DATABASES = {
     'default': {  # trading_platform mysql db
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
-        # 'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
-        # 'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
-        # 'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
-        # 'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
+        'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
+        'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
+        'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
+        'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
     }
 }
 
@@ -124,6 +124,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'static_root/'
+
+STATICFILES_DIRS = [  # additional to ones in apps
+    # Paths MUST use Unix-style forward slashes, even on Windows:
+    ('common', 'apps/common/frontend/src/static/')
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
