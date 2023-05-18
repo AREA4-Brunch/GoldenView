@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'deployment',  # for project commands, staticfiles finders, etc.
+
     # Apps:
-    'deployment_utils.apps.DeploymentUtilsConfig',
-    'apps.client_app.apps.ClientAppConfig',
+    'apps.broker_app.apps.BrokerAppConfig',
+    'apps.basic_user_app.apps.BasicUserAppConfig',
+    'apps.admin_app.apps.AdminAppConfig',
+    'apps.user_registration.apps.UserRegistrationConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,8 +131,7 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # 'deployment.storage.staticfiles.finders.StaticAppDirectoriesFinder'
-    'deployment_utils.storage.staticfiles.finders.StaticAppDirectoriesFinder'
+    'deployment.storage.staticfiles.finders.StaticAppDirectoriesFinder.StaticAppDirectoriesFinder'
 ]
 
 STATIC_URL = 'static/'

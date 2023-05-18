@@ -1,6 +1,6 @@
 # Running and managing GoldenView locally
 
-## Creating a virtual environment
+## **Creating a virtual environment**
 
 To create a virtual environment that runs a specific Python version:
 
@@ -25,7 +25,7 @@ Make sure to upgrade pip to the latest version:
 (venv) D:\GoldenView\development> pip install --upgrade pip
 ```
 
-## Adding all requirements
+## **Adding all requirements**
 
 Install all the requirements needed to run the app locally:
 
@@ -33,7 +33,7 @@ Install all the requirements needed to run the app locally:
 (venv) D:\GoldenView\development> pip install -r .\requirements.txt
 ```
 
-## Running the project
+## **Running the project**
 
 To run the project, navigate to the project directory and run the following command:
 
@@ -42,8 +42,15 @@ To run the project, navigate to the project directory and run the following comm
 ```
 
 
-## Adding a new app
+## **Adding a new app**
 
+<br/>
+
+#### ***Note***:
+    The `startapp_structured` management command automates this process.
+    Explained in `development/deployment/management/commands/README.md`.
+
+<br/>
 To add a new app to the Django project trading_platform:
 
 1. Create the folder where the app will reside:
