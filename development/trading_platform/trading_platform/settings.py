@@ -17,7 +17,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -40,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Apps:
+    'deployment_utils.apps.DeploymentUtilsConfig',
     'apps.client_app.apps.ClientAppConfig',
 ]
 
@@ -79,12 +80,12 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 
 DATABASES = {
     'default': {  # trading_platform mysql db
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
-        'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
-        'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
-        'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
-        'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
+        # 'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
+        # 'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
+        # 'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
+        # 'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
     }
 }
 
@@ -123,6 +124,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'deployment.storage.staticfiles.finders.StaticAppDirectoriesFinder'
+    'deployment_utils.storage.staticfiles.finders.StaticAppDirectoriesFinder'
+]
+
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static_root/'
 
@@ -141,3 +149,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Custom globals:
 
 READ_MNGMNT_CMNDS_DOCS_MSG = r"\nCheckout management/commands/README.md on how to use this command."
+DEFAULT_APP_STATICFILES_DIR = "frontend/src/static/"
