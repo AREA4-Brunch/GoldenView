@@ -1,3 +1,15 @@
+# ========================
+# Local execution bins:
+
 development/venv
+
+# for some reason **/__pycache__/ does not do the trick ?
 development/trading_platform/trading_platform/__pycache__
+
 **/__pycache__/
+
+
+# ========================
+# Company secrets:
+
+# development/databases/trading_platform/db_config/db_connection.ini

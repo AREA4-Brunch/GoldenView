@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os  # for db config environ vars
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -38,7 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'apps.client_app.apps.ClientAppConfig',
+    'deployment',  # for project commands, staticfiles finders, etc.
+
+    # Apps:
+    'apps.broker_app.apps.BrokerAppConfig',
+    'apps.basic_user_app.apps.BasicUserAppConfig',
+    'apps.admin_app.apps.AdminAppConfig',
+    'apps.user_registration.apps.UserRegistrationConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,9 +83,13 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {  # trading_platform mysql db
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", ""),
+        # 'USER': os.environ.get("DB_TRADING_PLATFORM_USER", ""),
+        # 'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", ""),
+        # 'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", ""),
+        # 'PORT': os.environ.get("DB_TRADING_PLATFORM_PORT", ""),
     }
 }
 
@@ -117,9 +128,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'deployment.storage.staticfiles.finders.StaticAppDirectoriesFinder.StaticAppDirectoriesFinder'
+]
+
 STATIC_URL = 'static/'
+STATIC_ROOT = 'static_root/'
+
+STATICFILES_DIRS = [  # additional to ones in apps
+    # Paths MUST use Unix-style forward slashes, even on Windows:
+    ('common', 'apps/common/frontend/src/static/')
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Custom globals:
+
+READ_MNGMNT_CMNDS_DOCS_MSG = r"\nCheckout management/commands/README.md on how to use this command."
+DEFAULT_APP_STATICFILES_DIR = "frontend/src/static/"

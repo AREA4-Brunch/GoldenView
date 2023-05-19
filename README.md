@@ -33,10 +33,14 @@ GoldenView/
 │   └───trading_platform (Django project dev dir)
 │       │   manage.py
 │       │
+│       ├───static_root (Django root folder for static content)
+│       │
 │       ├───trading_platform (Django project config files)
 │       │
-|       ├───management
-│       │   └───commands (scripts for automating tasks)
+│       ├───deployment (project and local deployment automation commands)
+|       |   ├────storage (automation utils for statics and storage)
+|       |   └────management
+│       |       └───commands (scripts for automating tasks)
 │       │
 |       ├───assets
 |       │   ├───development (editor files, etc)
@@ -53,12 +57,12 @@ GoldenView/
 |           ├───common (used across multiple apps)
 |           |   └───frontend
 |           |       ├───config
-|           |       ├───static
 |           |       └───src
+|           |           ├───static (e.g. js, css )
 |           |           ├───components (e.g. buttons/ )
 |           |           └───templates (e.g. footer/ )
 |           |
-│           └───client_app
+│           └───feature_app
 |               │   admin.py
 |               │   apps.py
 |               │   models.py
@@ -77,16 +81,16 @@ GoldenView/
 |               │   │
 |               │   ├───config (configuring code variables, e.g. endpoints urls)
 |               │   │
-|               │   ├───static (contains literally nothing dynamic)
-|               │   │   |   favicon.ico
-|               │   │   |   robots.txt
-|               │   │   |
-|               │   │   ├───images
-|               │   │   ├───libs  (for external libraries and dependencies)
-|               │   │   ├───css
-|               │   │   └───js
-|               │   │
 |               │   └───src (html, views, etc)
+|               |       ├───static (contains literally nothing dynamic)
+|               |       │   |   favicon.ico
+|               |       │   |   robots.txt
+|               |       │   |
+|               |       │   ├───images
+|               |       │   ├───libs  (for external libraries and dependencies)
+|               |       │   ├───css
+|               |       │   └───js
+|               │       │
 |               │       ├───components (e.g. buttons/ )
 |               │       └───templates (e.g. footer/ )
 |               │
