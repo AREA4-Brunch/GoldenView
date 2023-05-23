@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.basic_user_app.apps.BasicUserAppConfig',
     'apps.admin_app.apps.AdminAppConfig',
     'apps.user_registration.apps.UserRegistrationConfig',
+    'apps.assetsView.apps.AssetsViewConfig'
 ]
 
 MIDDLEWARE = [
