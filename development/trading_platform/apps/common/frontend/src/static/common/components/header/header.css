@@ -1,0 +1,46 @@
+.navbar-brand {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: black;
+    margin-left: 5vw;
+}
+
+.navbar-brand:hover {
+    color: goldenrod;
+}
+
+.navbar {
+    background: #FFFFFF;
+    /* Gray/100 */
+    border-bottom: 1px solid #F2F4F7;
+}
+
+.logo-text {
+    vertical-align: middle;
+}
+
+.nav-link {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    /* Gray/500 */
+    color: #667085;
+    vertical-align: middle;
+}
+
+.nav-link:hover {
+    color: goldenrod;
+}
+
+.profile {
+    margin-right: 5vw;
+}
+
+.navbar-toggler-icon {
+    background-color: goldenrod;
+}

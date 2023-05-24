@@ -1,0 +1,21 @@
+.left-nav-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    box-shadow: -1px 9px 16px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5vh;
+}
+
+.nav-item-vertical {
+    display: flex;
+    align-items: center;
+    margin-left: 2.5vw;
+}

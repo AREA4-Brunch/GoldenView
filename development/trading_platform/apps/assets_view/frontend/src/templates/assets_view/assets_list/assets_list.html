@@ -1,0 +1,62 @@
+<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_view/css/assets_list.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Assets List
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="content">
+
+        <div class="row">
+            {% include 'assets_view/components/dashboard/dashboard.html' %}
+
+            <div class="col-md-9">
+                Content
+            </div>
+        </div>
+
+        <h1>Stock Prices</h1>
+        <ul>
+            {% for asset in asset_prices %}
+                <li>Symbol: {{ asset.symbol }}, Price: {{ asset.price }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>    
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'assets_view/js/assets_list.js' %}"></script>
+
+{% endblock %}
+

@@ -1,0 +1,444 @@
+
+CREATE TABLE [ActiveTradeRequest]
+( 
+	[QuantityRequested]  integer  NOT NULL ,
+	[TotalTransactionsPrice] decimal(10,2)  NOT NULL ,
+	[IdAsset]            integer  NOT NULL ,
+	[IdTradeRequest]     int  NOT NULL ,
+	[IdUser]             integer  NOT NULL ,
+	[QuantityRequired]   integer  NOT NULL ,
+	[UnitPriceLowerBound] decimal(10,2)  NOT NULL ,
+	[UnitPriceUpperBound] decimal(10,2)  NOT NULL 
+)
+go
+
+CREATE TABLE [Administrator]
+( 
+	[IdUser]             integer  NOT NULL 
+)
+go
+
+CREATE TABLE [ApprovalReportFile]
+( 
+	[ApprovalContent]    varchar(256)  NULL ,
+	[FilePath]           varchar(128)  NOT NULL 
+)
+go
+
+CREATE TABLE [Asset]
+( 
+	[IdAsset]            integer  NOT NULL ,
+	[TickerSymbol]       varchar(16)  NOT NULL 
+)
+go
+
+CREATE TABLE [BasicUser]
+( 
+	[IdUser]             integer  NOT NULL 
+)
+go
+
+CREATE TABLE [Broker]
+( 
+	[IdUser]             integer  NOT NULL 
+)
+go
+
+CREATE TABLE [BrokerBasicUserContract]
+( 
+	[IdContract]         integer  NOT NULL ,
+	[IdBasicUser]        integer  NOT NULL ,
+	[IdBroker]           integer  NOT NULL ,
+	[CreationTime]       datetime  NOT NULL ,
+	[ResponseTime]       datetime  NULL ,
+	[WasAccepted]        bit  NOT NULL ,
+	[FeePercentage]      float  NOT NULL ,
+	[ExpirationTime]     datetime  NULL ,
+	[ContractFilePath]   varchar(128)  NOT NULL 
+)
+go
+
+CREATE TABLE [BrokerBasicUserContractFile]
+( 
+	[ContractContent]    varchar(256)  NULL ,
+	[FilePath]           varchar(128)  NOT NULL 
+)
+go
+
+CREATE TABLE [BrokerRequest]
+( 
+	[IdBasicUser]        integer  NOT NULL ,
+	[Status]             varchar(16)  NOT NULL ,
+	[IdAdministrator]    integer  NOT NULL ,
+	[RequestFilePath]    varchar(128)  NOT NULL ,
+	[ApprovalFilePath]   varchar(128)  NOT NULL 
+)
+go
+
+CREATE TABLE [BrokerRequestFile]
+( 
+	[FilePath]           varchar(128)  NOT NULL ,
+	[RequestContent]     varchar(256)  NULL 
+)
+go
+
+CREATE TABLE [Country]
+( 
+	[IdCountry]          integer  NOT NULL ,
+	[Name]               varchar(32)  NOT NULL 
+)
+go
+
+CREATE TABLE [FundsTransferMethod]
+( 
+	[IdPaymentMethod]    integer  NOT NULL ,
+	[AccessKey]          varchar(64)  NOT NULL ,
+	[MakeBeliefBalance]  decimal(10,2)  NULL 
+)
+go
+
+CREATE TABLE [HasRole]
+( 
+	[IdGroup]            integer  NOT NULL ,
+	[IdRole]             integer  NOT NULL 
+)
+go
+
+CREATE TABLE [IsBindedByContract]
+( 
+	[IdTradeRequest]     int  NOT NULL ,
+	[IdContract]         integer  NOT NULL 
+)
+go
+
+CREATE TABLE [MakeBeliefOwns]
+( 
+	[IdPaymentMethod]    integer  NOT NULL ,
+	[IdAsset]            integer  NOT NULL ,
+	[Quantity]           integer  NOT NULL 
+)
+go
+
+CREATE TABLE [PasswordChangeRequest]
+( 
+	[IdUser]             integer  NOT NULL ,
+	[IdPCR]              integer  NOT NULL ,
+	[ConfirmationCode]   smallint  NOT NULL ,
+	[CreationTime]       datetime  NOT NULL ,
+	[ExpirationTime]     datetime  NOT NULL ,
+	[DidExpire]          bit  NOT NULL 
+)
+go
+
+CREATE TABLE [PurchaseRequest]
+( 
+	[IdTradeRequest]     int  NOT NULL 
+)
+go
+
+CREATE TABLE [Role]
+( 
+	[IdRole]             integer  NOT NULL ,
+	[Name]               varchar(18)  NULL 
+)
+go
+
+CREATE TABLE [SalesRequest]
+( 
+	[IdTradeRequest]     int  NOT NULL 
+)
+go
+
+CREATE TABLE [TextFile]
+( 
+	[FilePath]           varchar(128)  NOT NULL 
+)
+go
+
+CREATE TABLE [Trader]
+( 
+	[IdUser]             integer  NOT NULL ,
+	[Birthday]           datetime  NULL ,
+	[Sex]                varchar(6)  NULL ,
+	[IdCountry]          integer  NOT NULL ,
+	[TermsAcceptanceTime] datetime  NOT NULL ,
+	[IdSelectedFundsTrasnferMethod] integer  NULL 
+)
+go
+
+CREATE TABLE [User]
+( 
+	[IdUser]             integer  NOT NULL ,
+	[IdGroup]            integer  NOT NULL ,
+	[Username]           varchar(32)  NOT NULL ,
+	[Password]           varchar(32)  NOT NULL ,
+	[Email]              varchar(64)  NOT NULL 
+)
+go
+
+CREATE TABLE [UsersGroup]
+( 
+	[IdGroup]            integer  NOT NULL ,
+	[Name]               varchar(18)  NULL 
+)
+go
+
+ALTER TABLE [ActiveTradeRequest]
+	ADD CONSTRAINT [XPKActiveTradeRequest] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
+go
+
+ALTER TABLE [Administrator]
+	ADD CONSTRAINT [XPKAdministrator] PRIMARY KEY  CLUSTERED ([IdUser] ASC)
+go
+
+ALTER TABLE [ApprovalReportFile]
+	ADD CONSTRAINT [XPKApprovalReportFile] PRIMARY KEY  CLUSTERED ([FilePath] ASC)
+go
+
+ALTER TABLE [Asset]
+	ADD CONSTRAINT [XPKAsset] PRIMARY KEY  CLUSTERED ([IdAsset] ASC)
+go
+
+ALTER TABLE [BasicUser]
+	ADD CONSTRAINT [XPKBasicUser] PRIMARY KEY  CLUSTERED ([IdUser] ASC)
+go
+
+ALTER TABLE [Broker]
+	ADD CONSTRAINT [XPKBroker] PRIMARY KEY  CLUSTERED ([IdUser] ASC)
+go
+
+ALTER TABLE [BrokerBasicUserContract]
+	ADD CONSTRAINT [XPKBrokerBasicUserContract] PRIMARY KEY  CLUSTERED ([IdContract] ASC)
+go
+
+ALTER TABLE [BrokerBasicUserContractFile]
+	ADD CONSTRAINT [XPKBrokerBasicUserContractFile] PRIMARY KEY  CLUSTERED ([FilePath] ASC)
+go
+
+ALTER TABLE [BrokerRequest]
+	ADD CONSTRAINT [XPKBrokerRequest] PRIMARY KEY  CLUSTERED ([IdBasicUser] ASC)
+go
+
+ALTER TABLE [BrokerRequestFile]
+	ADD CONSTRAINT [XPKBrokerRequestFile] PRIMARY KEY  CLUSTERED ([FilePath] ASC)
+go
+
+ALTER TABLE [Country]
+	ADD CONSTRAINT [XPKCountry] PRIMARY KEY  CLUSTERED ([IdCountry] ASC)
+go
+
+ALTER TABLE [FundsTransferMethod]
+	ADD CONSTRAINT [XPKFundsTransferMethod] PRIMARY KEY  CLUSTERED ([IdPaymentMethod] ASC)
+go
+
+ALTER TABLE [HasRole]
+	ADD CONSTRAINT [XPKHasRole] PRIMARY KEY  CLUSTERED ([IdGroup] ASC,[IdRole] ASC)
+go
+
+ALTER TABLE [IsBindedByContract]
+	ADD CONSTRAINT [XPKIsBindedByContract] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
+go
+
+ALTER TABLE [MakeBeliefOwns]
+	ADD CONSTRAINT [XPKMakeBeliefOwns] PRIMARY KEY  CLUSTERED ([IdPaymentMethod] ASC,[IdAsset] ASC)
+go
+
+ALTER TABLE [PasswordChangeRequest]
+	ADD CONSTRAINT [XPKPasswordChangeRequest] PRIMARY KEY  CLUSTERED ([IdPCR] ASC)
+go
+
+ALTER TABLE [PurchaseRequest]
+	ADD CONSTRAINT [XPKPurchaseRequest] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
+go
+
+ALTER TABLE [Role]
+	ADD CONSTRAINT [XPKRole] PRIMARY KEY  CLUSTERED ([IdRole] ASC)
+go
+
+ALTER TABLE [SalesRequest]
+	ADD CONSTRAINT [XPKSalesRequest] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
+go
+
+ALTER TABLE [TextFile]
+	ADD CONSTRAINT [XPKTextFile] PRIMARY KEY  CLUSTERED ([FilePath] ASC)
+go
+
+ALTER TABLE [Trader]
+	ADD CONSTRAINT [XPKTrader] PRIMARY KEY  CLUSTERED ([IdUser] ASC)
+go
+
+ALTER TABLE [User]
+	ADD CONSTRAINT [XPKUser] PRIMARY KEY  CLUSTERED ([IdUser] ASC)
+go
+
+ALTER TABLE [UsersGroup]
+	ADD CONSTRAINT [XPKUsersGroup] PRIMARY KEY  CLUSTERED ([IdGroup] ASC)
+go
+
+
+ALTER TABLE [ActiveTradeRequest]
+	ADD CONSTRAINT [R_42] FOREIGN KEY ([IdAsset]) REFERENCES [Asset]([IdAsset])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [ActiveTradeRequest]
+	ADD CONSTRAINT [R_47] FOREIGN KEY ([IdUser]) REFERENCES [Trader]([IdUser])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [Administrator]
+	ADD CONSTRAINT [R_9] FOREIGN KEY ([IdUser]) REFERENCES [User]([IdUser])
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [ApprovalReportFile]
+	ADD CONSTRAINT [R_61] FOREIGN KEY ([FilePath]) REFERENCES [TextFile]([FilePath])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [BasicUser]
+	ADD CONSTRAINT [R_15] FOREIGN KEY ([IdUser]) REFERENCES [Trader]([IdUser])
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [Broker]
+	ADD CONSTRAINT [R_16] FOREIGN KEY ([IdUser]) REFERENCES [Trader]([IdUser])
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [BrokerBasicUserContract]
+	ADD CONSTRAINT [R_23] FOREIGN KEY ([IdBasicUser]) REFERENCES [BasicUser]([IdUser])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [BrokerBasicUserContract]
+	ADD CONSTRAINT [R_24] FOREIGN KEY ([IdBroker]) REFERENCES [Broker]([IdUser])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [BrokerBasicUserContract]
+	ADD CONSTRAINT [R_59] FOREIGN KEY ([ContractFilePath]) REFERENCES [BrokerBasicUserContractFile]([FilePath])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [BrokerBasicUserContractFile]
+	ADD CONSTRAINT [R_56] FOREIGN KEY ([FilePath]) REFERENCES [TextFile]([FilePath])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [BrokerRequest]
+	ADD CONSTRAINT [R_17] FOREIGN KEY ([IdBasicUser]) REFERENCES [BasicUser]([IdUser])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [BrokerRequest]
+	ADD CONSTRAINT [R_22] FOREIGN KEY ([IdAdministrator]) REFERENCES [Administrator]([IdUser])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [BrokerRequest]
+	ADD CONSTRAINT [R_58] FOREIGN KEY ([RequestFilePath]) REFERENCES [BrokerRequestFile]([FilePath])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [BrokerRequest]
+	ADD CONSTRAINT [R_62] FOREIGN KEY ([ApprovalFilePath]) REFERENCES [ApprovalReportFile]([FilePath])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [BrokerRequestFile]
+	ADD CONSTRAINT [R_57] FOREIGN KEY ([FilePath]) REFERENCES [TextFile]([FilePath])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [HasRole]
+	ADD CONSTRAINT [R_5] FOREIGN KEY ([IdGroup]) REFERENCES [UsersGroup]([IdGroup])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [HasRole]
+	ADD CONSTRAINT [R_8] FOREIGN KEY ([IdRole]) REFERENCES [Role]([IdRole])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [IsBindedByContract]
+	ADD CONSTRAINT [R_53] FOREIGN KEY ([IdTradeRequest]) REFERENCES [ActiveTradeRequest]([IdTradeRequest])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [IsBindedByContract]
+	ADD CONSTRAINT [R_54] FOREIGN KEY ([IdContract]) REFERENCES [BrokerBasicUserContract]([IdContract])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [MakeBeliefOwns]
+	ADD CONSTRAINT [R_51] FOREIGN KEY ([IdPaymentMethod]) REFERENCES [FundsTransferMethod]([IdPaymentMethod])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [MakeBeliefOwns]
+	ADD CONSTRAINT [R_52] FOREIGN KEY ([IdAsset]) REFERENCES [Asset]([IdAsset])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [PasswordChangeRequest]
+	ADD CONSTRAINT [R_14] FOREIGN KEY ([IdUser]) REFERENCES [User]([IdUser])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [PurchaseRequest]
+	ADD CONSTRAINT [R_49] FOREIGN KEY ([IdTradeRequest]) REFERENCES [ActiveTradeRequest]([IdTradeRequest])
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [SalesRequest]
+	ADD CONSTRAINT [R_50] FOREIGN KEY ([IdTradeRequest]) REFERENCES [ActiveTradeRequest]([IdTradeRequest])
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [Trader]
+	ADD CONSTRAINT [R_10] FOREIGN KEY ([IdUser]) REFERENCES [User]([IdUser])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Trader]
+	ADD CONSTRAINT [R_13] FOREIGN KEY ([IdCountry]) REFERENCES [Country]([IdCountry])
+		ON UPDATE CASCADE
+go
+
+ALTER TABLE [Trader]
+	ADD CONSTRAINT [R_33] FOREIGN KEY ([IdSelectedFundsTrasnferMethod]) REFERENCES [FundsTransferMethod]([IdPaymentMethod])
+		ON UPDATE CASCADE
+go
+
+
+ALTER TABLE [User]
+	ADD CONSTRAINT [Belongs_to] FOREIGN KEY ([IdGroup]) REFERENCES [UsersGroup]([IdGroup])
+		ON UPDATE CASCADE
+go

@@ -1,0 +1,13 @@
+{
+    "_id": 5,
+    "is_purchase": true,
+    "id_user": 1,
+    "id_asset": 1,
+    "quantity": 500,
+    "total_price": 137875,
+    "contract": {
+        "_id": 1,
+        "time": "2023-04-18T14:30:01.000Z",
+        "status": "FB"
+    }
+}
