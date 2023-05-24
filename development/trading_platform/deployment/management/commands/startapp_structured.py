@@ -63,7 +63,7 @@ class Command(StartAppCommand):
         createFile('backend/src/models/.gitkeep')
         createFile('backend/src/utils/.gitkeep')
         createFile('frontend/config/config.json')
-        createFile('frontend/src/templates/footer/.gitkeep')
+        createFile(f'frontend/src/templates/{app_name}/footer/.gitkeep')
         createFile(f'frontend/src/static/{app_name}/components/buttons/.gitkeep')
         createFile(f'frontend/src/static/{app_name}/css/.gitkeep')
         createFile(f'frontend/src/static/{app_name}/images/.gitkeep')

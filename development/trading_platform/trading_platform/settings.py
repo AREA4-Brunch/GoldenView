@@ -44,8 +44,9 @@ INSTALLED_APPS = [
 
     # Apps / Featuers:
     'apps.website.apps.WebsiteConfig',
-    'apps.user_registration.apps.UserRegistrationConfig',
+    'apps.assets_view.apps.AssetsViewConfig',
     'apps.user_login.apps.UserLoginConfig',
+    'apps.user_registration.apps.UserRegistrationConfig',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,6 @@ TEMPLATES = [
         'DIRS': [],
         # 'APP_DIRS': True,
         'OPTIONS': {
-
             'loaders': [
                 'deployment.linking.templates.finders.TemplateComponentsAppLoader.TemplateComponentsAppLoader',
                 'deployment.linking.templates.finders.TemplateViewAppLoader.TemplateViewAppLoader',

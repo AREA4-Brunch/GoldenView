@@ -1,0 +1,65 @@
+<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_view/css/asset_view.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    AAPL
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="content">
+        <div class="row">
+            {% include 'assets_view/components/dashboard/dashboard.html' %}
+
+            <div class="col-md-9">
+                <!-- TradingView Widget BEGIN -->
+                <br>
+                <div class="tradingview">
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_cb9ab"></div>
+                    </div>
+                </div>
+                <!-- TradingView Widget END -->
+                <div class="buttons">
+                    <button class="buy">Buy</button>
+                    <button class="sell">Sell</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="{% static 'assets_view/js/asset_view.js' %}"></script>
+
+{% endblock %}
+

@@ -1,5 +1,5 @@
 <!-- { % extends 'common/frontend/src/templates/base.html' % } -->
-{% extends 'base.html' %}
+{% extends 'common/base.html' %}
 
 {% load static %}
 
@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
 
     <!-- This Page's CSS -->
-    <link rel="stylesheet" href="{% static 'website/css/landing_page.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_view/css/assets_list.css' %}">
 
 {% endblock %}
 
 
 {% block title %}
-    Landing Page
+    Assets List
 {% endblock %}
 
 
@@ -27,10 +28,23 @@
 
 {% block content %}
     <div id="content">
-        <h2>
-            This should be landing page content, please edit me in landing_page.html
-        </h2>
-    </div>
+
+        <div class="row">
+            {% include 'assets_view/components/dashboard/dashboard.html' %}
+
+            <div class="col-md-9">
+                Content
+            </div>
+        </div>
+
+        <h1>Stock Prices</h1>
+        <ul>
+            {% for asset in asset_prices %}
+                <li>Symbol: {{ asset.symbol }}, Price: {{ asset.price }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>    
 {% endblock %}
 
 
@@ -42,6 +56,7 @@
 {% block included_js %}
 
     <!-- This Page's JS -->
-    <script src="{% static 'website/js/landing_page.js' %}"></script>
+    <script src="{% static 'assets_view/js/assets_list.js' %}"></script>
 
 {% endblock %}
+
