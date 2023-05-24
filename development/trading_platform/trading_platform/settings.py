@@ -40,12 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'deployment',  # for project commands, staticfiles finders, etc.
+    'apps.common',  # for common constant content (static, const .html, imgs...)
 
-    # Apps:
-    'apps.broker_app.apps.BrokerAppConfig',
-    'apps.basic_user_app.apps.BasicUserAppConfig',
-    'apps.admin_app.apps.AdminAppConfig',
+    # Apps / Featuers:
+    'apps.website.apps.WebsiteConfig',
     'apps.user_registration.apps.UserRegistrationConfig',
+    'apps.user_login.apps.UserLoginConfig',
 ]
 
 MIDDLEWARE = [
@@ -64,8 +64,15 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
+        # 'APP_DIRS': True,
         'OPTIONS': {
+
+            'loaders': [
+                'deployment.linking.templates.finders.TemplateComponentsAppLoader.TemplateComponentsAppLoader',
+                'deployment.linking.templates.finders.TemplateViewAppLoader.TemplateViewAppLoader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -131,7 +138,7 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'deployment.storage.staticfiles.finders.StaticAppDirectoriesFinder.StaticAppDirectoriesFinder'
+    'deployment.linking.staticfiles.finders.StaticAppDirectoriesFinder.StaticAppDirectoriesFinder'
 ]
 
 STATIC_URL = 'static/'
@@ -139,7 +146,7 @@ STATIC_ROOT = 'static_root/'
 
 STATICFILES_DIRS = [  # additional to ones in apps
     # Paths MUST use Unix-style forward slashes, even on Windows:
-    ('common', 'apps/common/frontend/src/static/')
+    ('common', 'apps/common/frontend/src/static/common')
 ]
 
 

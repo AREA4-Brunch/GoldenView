@@ -1,0 +1,47 @@
+<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/landing_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Landing Page
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="content">
+        <h2>
+            This should be landing page content, please edit me in landing_page.html
+        </h2>
+    </div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'website/js/landing_page.js' %}"></script>
+
+{% endblock %}

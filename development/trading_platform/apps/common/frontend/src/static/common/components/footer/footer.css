@@ -1,0 +1,48 @@
+.logo-text {
+    vertical-align: middle;
+}
+
+#footer {
+    border-top: 1px solid #F2F4F7;
+}
+
+.footer-brand {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: black;
+    margin-bottom: 5vh;
+}
+
+.footer-description {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #667085;
+}
+
+.copyright {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* Gray/400 */
+    color: #98A2B3;
+}
+
+.py-5 {
+    padding-bottom: 0 !important;
+}
+
+.py-4 {
+    padding-bottom: 0 !important;
+}
+
+.my-4 {
+    margin-bottom: 0 !important;
+}
