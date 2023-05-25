@@ -1,0 +1,56 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'common/css/page_404.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="content">
+
+    <div class="container-fluid">
+        <div id="page-txt" class="row center">
+            <div class="col-sm-6 center-horizontally">
+                <h1>
+                    Page
+                    {% if url %} <span class="url">{{ url }}</span> {% endif %}
+                    does not exist
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <!-- <script src="{% static 'common/js/page_404.js' %}"></script> -->
+
+{% endblock %}

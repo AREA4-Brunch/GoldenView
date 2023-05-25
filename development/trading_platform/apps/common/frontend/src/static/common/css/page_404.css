@@ -1,0 +1,19 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-horizontally {
+    display: flex;
+    justify-content: center;
+}
+
+.center-vertically {
+    display: flex;
+    align-items: center;
+}
+
+#page-txt {
+    height: 50vh;
+}
