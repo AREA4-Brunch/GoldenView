@@ -12,7 +12,7 @@ class Command(BaseCommand):
     help = 'Sets the environment variables for the database(s) configuration'
     name = 'configure_db_django'
 
-    DEFAULT_DB_CONFIG_PATH = os.path.join(BASE_DIR, "../databases/trading_platform/db_config")
+    DEFAULT_DB_CONFIG_PATH = os.path.join(BASE_DIR, "../databases/trading_platform_django_built_in/db_config")
 
     def add_arguments(self, parser):
         # optional arguments:
@@ -54,16 +54,16 @@ class Command(BaseCommand):
         config.read(config_path)
 
         try:
-            # os.environ['DB_TRADING_PLATFORM_NAME'] = config['TRADING_PLATFORM']['name']
-            # os.environ['DB_TRADING_PLATFORM_USER'] = config['TRADING_PLATFORM']['user']
-            # os.environ['DB_TRADING_PLATFORM_PASSWORD'] = config['TRADING_PLATFORM']['password']
-            # os.environ['DB_TRADING_PLATFORM_HOST'] = config['TRADING_PLATFORM']['host']
-            # os.environ['DB_TRADING_PLATFORM_PORT'] = config['TRADING_PLATFORM']['port']
+            # os.environ['DB_DJANGO_BUILT_IN_NAME'] = config['DJANGO_BUILT_IN']['name']
+            # os.environ['DB_DJANGO_BUILT_IN_USER'] = config['DJANGO_BUILT_IN']['user']
+            # os.environ['DB_DJANGO_BUILT_IN_PASSWORD'] = config['DJANGO_BUILT_IN']['password']
+            # os.environ['DB_DJANGO_BUILT_IN_HOST'] = config['DJANGO_BUILT_IN']['host']
+            # os.environ['DB_DJANGO_BUILT_IN_PORT'] = config['DJANGO_BUILT_IN']['port']
 
-            yield ('DB_TRADING_PLATFORM_NAME', config['TRADING_PLATFORM']['name'])
-            yield ('DB_TRADING_PLATFORM_USER', config['TRADING_PLATFORM']['user'])
-            yield ('DB_TRADING_PLATFORM_PASSWORD', config['TRADING_PLATFORM']['password'])
-            yield ('DB_TRADING_PLATFORM_HOST', config['TRADING_PLATFORM']['host'])
-            yield ('DB_TRADING_PLATFORM_PORT', config['TRADING_PLATFORM']['port'])
+            yield ('DB_DJANGO_BUILT_IN_NAME', config['DJANGO_BUILT_IN']['name'])
+            yield ('DB_DJANGO_BUILT_IN_USER', config['DJANGO_BUILT_IN']['user'])
+            yield ('DB_DJANGO_BUILT_IN_PASSWORD', config['DJANGO_BUILT_IN']['password'])
+            yield ('DB_DJANGO_BUILT_IN_HOST', config['DJANGO_BUILT_IN']['host'])
+            yield ('DB_DJANGO_BUILT_IN_PORT', config['DJANGO_BUILT_IN']['port'])
         except KeyError as e:
             raise CommandError(f"Invalid database connection information in {config_path}: missing key {e}")
