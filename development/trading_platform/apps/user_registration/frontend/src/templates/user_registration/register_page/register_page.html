@@ -43,7 +43,7 @@
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="email-help"  value="{% if email %}{{ email }}{% endif %}">
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="email-help"  value="{% if email %}{{ email }}{% endif %}">
                         <div id="email-help" class="form-text">We'll never share your email with anyone else.</div>
 
                         {%if email_err %}
@@ -55,8 +55,8 @@
 
                     <!-- Username -->
                     <div class="mb-3">
-                        <label for="user-input" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
+                        <label for="usr-input" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="usr-input" name="username" aria-describedby="usr-input-help" value="{% if usr %}{{ usr }}{% endif %}">
 
                         {%if usr_err %}
                             <div class="invalid-feedback" style="display: flex;">
@@ -68,7 +68,7 @@
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password-input" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password-input">
+                        <input type="password" class="form-control" id="password-input" name="password">
 
                         {%if pwd_err %}
                             <div class="invalid-feedback" style="display: flex;">
@@ -80,7 +80,7 @@
                     <!-- Country -->
                     <div class="form-group mb-3">
                         <label for="country" class="form-label">Country</label>
-                        <select class="form-control" id="country">
+                        <select class="form-control" id="country" name="country">
                         </select>
 
                         {%if cntry_err %}
@@ -93,7 +93,7 @@
                     <!-- Birthday -->
                     <div class="form-group mb-3">
                         <label for="birthday" class="form-label">Date of birth</label>
-                        <input type="date" class="form-control" id="birthday">
+                        <input type="date" class="form-control" id="birthday" name="birthday" value="{% if birthday %}{{ birthday }}{% endif %}">
 
                         {%if birthday_err %}
                             <div class="invalid-feedback" style="display: flex;">
@@ -105,10 +105,10 @@
                     <!-- Gender -->
                     <div class="form-group mb-4">
                         <label for="gender" class="form-label">Gender</label>
-                        <select class="form-control" id="gender">
-                          {% if gender == "Female" %}<option selected>Female</option>{% else %}<option>Female</option>{% endif %}
-                          {% if gender == "Male" %}<option selected>Male</option>{% else %}<option>Male</option>{% endif %}
-                          {% if gender == "Other" %}<option selected>Other</option>{% else %}<option>Other</option>{% endif %}
+                        <select class="form-control" id="gender" name="gender">
+                          {% if gender is None or gender == "Female" %}<option selected>Female</option>{% else %}<option>Female</option>{% endif %}
+                          {% if gender is not None and gender == "Male" %}<option selected>Male</option>{% else %}<option>Male</option>{% endif %}
+                          {% if gender is not None and gender == "Other" %}<option selected>Other</option>{% else %}<option>Other</option>{% endif %}
                         </select>
 
                         {%if gender_err %}
