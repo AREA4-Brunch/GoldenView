@@ -33,10 +33,10 @@
                 <form action="{% url 'login_form' %}" method="POST">
                     {% csrf_token %}
 
-                    <!-- Email or Username -->
+                    <!-- Username -->
                     <div class="mb-3">
                         <label for="user-input" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
+                        <input type="text" class="form-control" id="user-input" name="username" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
 
                         {%if usr_err %}
                             <div class="invalid-feedback" style="display: flex;">
@@ -48,7 +48,7 @@
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password-input" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password-input">
+                        <input type="password" class="form-control" id="password-input" name="password">
 
                         {%if pwd_err %}
                             <div class="invalid-feedback" style="display: flex;">
