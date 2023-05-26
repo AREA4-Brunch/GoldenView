@@ -1,0 +1,153 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Include CSS for country flags -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+
+    <link rel="stylesheet" href="{% static 'user_registration/css/register_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Register
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="register_page-content">
+
+    <div class="container-fluid">
+        <div id="register" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <form action="{% url 'register_form' %}" method="POST">
+                    {% csrf_token %}
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="email-help">
+                        <div id="email-help" class="form-text">We'll never share your email with anyone else.</div>
+
+                        {%if email_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ email_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="user-input" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help">
+
+                        {%if usr_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ usr_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password-input" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password-input">
+
+                        {%if pwd_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ pwd_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Country -->
+                    <div class="form-group mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <select class="form-control" id="country">
+                        </select>
+
+                        {%if cntry_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ cntry_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Birthday -->
+                    <div class="form-group mb-3">
+                        <label for="birthday" class="form-label">Date of birth</label>
+                        <input type="date" class="form-control" id="birthday">
+
+                        {%if birthday_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ birthday_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group mb-4">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-control" id="gender">
+                          {% if gender == "Female" %}<option selected>Female</option>{% else %}<option>Female</option>{% endif %}
+                          {% if gender == "Male" %}<option selected>Male</option>{% else %}<option>Male</option>{% endif %}
+                          {% if gender == "Other" %}<option selected>Other</option>{% else %}<option>Other</option>{% endif %}
+                        </select>
+
+                        {%if gender_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ gender_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div> -->
+
+                    <div class="common-center-horizontally">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+    <!-- Include Select2 JS which requires jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script src="{% static 'user_registration/js/register_page.js' %}"></script>
+
+{% endblock %}
