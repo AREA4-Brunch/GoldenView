@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os  # for db config environ vars
+import logging  # custom logging settings
 
 from pathlib import Path
 
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'apps.assets_view.apps.AssetsViewConfig',
     'apps.user_login.apps.UserLoginConfig',
     'apps.user_registration.apps.UserRegistrationConfig',
+    'apps.user_management.apps.UserManagementConfig',
+    'apps.disclaimer.apps.DisclaimerConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,12 +128,51 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UppercasePasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.LowercasePasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthPasswordValidator',
+        'OPTIONS': {
+            'min_length': 1,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumUpperCasePasswordValidator',
+        'OPTIONS': {
+            'min_uppercase': 1,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLowerCasePasswordValidator',
+        'OPTIONS': {
+            'min_lowercase': 1,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumDigitPasswordValidator',
+        'OPTIONS': {
+            'min_digits': 1,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumSpecialCharacterPasswordValidator',
+        'OPTIONS': {
+            'min_special_characters': 1,
+        }
     },
 ]
 
@@ -175,3 +217,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 READ_MNGMNT_CMNDS_DOCS_MSG = r"\nCheckout management/commands/README.md on how to use this command."
 DEFAULT_APP_STATICFILES_DIR = "frontend/src/static/"
+
+
+# Setup the logging
+
+# Set the log file path
+LOG_FILE_PATH = BASE_DIR / 'logs/exec_logs.log'
+
+# Configure logging
+logging.basicConfig(
+    filename=LOG_FILE_PATH,
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)

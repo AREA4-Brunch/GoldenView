@@ -35,11 +35,36 @@ Install all the requirements needed to run the app locally:
 
 ## **Running the project**
 
-To run the project, navigate to the project directory and run the following command:
+To run the project, you need to do the following:
 
-```cmd
-(venv) D:\GoldenView\development\trading_platform> python manage.py runserver
-```
+1. Setup SQL databases from `development/databases` by running each of their `db_scripts/init.sql` scripts inside XAMPP for example.
+
+2. Check if the setup databases match the info inside their corresponding `db_config/db_connection.ini` and update the `.ini` file if that is not the case.
+
+3. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> python manage.py config_db
+    ```
+
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> set ...
+    ```
+
+4. Run the following to apply all database linking neccessary for current state of project to work:
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> python manage.py showmigrations
+    ```
+
+    There should be no erros.
+
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> python manage.py migrate sessions
+    ```
+
+5. Run the following to start the server:
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> python manage.py runserver
+    ```
 
 
 ## **Adding a new app**

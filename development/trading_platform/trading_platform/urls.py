@@ -25,4 +25,6 @@ urlpatterns = [
     path('assets/', include('apps.assets_view.urls')),
     path('login/', include('apps.user_login.urls')),
     path('register/', include('apps.user_registration.urls')),
+    path('disclaimer/', include('apps.disclaimer.urls')),
+    # path('api/user/', include('apps.user_management.urls')),
 ]
