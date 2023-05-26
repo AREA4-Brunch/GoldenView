@@ -7,3 +7,19 @@ body {
 main {
     flex: 1;
 }
+
+.common-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.common-center-horizontally {
+    display: flex;
+    justify-content: center;
+}
+
+.common-center-vertically {
+    display: flex;
+    align-items: center;
+}
