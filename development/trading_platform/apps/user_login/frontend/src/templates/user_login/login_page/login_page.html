@@ -36,7 +36,7 @@
                     <!-- Email or Username -->
                     <div class="mb-3">
                         <label for="user-input" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help">
+                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
 
                         {%if usr_err %}
                             <div class="invalid-feedback" style="display: flex;">

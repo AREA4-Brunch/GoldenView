@@ -43,7 +43,7 @@
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="email-help">
+                        <input type="email" class="form-control" id="email" aria-describedby="email-help"  value="{% if email %}{{ email }}{% endif %}">
                         <div id="email-help" class="form-text">We'll never share your email with anyone else.</div>
 
                         {%if email_err %}
@@ -56,7 +56,7 @@
                     <!-- Username -->
                     <div class="mb-3">
                         <label for="user-input" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help">
+                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
 
                         {%if usr_err %}
                             <div class="invalid-feedback" style="display: flex;">
@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" value="{{ usr }}">
                         <label class="form-check-label" for="exampleCheck1">Check me out</label>
                     </div> -->
 

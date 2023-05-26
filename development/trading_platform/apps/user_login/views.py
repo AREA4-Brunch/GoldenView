@@ -11,6 +11,7 @@ def login(request: HttpRequest):
     context = {
         'usr_err': request.session.pop('usr_err', None),
         'pwd_err': request.session.pop('pwd_err', None),
+
         'usr': request.session.pop('usr', None),
     }
 
@@ -28,7 +29,7 @@ def login_form(request: HttpRequest):
 
     # TODO: validate and login
     if not validate_login_form(request):
-        return redirect('register')
+        return redirect('login')
 
     # TODO: login the user before home redirect
     login_user()
