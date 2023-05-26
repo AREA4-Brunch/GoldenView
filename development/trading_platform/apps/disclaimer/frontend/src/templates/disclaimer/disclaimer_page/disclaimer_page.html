@@ -1,0 +1,54 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'disclaimer/css/disclaimer_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Disclaimer
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="disclaimer_page-content" class="common-center">
+
+    <div class="container-fluid">
+        <div id="page-txt" class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
+                <h2>
+                    This should be disclaimer page content, please edit me in disclaimer_page.html
+                </h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'disclaimer/js/disclaimer_page.js' %}"></script>
+
+{% endblock %}
