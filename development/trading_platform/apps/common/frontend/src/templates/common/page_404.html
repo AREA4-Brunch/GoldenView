@@ -15,7 +15,7 @@
 
 
 {% block title %}
-    Login
+    404 Page not found
 {% endblock %}
 
 
@@ -25,15 +25,13 @@
 
 
 {% block content %}
-<div id="page_404-content">
+<div id="page_404-content" class="common-center-vertically">
 
     <div class="container-fluid">
-        <div id="page-txt" class="row center">
-            <div class="col-sm-6 center-horizontally">
+        <div id="page-txt" class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
                 <h1>
-                    Page
-                    {% if url %} <span class="url">{{ url }}</span> {% endif %}
-                    does not exist
+                    Page {% if url %}<span class="url">{{ url }}</span>{% endif %} does not exist
                 </h1>
             </div>
         </div>
