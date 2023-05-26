@@ -1,4 +1,3 @@
-<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
 {% extends 'common/base.html' %}
 
 {% load static %}
@@ -26,11 +25,47 @@
 
 
 {% block content %}
-    <div id="content">
-        <h2>
-            This should be login page content, please edit me in login_page.html
-        </h2>
+<div id="login_page-content">
+
+    <div class="container-fluid">
+        <div id="login" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <form action="{% url 'login_form' %}" method="POST">
+                    {% csrf_token %}
+
+                    <!-- Email or Username -->
+                    <div class="mb-3">
+                        <label for="user-input" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="user-input" aria-describedby="user-input-help">
+
+                        {%if usr_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ usr_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password-input" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password-input">
+
+                        {%if pwd_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ pwd_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3 common-center-horizontally">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+</div>
 {% endblock %}
 
 

@@ -5,5 +5,5 @@ import apps.user_login.views as views
 
 urlpatterns = [
     path('', views.login, name='login'),
-    path('register', views.register, name='register'),
+    path('login_form', views.login_form, name='login_form'),
 ]
