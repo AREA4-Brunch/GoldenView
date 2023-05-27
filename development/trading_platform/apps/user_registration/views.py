@@ -20,7 +20,7 @@ def register(request: HttpRequest):
         'birthday_err': request.session.pop('birthday_err', None),
         'gender_err': request.session.pop('gender_err', None),
 
-        'internal_err': request.session.pop('gender_err', None),
+        'internal_err': request.session.pop('internal_err', None),
 
         # data that is not confidential
         'usr': request.session.pop('usr', None),

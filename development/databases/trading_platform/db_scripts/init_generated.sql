@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `trading_platform`.`Trader` (
 CREATE TABLE IF NOT EXISTS `trading_platform`.`User` (
   `IdUser` INT NOT NULL,
   `Username` VARCHAR(32) NOT NULL,
-  `Password` VARCHAR(32) NOT NULL,
+  -- `Password` VARCHAR(32) NOT NULL,
   `Email` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`IdUser`));
 SET FOREIGN_KEY_CHECKS = 1;

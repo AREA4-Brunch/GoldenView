@@ -1,7 +1,12 @@
+import datetime
+
 from django.http import HttpRequest
 
-from apps.user_management.backend.src.utils.user_login import login_user
+from apps.user_management.backend.src.utils.user_login import login_user, LoginWrongCredentialsException
 from apps.common.backend.utils.error_handling import internal_error_catcher
+
+from apps.user_management.models import User, Trader
+
 
 
 def get_cleaned_data(request: HttpRequest):
@@ -38,9 +43,30 @@ def get_cleaned_data(request: HttpRequest):
     return user_data
 
 
-def login(user_data: dict):
-    username = user_data['usr']
-    password = user_data['pwd']
+def login(user_login_data: dict):
+    """
+    Raises: LoginWrongCredentialsException
+    """
+    username = user_login_data['usr']
+    password = user_login_data['pwd']
+    request = user_login_data['request']
 
-    login_user(username=username, password=password)
-    return
+    return login_user(request=request, username=username, password=password)
+
+
+def did_accept_terms(user: User):
+    # let other user types pass such as Admin
+    if not isinstance(user, Trader):
+        return True
+
+    terms_time = user.termsacceptancetime
+
+    if not terms_time:  # terms were never accepted
+        return False
+    
+    target_date = datetime.date(2023, 5, 1)
+
+    if terms_time.date() < target_date:  # outdated
+        return False
+
+    return True

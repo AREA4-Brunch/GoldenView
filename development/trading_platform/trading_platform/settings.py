@@ -93,6 +93,27 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+from django.conf import settings
+
+# Get the current value of the DATABASE_ROUTERS setting
+routers = getattr(settings, 'DATABASE_ROUTERS', [])
+
+# Append your custom routers to the list
+routers.append('deployment.linking.databases.AppDataRouter.AppDataRouter')
+
+# Update the DATABASE_ROUTERS setting with the new list of routers
+settings.DATABASE_ROUTERS = routers
+
+# DATABASE_ROUTERS = [
+#     'deployment.linking.databases.AppDataRouter.AppDataRouter',
+#     # 'django.contrib.auth.routers.ModelRouter',
+#     # 'django.contrib.contenttypes.routers.ContentTypeRouter',
+#     # 'django.contrib.sessions.routers.SessionRouter',
+#     # 'django.contrib.sites.routers.SiteRouter',
+# ]
+
+
 DATABASES = {
     'default': {  # django built in sessions, etc as mysql db
         'ENGINE': 'django.db.backends.mysql',

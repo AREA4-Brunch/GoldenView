@@ -1,13 +1,11 @@
+import logging
+
+from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
+from apps.user_management.models import BasicUser, Country, Trader
+
 
 def create_basic_user(email, username, password, birthday, gender, country):
-    # TODO: db create user
-    # print(f"Create user in DB:")
-    # print(f'email: `{email}`')
-    # print(f'username: `{username}`')
-    # print(f'password: `{password}`')
-    # print(f'birthday: `{birthday}`')
-    # print(f'gender: `{gender}`')
-    # print(f'country: `{country}`')
     """
         email: `Micheal@f.com`
         username: `2121`
@@ -16,4 +14,31 @@ def create_basic_user(email, username, password, birthday, gender, country):
         gender: `Other`
         country: `us`
     """
-    return
+
+    try:
+        country_obj = Country.objects.get(name=country)
+
+    except ObjectDoesNotExist as e:
+        logging.error(f"Country with name `{country}` does not exist.")
+        raise e
+
+    # Create a transaction to ensure data consistency
+    with transaction.atomic():
+        try:
+            trader = Trader.objects.create(
+                username=username,
+                password=password,
+                email=email,
+                birthday=birthday,
+                sex=gender,
+                idcountry=country_obj,
+            )
+
+            basic_user = BasicUser.objects.create(iduser=trader)
+
+            logging.info(f"BasicUser `{username}` created successfully.")
+            return basic_user
+
+        except Exception as e:
+            logging.error(f"Error creating BasicUser: {e}")
+            raise e

@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     iduser = models.IntegerField(db_column='IdUser', primary_key=True)
     username = models.CharField(db_column='Username', max_length=32, unique=True)
-    password = models.CharField(db_column='Password', max_length=128)
+    # password = models.CharField(db_column='Password', max_length=128)
     email = models.CharField(db_column='Email', max_length=64)
 
     is_active = models.BooleanField(default=True)
@@ -61,7 +61,7 @@ class FundsTransferMethod(models.Model):
         # app_label = 'apps.user_management'
         app_label = 'user_management'
         managed = False
-        db_table = 'FundsTransferMethod'
+        db_table = 'fundstransfermethod'
 
 
 class MakeBeliefOwns(models.Model):
@@ -94,10 +94,10 @@ class Country(models.Model):
 #     username = models.CharField(db_column='Username', max_length=32)  # Field name made lowercase.
 #     password = models.CharField(db_column='Password', max_length=32)  # Field name made lowercase.
 #     email = models.CharField(db_column='Email', max_length=64)  # Field name made lowercase.
-
+#
 #     class Meta:
-        app_label = 'apps.user_management'
-        app_label = 'user_management'
+#         app_label = 'apps.user_management'
+#         app_label = 'user_management'
 #         managed = False
 #         db_table = 'user'
 
