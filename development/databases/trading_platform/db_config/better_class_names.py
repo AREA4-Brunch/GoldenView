@@ -120,7 +120,7 @@ class Country(models.Model):
         db_table = 'country'
 
 
-class Fundstransfermethod(models.Model):
+class FundsTransferMethod(models.Model):
     idpaymentmethod = models.IntegerField(db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase.
     accesskey = models.CharField(db_column='AccessKey', max_length=64)  # Field name made lowercase.
     makebeliefbalance = models.DecimalField(db_column='MakeBeliefBalance', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
@@ -140,7 +140,7 @@ class IsBindedByContract(models.Model):
 
 
 class MakeBeliefOwns(models.Model):
-    idpaymentmethod = models.OneToOneField(Fundstransfermethod, models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    idpaymentmethod = models.OneToOneField(FundsTransferMethod, models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
     idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
     quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
 
@@ -193,7 +193,7 @@ class Trader(models.Model):
     sex = models.CharField(db_column='Sex', max_length=6, blank=True, null=True)  # Field name made lowercase.
     idcountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='IdCountry')  # Field name made lowercase.
     termsacceptancetime = models.DateTimeField(db_column='TermsAcceptanceTime')  # Field name made lowercase.
-    idselectedfundstrasnfermethod = models.ForeignKey(Fundstransfermethod, models.DO_NOTHING, db_column='IdSelectedFundsTrasnferMethod', blank=True, null=True)  # Field name made lowercase.
+    idselectedfundstrasnfermethod = models.ForeignKey(FundsTransferMethod, models.DO_NOTHING, db_column='IdSelectedFundsTrasnferMethod', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

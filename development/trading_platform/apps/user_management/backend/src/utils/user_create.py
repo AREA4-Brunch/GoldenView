@@ -1,5 +1,5 @@
 
-def create_user(email, username, password, birthday, gender, country):
+def create_basic_user(email, username, password, birthday, gender, country):
     # TODO: db create user
     # print(f"Create user in DB:")
     # print(f'email: `{email}`')

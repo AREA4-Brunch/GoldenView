@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.user_registration.apps.UserRegistrationConfig',
     'apps.user_management.apps.UserManagementConfig',
     'apps.disclaimer.apps.DisclaimerConfig',
+    'apps.asset_management.apps.AssetManagementConfig',
 ]
 
 MIDDLEWARE = [
@@ -231,3 +232,8 @@ logging.basicConfig(
     format='%(asctime)s [%(levelname)s] %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+
+# Custom User class:
+
+AUTH_USER_MODEL = 'user_management.User'

@@ -5,7 +5,7 @@ from django.core.validators import EmailValidator
 # from django.forms import ValidationError
 # from django.contrib.auth.password_validation import validate_password
 
-from apps.user_management.backend.src.utils.user_create import create_user
+from apps.user_management.backend.src.utils.user_create import create_basic_user
 from apps.common.backend.utils.error_handling import internal_error_catcher
 
 
@@ -115,7 +115,7 @@ def get_cleaned_data(request: HttpRequest):
 
 def register(user_data: dict):
     # create the user in the database
-    create_user(
+    create_basic_user(
         email=user_data['email'],
         username=user_data['usr'],
         password=user_data['pwd'],
