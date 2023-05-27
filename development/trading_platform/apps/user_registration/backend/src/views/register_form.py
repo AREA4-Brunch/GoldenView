@@ -12,8 +12,6 @@ from apps.common.backend.utils.error_handling import internal_error_catcher
 def get_cleaned_data(request: HttpRequest):
     user_data = {}
 
-    print(request.POST)
-
     # store only the non confidential fields' responses
     def store_previous_answers():
         request.session['usr'] = request.POST.get('username')

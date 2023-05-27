@@ -58,7 +58,11 @@ To run the project, you need to do the following:
     There should be no erros.
 
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py migrate sessions
+    (venv) D:\GoldenView\development\trading_platform> python manage.py makemigrations
+    ```
+
+    ```cmd
+    (venv) D:\GoldenView\development\trading_platform> python manage.py migrate
     ```
 
 5. Run the following to start the server:

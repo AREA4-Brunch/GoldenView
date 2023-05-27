@@ -103,19 +103,19 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
-    }
+    },
 
-    # 'trading_platform': {  # trading_platform mysql db
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", "").strip(),
-        # 'USER': os.environ.get("DB_TRADING_PLATFORM_USER", "").strip(),
-        # 'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", "").strip(),
-        # 'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", "").strip(),
-        # 'PORT': int(os.environ.get("DB_TRADING_PLATFORM_PORT", "3306").strip()),
-        # 'OPTIONS': {
-        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        # }
-    # }
+    'trading_platform': {  # trading_platform mysql db
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", "").strip(),
+        'USER': os.environ.get("DB_TRADING_PLATFORM_USER", "").strip(),
+        'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", "").strip(),
+        'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", "").strip(),
+        'PORT': int(os.environ.get("DB_TRADING_PLATFORM_PORT", "3306").strip()),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
+    }
 }
 
 
