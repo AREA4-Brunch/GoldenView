@@ -5,58 +5,79 @@
 
 {% block included_css %}
 
-    <!-- Included Components CSS -->
-    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
-    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+<!-- Included Components CSS -->
+<link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+<link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
 
-    <!-- This Page's CSS -->
-    <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'assets_view/css/assets_list.css' %}">
+<!-- This Page's CSS -->
+<link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'assets_view/css/assets_list.css' %}">
 
 {% endblock %}
 
 
 {% block title %}
-    Assets List
+Assets List
 {% endblock %}
 
 
 {% block header %}
-    {% include 'common/components/header/header.html' %}
+{% include 'common/components/header/header.html' %}
 {% endblock %}
 
 
 {% block content %}
-    <div id="assets_list-content">
-
-        <div class="row">
-            {% include 'assets_view/components/dashboard/dashboard.html' %}
-
-            <div class="col-md-9">
-                Content
+<div id="assets_list-content" class="row">
+    {% include 'assets_view/components/dashboard/dashboard.html' %}
+    <div class="col-md-9 prices">
+        <h1>Stock Prices</h1>
+        <div class="row header">
+            <div class="col-md-10">
+                <h5>Name</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>Status</h5>
             </div>
         </div>
-
-        <h1>Stock Prices</h1>
-        <ul>
-            {% for asset in asset_prices %}
-                <li>Symbol: {{ asset.symbol }}, Price: {{ asset.price }}</li>
-            {% endfor %}
-        </ul>
-
-    </div>    
+        {% for asset in asset_prices %}
+        <div class="row">
+            <div class="col-md-10">
+                <button onclick="goToRealTimeView('{{ asset.symbol }}')">
+                    <h5>{{ asset.symbol }}</h5>
+                    <span>${{ asset.price }}</span>
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button onclick="goToRealTimeView('{{ asset.symbol }}')">
+                    {% if asset.up %}
+                        <div class="status-up">Increase</div>
+                    {% else %}
+                        <div class="status-down">Decrease</div>
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+</div>
 {% endblock %}
 
 
 {% block footer %}
-    {% include 'common/components/footer/footer.html' %}
+{% include 'common/components/footer/footer.html' %}
 {% endblock %}
 
 
 {% block included_js %}
 
-    <!-- This Page's JS -->
-    <script src="{% static 'assets_view/js/assets_list.js' %}"></script>
+<!-- This Page's JS -->
+<script src="{% static 'assets_view/js/assets_list.js' %}"></script>
 
 {% endblock %}
-

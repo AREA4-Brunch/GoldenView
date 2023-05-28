@@ -5,5 +5,5 @@ import apps.assets_view.views as views
 
 urlpatterns = [
     path('', views.assets_list, name='assets_list'),
-    path('<int:asset_id>', views.asset_view, name='asset_view'),
+    path('<str:symbol>', views.asset_view, name='asset_view'),
 ]

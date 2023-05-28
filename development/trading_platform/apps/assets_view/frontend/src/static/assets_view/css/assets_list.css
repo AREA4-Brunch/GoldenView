@@ -8,4 +8,73 @@ body {
 #content {
     display: flex;
     height: 100%;
+    margin: 0;
+}
+
+.header {
+    margin-left: 1vw;
+    align-items: center;
+    vertical-align: middle;
+    /* Gray/50 */
+    background: #F9FAFB;
+    /* Gray/200 */
+    border-bottom: 1px solid #EAECF0;
+}
+
+h1 {
+    margin-left: 2vw;
+}
+
+h5 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/900 */
+    color: #101828;
+    margin-top: 2vh;
+    margin-left: 2vw;
+}
+
+span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/500 */
+    color: #667085;
+    margin-left: 2vw;
+}
+
+hr {
+    border-bottom: 1px solid #EAECF0;
+    margin-left: 1vw;
+}
+
+.status-up {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: lawngreen;
+    margin-top: 1vh;
+    margin-left: 1.5vw;
+}
+
+.status-down {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: red;
+    margin-top: 2vh;
+    margin-left: 1.5vw;
+}
+
+button {
+    all: unset;
 }
