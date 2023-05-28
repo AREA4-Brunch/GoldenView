@@ -37,6 +37,8 @@ def login_form(request: HttpRequest):
         return redirect('page_404')
 
     try:
+        login_form_backend.store_previous_answers(request)
+
         # validate and parse the data from the form,
         # throws if form is invalid
         user_login_data = login_form_backend.get_cleaned_data(request)
@@ -44,12 +46,12 @@ def login_form(request: HttpRequest):
 
         # login the user
         try:
-            print("About to login..")
             user: User = login_form_backend.login(user_login_data)
-            print("Did login..")
 
         except login_form_backend.LoginWrongCredentialsException as e:
                 # invalid username or password
+                username = user_login_data.get('usr')
+                logging.info(f'Wrong username or password for user: {username}')
                 request.session['usr_err'] = 'Wrong username or password'
                 raise e
 
@@ -65,9 +67,11 @@ def login_form(request: HttpRequest):
 
     # successful login
 
-    # if the user has accepted the terms of agreement,
-    # redirect to disclaimer page
     try:
+        login_form_backend.clear_previous_answers(request)
+
+        # if the user has accepted the terms of agreement,
+        # redirect to disclaimer page
         if not login_form_backend.did_accept_terms(user):
             return redirect('disclaimer_page')
 

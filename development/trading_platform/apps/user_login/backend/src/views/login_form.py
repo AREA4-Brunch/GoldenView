@@ -9,12 +9,23 @@ from apps.user_management.models import User, Trader
 
 
 
+# store only the non confidential answers
+def store_previous_answers(request: HttpRequest):
+    request.session['usr'] = request.POST.get('usr')
+
+
+def clear_previous_answers(request: HttpRequest):
+    keys_to_pop = [ 'usr' ]
+
+    for key in keys_to_pop:
+        try:
+            request.session.pop(key)
+        except KeyError as e:
+            pass
+
+
 def get_cleaned_data(request: HttpRequest):
     user_data = {}
-
-    # store only the non confidential answers
-    def store_previous_answers():
-        request.session['usr'] = request.POST.get('usr')
 
     def parse_data():
         is_valid = True
@@ -32,7 +43,6 @@ def get_cleaned_data(request: HttpRequest):
             request.session['pwd_err'] = 'Invalid password'
 
         if not is_valid:
-            store_previous_answers()
             raise Exception('Form is not valid')
 
     def main():
@@ -56,17 +66,12 @@ def login(user_login_data: dict):
 
 def did_accept_terms(user: User):
     # let other user types pass such as Admin
-    if not isinstance(user, Trader):
+    if not getattr(user, 'idtrader'):
         return True
 
+    # date of last terms update by our legal team :)
+    target_date = datetime.date(2023, 5, 1)
     terms_time = user.termsacceptancetime
 
-    if not terms_time:  # terms were never accepted
-        return False
-    
-    target_date = datetime.date(2023, 5, 1)
-
-    if terms_time.date() < target_date:  # outdated
-        return False
-
-    return True
+    # !important strictly greater than
+    return terms_time is not None and terms_time.date() > target_date

@@ -47,6 +47,6 @@ user_management
     Broker
     BasicUser
 
-change_password
+password_change
     PasswordChangeRequest
 

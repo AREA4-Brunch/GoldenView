@@ -16,11 +16,11 @@ D:\GoldenView\development> python -m venv ./venv
 
 Activate the virtual environment by running the appropriate activate file:
 ```cmd
-D:\GoldenView\development> "./venv/Scripts/activate"
+D:\GoldenView\development> "./venv/Scripts/activate.bat"
 ```
 
 
-Make sure to upgrade pip to the latest version:
+Make sure to upgrade pip to the latest version (follow pip's instruction in case of ERROR):
 ```cmd
 (venv) D:\GoldenView\development> pip install --upgrade pip
 ```

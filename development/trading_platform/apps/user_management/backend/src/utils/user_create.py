@@ -2,7 +2,7 @@ import logging
 
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
-from apps.user_management.models import BasicUser, Country, Trader
+from apps.user_management.models import User, Trader, BasicUser, Country
 
 
 def create_basic_user(email, username, password, birthday, gender, country):
@@ -25,16 +25,20 @@ def create_basic_user(email, username, password, birthday, gender, country):
     # Create a transaction to ensure data consistency
     with transaction.atomic():
         try:
-            trader = Trader.objects.create(
+            user = User.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
+            )
+
+            trader = Trader.objects.create(
+                idtrader=user,
                 birthday=birthday,
                 sex=gender,
                 idcountry=country_obj,
             )
 
-            basic_user = BasicUser.objects.create(iduser=trader)
+            basic_user = BasicUser.objects.create(idbasicuser=trader)
 
             logging.info(f"BasicUser `{username}` created successfully.")
             return basic_user

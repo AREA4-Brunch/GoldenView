@@ -8,16 +8,30 @@ from django.core.validators import EmailValidator
 from apps.user_management.backend.src.utils.user_create import create_basic_user
 from apps.common.backend.utils.error_handling import internal_error_catcher
 
+from apps.user_registration.validators import CombinedPasswordValidator, PasswordValidationError
+
+
+
+# store only the non confidential answers
+def store_previous_answers(request: HttpRequest):
+    request.session['usr'] = request.POST.get('username')
+    request.session['email'] = request.POST.get('email')
+    request.session['gender'] = request.POST.get('gender')
+    request.session['birthday'] = request.POST.get('birthday')
+
+
+def clear_previous_answers(request: HttpRequest):
+    keys_to_pop = [ 'usr', 'email', 'gender', 'birthday' ]
+
+    for key in keys_to_pop:
+        try:
+            request.session.pop(key)
+        except KeyError as e:
+            pass
+
 
 def get_cleaned_data(request: HttpRequest):
     user_data = {}
-
-    # store only the non confidential fields' responses
-    def store_previous_answers():
-        request.session['usr'] = request.POST.get('username')
-        request.session['email'] = request.POST.get('email')
-        request.session['gender'] = request.POST.get('gender')
-        request.session['birthday'] = request.POST.get('birthday')
 
     def parse_data():
         is_valid = True
@@ -62,8 +76,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['gender_err'] = 'Invalid gender'
 
         if not is_valid:
-            store_previous_answers()
-            raise Exception('parse: Form is not valid')
+            raise Exception('parse: Incorrectly filled out form')
 
     def validate_data():
         is_valid = True
@@ -80,8 +93,13 @@ def get_cleaned_data(request: HttpRequest):
         # do not check if username already exists, let
         # db throw error
 
-        # do not check if password is valid, let
-        # db throw error
+        # do not check if password is valid
+        validator = CombinedPasswordValidator()
+        try:
+            validator.validate(user_data['pwd'])
+        except PasswordValidationError:
+            is_valid = False
+            request.session['pwd_err'] = validator.get_help_text()
 
         # TODO: do not check if country is valid, let
         # db throw error ???
@@ -101,8 +119,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['gender_err'] = 'Invalid gender'
 
         if not is_valid:
-            store_previous_answers()
-            raise Exception('validate: Form is not valid')
+            raise Exception('parse: Incorrectly filled out form')
 
     def main():
         parse_data()

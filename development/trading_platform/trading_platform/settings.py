@@ -15,6 +15,7 @@ import logging  # custom logging settings
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -94,40 +95,37 @@ WSGI_APPLICATION = 'trading_platform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-from django.conf import settings
-
-# Get the current value of the DATABASE_ROUTERS setting
-routers = getattr(settings, 'DATABASE_ROUTERS', [])
-
-# Append your custom routers to the list
-routers.append('deployment.linking.databases.AppDataRouter.AppDataRouter')
-
-# Update the DATABASE_ROUTERS setting with the new list of routers
-settings.DATABASE_ROUTERS = routers
-
+# In case of not having just single - default database in `DATABASES`
 # DATABASE_ROUTERS = [
 #     'deployment.linking.databases.AppDataRouter.AppDataRouter',
-#     # 'django.contrib.auth.routers.ModelRouter',
-#     # 'django.contrib.contenttypes.routers.ContentTypeRouter',
-#     # 'django.contrib.sessions.routers.SessionRouter',
-#     # 'django.contrib.sites.routers.SiteRouter',
 # ]
 
-
 DATABASES = {
-    'default': {  # django built in sessions, etc as mysql db
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get("DB_DJANGO_BUILT_IN_NAME", "").strip(),
-        'USER': os.environ.get("DB_DJANGO_BUILT_IN_USER", "").strip(),
-        'PASSWORD': os.environ.get("DB_DJANGO_BUILT_IN_PASSWORD", "").strip(),
-        'HOST': os.environ.get("DB_DJANGO_BUILT_IN_HOST", "").strip(),
-        'PORT': int(os.environ.get("DB_DJANGO_BUILT_IN_PORT", "3306").strip()),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        }
-    },
+    # 'default': {  # django built in sessions, etc as mysql db
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': os.environ.get("DB_DJANGO_BUILT_IN_NAME", "").strip(),
+    #     'USER': os.environ.get("DB_DJANGO_BUILT_IN_USER", "").strip(),
+    #     'PASSWORD': os.environ.get("DB_DJANGO_BUILT_IN_PASSWORD", "").strip(),
+    #     'HOST': os.environ.get("DB_DJANGO_BUILT_IN_HOST", "").strip(),
+    #     'PORT': int(os.environ.get("DB_DJANGO_BUILT_IN_PORT", "3306").strip()),
+    #     'OPTIONS': {
+    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #     }
+    # },
 
-    'trading_platform': {  # trading_platform mysql db
+    # 'trading_platform': {  # trading_platform mysql db
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", "").strip(),
+    #     'USER': os.environ.get("DB_TRADING_PLATFORM_USER", "").strip(),
+    #     'PASSWORD': os.environ.get("DB_TRADING_PLATFORM_PASSWORD", "").strip(),
+    #     'HOST': os.environ.get("DB_TRADING_PLATFORM_HOST", "").strip(),
+    #     'PORT': int(os.environ.get("DB_TRADING_PLATFORM_PORT", "3306").strip()),
+    #     'OPTIONS': {
+    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #     }
+    # },
+
+    'default': {  # trading_platform mysql db
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("DB_TRADING_PLATFORM_NAME", "").strip(),
         'USER': os.environ.get("DB_TRADING_PLATFORM_USER", "").strip(),
@@ -138,6 +136,7 @@ DATABASES = {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
     }
+
 }
 
 
@@ -154,48 +153,38 @@ AUTH_PASSWORD_VALIDATORS = [
             'min_length': 8,
         }
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.UppercasePasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.LowercasePasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthPasswordValidator',
-        'OPTIONS': {
-            'min_length': 1,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumUpperCasePasswordValidator',
-        'OPTIONS': {
-            'min_uppercase': 1,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLowerCasePasswordValidator',
-        'OPTIONS': {
-            'min_lowercase': 1,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumDigitPasswordValidator',
-        'OPTIONS': {
-            'min_digits': 1,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumSpecialCharacterPasswordValidator',
-        'OPTIONS': {
-            'min_special_characters': 1,
-        }
-    },
+    # not per project documentation:
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
+    # does not work ??
+    # {
+    #     'NAME': 'apps.user_registration.validators.MinimumUpperCasePasswordValidator',
+    #     'OPTIONS': {
+    #         'min_uppercase': 1,
+    #     }
+    # },
+    # {
+    #     'NAME': 'apps.user_registration.validators.MinimumLowerCasePasswordValidator',
+    #     'OPTIONS': {
+    #         'min_lowercase': 1,
+    #     }
+    # },
+    # {
+    #     'NAME': 'apps.user_registration.validators.MinimumDigitPasswordValidator',
+    #     'OPTIONS': {
+    #         'min_digits': 1,
+    #     }
+    # },
+    # {
+    #     'NAME': 'apps.user_registration.validators.MinimumSpecialCharacterPasswordValidator',
+    #     'OPTIONS': {
+    #         'min_special_characters': 1,
+    #     }
+    # },
 ]
 
 

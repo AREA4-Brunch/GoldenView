@@ -7,6 +7,7 @@ from .backend.src.views import register_form as register_form_backend
 import apps.user_login.backend.src.views.login_form as login_form
 
 
+
 # Create your views here.
 
 
@@ -42,6 +43,8 @@ def register_form(request: HttpRequest):
         return redirect('page_404')
 
     try:
+        register_form_backend.store_previous_answers(request)
+
         # validate and parse the data from the form,
         # throws if form is invalid
         user_data = register_form_backend.get_cleaned_data(request)
@@ -57,16 +60,23 @@ def register_form(request: HttpRequest):
 
     except Exception as e:
         # error message have already been set
+        logging.error(f'Redirecting to register due to: {e}')
         return redirect('register')
 
+    # successful user creation
+
     try:
+        register_form_backend.clear_previous_answers(request)
+
+        # try to login the user immediately
         login_form.login({
             'usr': user_data['usr'],
             'pwd': user_data['pwd'],
+            'request': request,
         })
 
     except Exception as e:
-        logging.error(f'Failed to login in the user after successful registration.')
+        logging.exception(f'Failed to login in the user after successful registration: {e}')
         return redirect('login')
 
     return redirect('disclaimer_page')
