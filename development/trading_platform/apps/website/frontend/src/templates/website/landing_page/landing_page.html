@@ -31,7 +31,7 @@ Landing Page
         <div class="header-text">Best financial trading web application</div>
         <div class="header-text-small">Monitor and analyze stock prices in real time, as well as access other
             information that is important for trading.</div>
-        <button class="btn sign-up-btn">Sign up</button>
+        <a href="{% url 'register' %}" class="btn sign-up-btn">Sign up</a>
     </div>
     <hr>
     <div id="features-section">
@@ -186,7 +186,7 @@ Landing Page
     <div id="final-section">
         <div class="header-text">Start using our application</div>
         <div class="header-text-small">Join other users that are already using GoldenView.</div>
-        <button class="btn sign-up-btn">Get started</button>
+        <a href="{% url 'register' %}" class="btn sign-up-btn">Get started</a>
     </div>
 </div>
 {% endblock %}
