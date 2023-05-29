@@ -1,9 +1,12 @@
 from django.shortcuts import render
 import requests
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
+@login_required(login_url='login')
 def assets_list(request):
     asset_prices = get_assets()
     context = {"asset_prices": asset_prices}
@@ -13,6 +16,7 @@ def assets_list(request):
     )
 
 
+@login_required(login_url='login')
 def asset_view(request, symbol: str):
     context = {"symbol": symbol}
     return render(

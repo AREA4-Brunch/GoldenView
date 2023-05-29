@@ -26,5 +26,6 @@ urlpatterns = [
     path('login/', include('apps.user_login.urls')),
     path('register/', include('apps.user_registration.urls')),
     path('disclaimer/', include('apps.disclaimer.urls')),
+    path('logout/', include('apps.user_logout.urls')),
     # path('api/user/', include('apps.user_management.urls')),
 ]

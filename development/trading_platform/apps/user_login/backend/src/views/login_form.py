@@ -66,7 +66,7 @@ def login(user_login_data: dict):
 
 def did_accept_terms(user: User):
     # let other user types pass such as Admin
-    if not getattr(user, 'idtrader'):
+    if not getattr(user, 'idtrader', None):
         return True
 
     # date of last terms update by our legal team :)

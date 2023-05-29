@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.user_management.apps.UserManagementConfig',
     'apps.disclaimer.apps.DisclaimerConfig',
     'apps.asset_management.apps.AssetManagementConfig',
+    'apps.user_logout.apps.UserLogoutConfig',
 ]
 
 MIDDLEWARE = [
