@@ -12,15 +12,29 @@ from apps.user_management.models import User
 # Create your views here.
 
 
+
+class UserAlreadyLoggedInException(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__('You are already logged in. To login you need to be logged out.')
+
+
+
 def login(request: HttpRequest):
-    # fetch the data from the post
-    # if invalid data redirect the
+    is_already_logged_in = request.user and request.user.is_authenticated
+
     context = {
         'usr_err': request.session.pop('usr_err', None),
         'pwd_err': request.session.pop('pwd_err', None),
 
-        'internal_err': request.session.pop('internal_err', None),
+        'internal_err': request.session.pop(
+                            'internal_err',
+                            # if no other error and user already logged in
+                            # then notify them to logout first
+                            None if not is_already_logged_in \
+                            else 'You are already logged in. To login you need to be logged out.'
+                        ),
 
+        # fill in form fields with previously entered non confidential data
         'usr': request.session.pop('usr', None),
     }
 
@@ -39,44 +53,48 @@ def login_form(request: HttpRequest):
     try:
         login_form_backend.store_previous_answers(request)
 
+        # !important check after saving their form answers
+        if request.user and request.user.is_authenticated:
+            raise UserAlreadyLoggedInException()
+
         # validate and parse the data from the form,
         # throws if form is invalid
         user_login_data = login_form_backend.get_cleaned_data(request)
         user_login_data['request'] = request
 
         # login the user
-        try:
-            user: User = login_form_backend.login(user_login_data)
+        user: User = login_form_backend.login(user_login_data)
 
-        except login_form_backend.LoginWrongCredentialsException as e:
-                # invalid username or password
-                username = user_login_data.get('usr')
-                logging.info(f'Wrong username or password for user: {username}')
-                request.session['usr_err'] = 'Wrong username or password'
-                raise e
+    except UserAlreadyLoggedInException as e:
+        request.session['internal_err'] = str(e)
+        return redirect('login')
 
-        except Exception as e:
-            request.session['internal_err'] = str(e)
-            logging.error(f'Internal error: {e}')
-            raise e
+    except login_form_backend.LoginWrongCredentialsException as e:
+        # invalid username or password
+        username = user_login_data.get('usr')
+        logging.info(f'Wrong username or password for user: {username}')
+        request.session['usr_err'] = 'Wrong username or password'
+        return redirect('login')
 
-    except Exception as e:
+    except login_form_backend.InvalidLoginFormException as e:
         # error message have already been set
         logging.error(f'Redirecting to login due to: {e}')
+        return redirect('login')
+
+    except Exception as e:
+        request.session['internal_err'] = str(e)
+        logging.error(f'Internal error: {e}')
         return redirect('login')
 
     # successful login
 
     try:
+        # clear the form data from the request.session
         login_form_backend.clear_previous_answers(request)
 
-        # if the user has accepted the terms of agreement,
-        # redirect to disclaimer page
-        if not login_form_backend.did_accept_terms(user):
-            return redirect('disclaimer_page')
-
     except Exception as e:
-        request.session['internal_err'] = str(e)
-        logging.error(f'Internal error: {e}')
+        # request.session['internal_err'] = str(e)
+        logging.error(f'Ignored error - clear login form data: {e}')
 
-    return redirect('home')
+    finally:
+        return redirect('home')

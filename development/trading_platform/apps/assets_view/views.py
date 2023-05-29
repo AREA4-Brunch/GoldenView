@@ -3,22 +3,34 @@ import requests
 
 from django.contrib.auth.decorators import login_required
 
+from apps.common.backend.decorators import if_trader_accept_terms_required
+
+
 # Create your views here.
 
 
 @login_required(login_url='login')
+@if_trader_accept_terms_required()
 def assets_list(request):
     asset_prices = get_assets()
-    context = {"asset_prices": asset_prices}
+    context = {
+        "asset_prices": asset_prices,
+        'internal_err': request.session.pop('internal_err', None),
+    }
     return render(
         request=request,
         template_name='assets_view/assets_list/assets_list.html',
+        context=context
     )
 
 
 @login_required(login_url='login')
+@if_trader_accept_terms_required()
 def asset_view(request, symbol: str):
-    context = {"symbol": symbol}
+    context = {
+        "symbol": symbol,
+        'internal_err': request.session.pop('internal_err', None),
+    }
     return render(
         request=request,
         template_name='assets_view/asset_view/asset_view.html',

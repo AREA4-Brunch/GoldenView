@@ -11,7 +11,14 @@ import apps.user_login.backend.src.views.login_form as login_form
 # Create your views here.
 
 
+class UserAlreadyLoggedInException(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__('You are already logged in. To register you need to be logged out.')
+
+
 def register(request: HttpRequest):
+    is_already_logged_in = request.user and request.user.is_authenticated
+
     context = {
         # errors:
         'email_err': request.session.pop('email_err', None),
@@ -21,9 +28,16 @@ def register(request: HttpRequest):
         'birthday_err': request.session.pop('birthday_err', None),
         'gender_err': request.session.pop('gender_err', None),
 
-        'internal_err': request.session.pop('internal_err', None),
+        'internal_err': request.session.pop(
+                            'internal_err',
+                            # if no other error and user already logged in
+                            # then notify them to logout first
+                            None if not is_already_logged_in \
+                            else 'You are already logged in. To register you need to be logged out.'
+                        ),
 
-        # data that is not confidential
+        # fill in form fields with previously
+        # entered non confidential data
         'usr': request.session.pop('usr', None),
         'email': request.session.pop('email', None),
         'gender': request.session.pop('gender', None),
@@ -45,22 +59,29 @@ def register_form(request: HttpRequest):
     try:
         register_form_backend.store_previous_answers(request)
 
+        # !important check after saving their form answers
+        if request.user and request.user.is_authenticated:
+            raise UserAlreadyLoggedInException()
+
         # validate and parse the data from the form,
         # throws if form is invalid
         user_data = register_form_backend.get_cleaned_data(request)
 
         # register the user
-        try:
-            register_form_backend.register(user_data)
+        register_form_backend.register(user_data)
 
-        except Exception as e:
-            request.session['internal_err'] = str(e)
-            logging.error(f'Internal error: {e}')
-            raise e
+    except UserAlreadyLoggedInException as e:
+        request.session['internal_err'] = str(e)
+        return redirect('register')
 
-    except Exception as e:
+    except register_form_backend.InvalidRegisterFormException as e:
         # error message have already been set
         logging.error(f'Redirecting to register due to: {e}')
+        return redirect('register')
+
+    except Exception as e:
+        request.session['internal_err'] = str(e)
+        logging.error(f'Internal error: {e}')
         return redirect('register')
 
     # successful user creation

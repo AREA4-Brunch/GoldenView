@@ -1,4 +1,6 @@
-from django.shortcuts import render
+import logging
+from django.http import HttpRequest
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 
@@ -6,9 +8,32 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url='login')
-def terms_of_agreement(request):
-    # return HttpResponse("Hello <strong>Worlds!</strong>")
+def terms_of_agreement(request: HttpRequest):
+    context = {
+        'checkbox_err': request.session.pop('checkbox_err', None),
+
+        'internal_err': request.session.pop('internal_err', None),
+    }
+
     return render(
         request=request,
         template_name='disclaimer/disclaimer_page/disclaimer_page.html',
+        context=context
     )
+
+
+@login_required(login_url='login')
+def accept_terms_form(request: HttpRequest):
+    if request.method == 'GET':
+        request.session['link_404'] = request.get_full_path()
+        return redirect('page_404')
+
+    try:
+        pass
+
+    except Exception as e:
+        request.session['internal_err'] = str(e)
+        logging.error(f'Internal error: {e}')
+        return redirect('disclaimer_page')
+
+    return redirect('home')

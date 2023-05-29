@@ -1,17 +1,18 @@
-import datetime
-
 from django.http import HttpRequest
 
 from apps.user_management.backend.src.utils.user_login import login_user, LoginWrongCredentialsException
 from apps.common.backend.utils.error_handling import internal_error_catcher
 
-from apps.user_management.models import User, Trader
 
+class InvalidLoginFormException(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
 
 
 # store only the non confidential answers
 def store_previous_answers(request: HttpRequest):
-    request.session['usr'] = request.POST.get('usr')
+    request.session['usr'] = request.POST.get('username')
+    request.session.save()
 
 
 def clear_previous_answers(request: HttpRequest):
@@ -22,6 +23,8 @@ def clear_previous_answers(request: HttpRequest):
             request.session.pop(key)
         except KeyError as e:
             pass
+
+    request.session.save()
 
 
 def get_cleaned_data(request: HttpRequest):
@@ -43,7 +46,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['pwd_err'] = 'Invalid password'
 
         if not is_valid:
-            raise Exception('Form is not valid')
+            raise InvalidLoginFormException('Form is not valid')
 
     def main():
         parse_data()
@@ -62,16 +65,3 @@ def login(user_login_data: dict):
     request = user_login_data['request']
 
     return login_user(request=request, username=username, password=password)
-
-
-def did_accept_terms(user: User):
-    # let other user types pass such as Admin
-    if not getattr(user, 'idtrader', None):
-        return True
-
-    # date of last terms update by our legal team :)
-    target_date = datetime.date(2023, 5, 1)
-    terms_time = user.termsacceptancetime
-
-    # !important strictly greater than
-    return terms_time is not None and terms_time.date() > target_date

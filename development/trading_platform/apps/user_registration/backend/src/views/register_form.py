@@ -12,12 +12,19 @@ from apps.user_registration.validators import CombinedPasswordValidator, Passwor
 
 
 
+class InvalidRegisterFormException(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+
+
+
 # store only the non confidential answers
 def store_previous_answers(request: HttpRequest):
     request.session['usr'] = request.POST.get('username')
     request.session['email'] = request.POST.get('email')
     request.session['gender'] = request.POST.get('gender')
     request.session['birthday'] = request.POST.get('birthday')
+    request.session.save()
 
 
 def clear_previous_answers(request: HttpRequest):
@@ -28,6 +35,8 @@ def clear_previous_answers(request: HttpRequest):
             request.session.pop(key)
         except KeyError as e:
             pass
+
+    request.session.save()
 
 
 def get_cleaned_data(request: HttpRequest):
@@ -76,7 +85,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['gender_err'] = 'Invalid gender'
 
         if not is_valid:
-            raise Exception('parse: Incorrectly filled out form')
+            raise InvalidRegisterFormException('parse: Incorrectly filled out form')
 
     def validate_data():
         is_valid = True
@@ -119,7 +128,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['gender_err'] = 'Invalid gender'
 
         if not is_valid:
-            raise Exception('parse: Incorrectly filled out form')
+            raise InvalidRegisterFormException('parse: Incorrectly filled out form')
 
     def main():
         parse_data()
