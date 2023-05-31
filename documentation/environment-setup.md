@@ -45,7 +45,10 @@ as a service (you can but it is not neccessary).<br/>
 
 ## **Running the project**
 
-To run the project, you need to do the following:
+#### **To run the project, you need to do the following steps:**
+    Note:
+    Steps 5-7 require the terminal window to have admin priviliges.
+    Steps 5-7 must be done in the same terminal window.
 
 
 1. Start the MySQL service on your machine.
@@ -56,7 +59,12 @@ To run the project, you need to do the following:
 
 4. Check if NoSQL databases have properly configure MongoDB path on your machin inside their corresponding `db_config/db_connection.ini` files.
 
-5. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
+5. Create the following files as they are not tracked due to `.gitignore`:
+    <br/>
+    `GoldenView\development\trading_platform\logs\exec_logs\logs.log`
+    `GoldenView\development\trading_platform\logs\mongodb_logs\logs.log`
+
+6. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py config_db
     ```
@@ -65,7 +73,7 @@ To run the project, you need to do the following:
     (venv) D:\GoldenView\development\trading_platform> set ...
     ```
 
-6. Run the following to apply all database linking neccessary for current state of project to work:
+7. Run the following to apply all database linking neccessary for current state of project to work:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py showmigrations
     ```
@@ -80,7 +88,7 @@ To run the project, you need to do the following:
     (venv) D:\GoldenView\development\trading_platform> python manage.py migrate
     ```
 
-7. Run the following to start the server:
+8. Run the following to start the server:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py runserver
     ```
@@ -91,6 +99,7 @@ To run the project, you need to do the following:
 <br/>
 
 #### ***Note***:
+    Step 2 requires the terminal window to have admin priviliges.
     The `startapp_structured` management command automates this process.
     Explained in `development/deployment/management/commands/README.md`.
 
