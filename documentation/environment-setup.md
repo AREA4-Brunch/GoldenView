@@ -47,8 +47,8 @@ as a service (you can but it is not neccessary).<br/>
 
 #### **To run the project, you need to do the following steps:**
     Note:
-    Steps 5-7 require the terminal window to have admin priviliges.
-    Steps 5-7 must be done in the same terminal window.
+    Steps 6-8 require the terminal window to have admin priviliges.
+    Steps 6-8 must be done in the same terminal window.
 
 
 1. Start the MySQL service on your machine.
