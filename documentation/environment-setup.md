@@ -64,9 +64,9 @@ as a service (you can but it is not neccessary).<br/>
     `GoldenView\development\trading_platform\logs\exec_logs\logs.log`
     `GoldenView\development\trading_platform\logs\mongodb_logs\logs.log`
 
-6. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
+6. Navigate to the project directory and run the following `configure_db` command (more on it here: `development/trading_platform/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py config_db
+    (venv) D:\GoldenView\development\trading_platform> python manage.py configure_db
     ```
 
     ```cmd

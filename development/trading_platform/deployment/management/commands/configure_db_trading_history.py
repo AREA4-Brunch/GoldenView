@@ -133,7 +133,7 @@ class Command(BaseCommand):
         finally:
             return config_data
 
-    def startMongoDB(self, data_path: str, log_path: str, host: str, port: int):
+    def startMongoDB(self, mongod_exe_path: str, data_path: str, log_path: str, host: str, port: int):
         # wait for mongo to start
         client = MongoClient(host, port)
 
@@ -144,7 +144,7 @@ class Command(BaseCommand):
                 return True
 
             # start MongoDB server as it was not running already
-            mongo_path = os.environ['MONGODB_SERVICE_PATH']
+            mongo_path = mongod_exe_path
             self.stdout.write(self.style.WARNING(f'Starting the MongoDB found at path:\n"{mongo_path}"\n\n'))
             is_windows = platform.system() == 'Windows'
             if is_windows:
@@ -202,5 +202,7 @@ class Command(BaseCommand):
         log_path = options.pop('logpath', default_logs_path)
         host = options.pop('host', default_host)
         port: int = options.pop('port', default_port)
+        
+        mongod_exe_path = config_data['MONGODB_SERVICE_PATH']
 
-        return (data_path, log_path, host, port)
+        return (mongod_exe_path, data_path, log_path, host, port)
