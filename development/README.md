@@ -2,6 +2,13 @@
 
 All the requirements to be installed to run the app are listed in
 the `requirements.txt`.
+(
+    pip install django
+    pip install mysqlclient
+    pip install pymongo
+    pip install requests
+    pip install mongoengine
+)
 
 Environment setup instructions are in the `documentation/environment-setup.md`.
 

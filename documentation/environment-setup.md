@@ -27,21 +27,36 @@ Make sure to upgrade pip to the latest version (follow pip's instruction in case
 
 ## **Adding all requirements**
 
-Install all the requirements needed to run the app locally:
+1. Install the python modules (requirements) needed to run the app locally:
 
-```cmd
-(venv) D:\GoldenView\development> pip install -r .\requirements.txt
-```
+    ```cmd
+    (venv) D:\GoldenView\development> pip install -r .\requirements.txt
+    ```
+
+2. In case you do not have MySQL installed on your machine, do install it,
+you can just install XAMPP to a path with no spaces and it will come with
+MySQL.
+
+3. In case you do not have MongoDB installed on your machine, do install it,
+you can install from the link below, do not check the box for installing
+as a service (you can but it is not neccessary).<br/>
+`https://www.mongodb.com/try/download/community`
+
 
 ## **Running the project**
 
 To run the project, you need to do the following:
 
-1. Setup SQL databases from `development/databases` by running each of their `db_scripts/init.sql` scripts inside XAMPP for example.
 
-2. Check if the setup databases match the info inside their corresponding `db_config/db_connection.ini` and update the `.ini` file if that is not the case.
+1. Start the MySQL service on your machine.
 
-3. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
+2. Setup SQL databases from `development/databases` by running each of their `db_scripts/init.sql` scripts for exampl inside XAMPP.
+
+3. Check if the setup databases match the info inside their corresponding `db_config/db_connection.ini` and update the `.ini` files if that is not the case.
+
+4. Check if NoSQL databases have properly configure MongoDB path on your machin inside their corresponding `db_config/db_connection.ini` files.
+
+5. Navigate to the project directory and run the following `config_db` command (more on it here: `development/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py config_db
     ```
@@ -50,7 +65,7 @@ To run the project, you need to do the following:
     (venv) D:\GoldenView\development\trading_platform> set ...
     ```
 
-4. Run the following to apply all database linking neccessary for current state of project to work:
+6. Run the following to apply all database linking neccessary for current state of project to work:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py showmigrations
     ```
@@ -65,7 +80,7 @@ To run the project, you need to do the following:
     (venv) D:\GoldenView\development\trading_platform> python manage.py migrate
     ```
 
-5. Run the following to start the server:
+7. Run the following to start the server:
     ```cmd
     (venv) D:\GoldenView\development\trading_platform> python manage.py runserver
     ```

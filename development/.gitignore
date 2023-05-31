@@ -5,7 +5,11 @@ venv
 
 **/__pycache__/**
 
-trading_platform/logs/exec_logs.log
+trading_platform/logs/**
+!trading_platform/logs/**/.gitkeep
+
+databases/trading_history/mongodb_data/**
+!databases/trading_history/mongodb_data/**/.gitkeep
 
 trading_platform/static_root/**
 !trading_platform/static_root/README.md

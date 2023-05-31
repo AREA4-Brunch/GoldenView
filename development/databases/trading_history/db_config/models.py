@@ -1,30 +1,4 @@
-from django.db import models
-
 from mongoengine import fields, Document, EmbeddedDocument, EmbeddedDocumentField
-
-
-# Create your models here.
-
-
-# ======================================
-# SQL entities:
-
-
-
-class Asset(models.Model):
-    idasset = models.AutoField(db_column='IdAsset', primary_key=True)  # Field name made lowercase.
-    tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16)  # Field name made lowercase.
-
-    class Meta:
-        # app_label = 'apps.asset_management'
-        app_label = 'asset_management'
-        managed = True
-        db_table = 'asset'
-
-
-
-# ======================================
-# NoSQL entities:
 
 
 
@@ -74,3 +48,16 @@ class CarriedOutTradeRequest(Document):
         # set the table name to match documentation
         'collection': 'carried_out_trade_request'
     }
+
+
+class SupportRequest(Document):
+    class ProcessingInfo(EmbeddedDocument):
+        admin_id = fields.IntField(required=True)
+        status = fields.StringField(required=True)
+        comment = fields.StringField()
+
+    name = fields.StringField(required=True)
+    email = fields.EmailField(required=True)
+    time = fields.DateTimeField(required=True)
+    msg = fields.StringField(required=True)
+    processing = EmbeddedDocumentField(ProcessingInfo)

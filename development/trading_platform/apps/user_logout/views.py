@@ -5,6 +5,10 @@ from apps.user_management.backend.src.utils.user_logout import logout_user
 from django.contrib.auth.decorators import login_required
 
 
+# for testing
+from apps.asset_management.backend.src.utils.asset_predictions import *
+from datetime import date
+
 # Create your views here.
 
 

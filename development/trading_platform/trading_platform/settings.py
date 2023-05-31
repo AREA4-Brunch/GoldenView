@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os  # for db config environ vars
 import logging  # custom logging settings
 
+from mongoengine import connect
+
 from pathlib import Path
 
 
@@ -136,9 +138,30 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
+    },
+
+    'trading_history': {   # trading_history nosql db - mongodb
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': os.environ.get("DB_TRADING_HISTORY_NAME", "").strip(),
+        'USER': os.environ.get("DB_TRADING_HISTORY_USERNAME", "").strip(),
+        'PASSWORD': os.environ.get("DB_TRADING_HISTORY_PASSWORD", "").strip(),
+        'HOST': os.environ.get("DB_TRADING_HISTORY_HOST", "").strip(),
+        'PORT': int(os.environ.get("DB_TRADING_HISTORY_PORT", "27017").strip()),
     }
 
 }
+
+
+# Connect to MongoDB based on set config that it expects
+connect(
+    db=DATABASES['trading_history']['NAME'],
+    host=DATABASES['trading_history']['HOST'],
+    port=DATABASES['trading_history']['PORT'],
+    username=DATABASES['trading_history']['USER'],
+    password=DATABASES['trading_history']['PASSWORD'],
+    # authentication_source=DATABASES['trading_history']['AUTH_SOURCE'],
+    # authentication_mechanism=DATABASES['mongotrading_historyAUTH_MECHANISM']
+)
 
 
 # Password validation
@@ -234,7 +257,7 @@ DEFAULT_APP_STATICFILES_DIR = "frontend/src/static/"
 # Setup the logging
 
 # Set the log file path
-LOG_FILE_PATH = BASE_DIR / 'logs/exec_logs.log'
+LOG_FILE_PATH = BASE_DIR / 'logs/exec_logs/logs.log'
 
 # Configure logging
 logging.basicConfig(

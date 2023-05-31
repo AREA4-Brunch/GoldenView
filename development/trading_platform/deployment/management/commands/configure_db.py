@@ -1,9 +1,9 @@
 import platform
 
-# from django.core.management import call_command
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management import call_command
+from django.core.management.base import BaseCommand
 
-from .configure_db_django import Command as ConfigDjangoCommand
+from .configure_db_trading_history import Command as ConfigTradingHistoryCommand
 from .configure_db_trading_platform import Command as ConfigTradingPlatformCommand
 
 
@@ -12,28 +12,22 @@ class Command(BaseCommand):
     name = 'configure_db'
 
     def handle(self, *args, **options):
-        # self._setupTradingPlatformDatabase()
-        # self._setupTradingHistoryDatabase()
+        options['do_log_cmd'] = False  # subcommands will not log
         is_windows = platform.system() == 'Windows'
-        cmd = self._setupDjangoBuiltInDatabase(options)
-        cmd += ' & ' if is_windows else ' && '
-        cmd += self._setupTradingPlatformDatabase(options)
+        cmd = self._setupTradingHistoryDatabase(*args, **options)
+        if cmd != '': cmd += ' & ' if is_windows else ' && ';
+        cmd += self._setupTradingPlatformDatabase(*args, **options)
         # remove last ampersand or double ampersand
         if cmd.endswith(' '): cmd = cmd[ : cmd.rfind(' &')];
 
-        self.stdout.write(self.style.SUCCESS('Copy paste the following instruction into the shell/cmd window in which you will run the `python manage.py runserver` command.\n'))
+        self.stdout.write(self.style.SUCCESS('Copy paste the following instruction into the shell/cmd window'))
+        self.stdout.write(self.style.SUCCESS(' in which you will run the `python manage.py runserver` command.\n'))
         self.stdout.write(f'{cmd}')
 
-    def _setupDjangoBuiltInDatabase(self, options: dict[str]):
-        # call_command("configure_db_django")
-        cmd = ConfigDjangoCommand.getSetConfigCmdCommand(options)
+    def _setupTradingHistoryDatabase(self, *args, **options):
+        cmd = ConfigTradingHistoryCommand().do_work(*args, **options)
         return cmd
 
-    def _setupTradingPlatformDatabase(self, options: dict[str]):
-        # call_command("configure_db_trading_platform")
-        cmd = ConfigTradingPlatformCommand.getSetConfigCmdCommand(options)
+    def _setupTradingPlatformDatabase(self, *args, **options):
+        cmd = ConfigTradingPlatformCommand().do_work(*args, **options)
         return cmd
-
-    def _setupTradingHistoryDatabase(self, options: dict[str]):
-        # TODO
-        return ''

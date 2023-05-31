@@ -3,7 +3,7 @@ import requests
 
 from django.contrib.auth.decorators import login_required
 
-from apps.common.backend.decorators import if_trader_accept_terms_required
+from apps.common.backend.utils.decorators import if_trader_accept_terms_required
 
 
 # Create your views here.
