@@ -1,28 +1,33 @@
 # Running and managing GoldenView locally
 
 ## **Creating a virtual environment**
+Open terminal as administrator.
+Change directory to your project:
+```cmd
+cd project_Terminal\development
+```
 
 To create a virtual environment that runs a specific Python version:
 
 ```cmd
-D:\GoldenView\development> python -m venv --python="C:\Users\Username\AppData\Local\Programs\Python\Python311\python.exe" ./venv
+python -m venv --python="C:\Users\Username\AppData\Local\Programs\Python\Python311\python.exe" ./venv
 ```
 
 Or to create a virtual environment that runs the default Python version in your local path:
 ```cmd
-D:\GoldenView\development> python -m venv ./venv
+python -m venv ./venv
 ```
 
 
 Activate the virtual environment by running the appropriate activate file:
 ```cmd
-D:\GoldenView\development> "./venv/Scripts/activate.bat"
+ "./venv/Scripts/activate.bat"
 ```
 
 
 Make sure to upgrade pip to the latest version (follow pip's instruction in case of ERROR):
 ```cmd
-(venv) D:\GoldenView\development> pip install --upgrade pip
+pip install --upgrade pip
 ```
 
 ## **Adding all requirements**
@@ -30,7 +35,7 @@ Make sure to upgrade pip to the latest version (follow pip's instruction in case
 1. Install the python modules (requirements) needed to run the app locally:
 
     ```cmd
-    (venv) D:\GoldenView\development> pip install -r .\requirements.txt
+    pip install -r .\requirements.txt
     ```
 
 2. In case you do not have MySQL installed on your machine, do install it,
@@ -53,7 +58,7 @@ as a service (you can but it is not neccessary).<br/>
 
 1. Start the MySQL service on your machine.
 
-2. Setup SQL databases from `development/databases` by running each of their `db_scripts/init.sql` scripts for exampl inside XAMPP.
+2. Setup SQL databases from `development/databases/trading_platform` by running each of their `db_scripts/init.sql` scripts for exampl inside XAMPP.
 
 3. Check if the setup databases match the info inside their corresponding `db_config/db_connection.ini` and update the `.ini` files if that is not the case.
 
@@ -66,31 +71,66 @@ as a service (you can but it is not neccessary).<br/>
 
 6. Navigate to the project directory and run the following `configure_db` command (more on it here: `development/trading_platform/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py configure_db
-    ```
+    cd .\trading_platform
+    python manage.py configure_db
+    ``` 
+    '...' change for what console tells you to put in after this command above
 
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> set ...
+    set ...
     ```
 
 7. Run the following to apply all database linking neccessary for current state of project to work:
-    ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py showmigrations
-    ```
+ ```cmd
 
+    python manage.py showmigrations
+
+    ```
     There should be no erros.
 
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py makemigrations
+
+    python manage.py makemigrations asset_management
+
     ```
 
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py migrate
+
+    python manage.py migrate asset_management
+
+    ```
+
+    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
+
+    ```cmd
+
+    python manage.py makemigrations user_management
+
+    ```
+
+    ```cmd
+
+    python manage.py migrate user_management
+
+    ```
+
+    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
+
+    ```cmd
+
+    python manage.py makemigrations
+
+    ```
+
+    ```cmd
+
+    python manage.py migrate
+
     ```
 
 8. Run the following to start the server:
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py runserver
+    python manage.py runserver
     ```
 
 
@@ -108,12 +148,12 @@ To add a new app to the Django project trading_platform:
 
 1. Create the folder where the app will reside:
     ```cmd
-    D:\GoldenView\development\trading_platform> mkdir "./apps/your_app"
+    mkdir "./apps/your_app"
     ```
 
 2. Create the app by running the following command:
     ```cmd
-    (venv) D:\GoldenView\development\trading_platform> python manage.py startapp your_app apps/your_app
+    python manage.py startapp your_app apps/your_app
     ```
 
 3. Go to the `trading_platform/apps/your_app/apps.py` file and change the `name` attribute of the `YourAppConfig` class from `your_app` to `apps.your_app`.
