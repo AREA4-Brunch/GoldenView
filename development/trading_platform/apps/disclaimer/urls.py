@@ -5,5 +5,5 @@ import apps.disclaimer.views as views
 
 urlpatterns = [
     path('', views.terms_of_agreement, name='disclaimer_page'),
-    path('', views.accept_terms_form, name='accept_terms_form'),
+    path('accept_terms_form', views.accept_terms_form, name='accept_terms_form'),
 ]

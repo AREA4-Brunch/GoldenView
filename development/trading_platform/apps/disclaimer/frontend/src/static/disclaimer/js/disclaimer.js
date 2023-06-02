@@ -23,10 +23,6 @@ box.onchange = function(){
     }
 }
 
-button.onclick = function(){
-    window.location.replace("../website/");
-}
-
 scroll.onscroll = function(){
     var total = scroll.scrollTop + scroll.clientHeight;
 

@@ -67,19 +67,21 @@
                 </div>
             </div>
         </div>
-        <div class="row common-center" id="row3">
-            <div class="col-sm-6 common-left-horizontally">
-                <input type="checkbox" name="check" id="check" disabled="true">
-                <label for="check"> &nbsp; I agree to the terms and conditions as set out by the user agreement.</label>
+        <form action="{% url 'accept_terms_form' %}" method="POST">
+            {% csrf_token %}
+            <div class="row common-center" id="row3">
+                <div class="col-sm-6 common-left-horizontally">
+                    <input type="checkbox" name="check" id="check" disabled="true">
+                    <label for="check"> &nbsp; I agree to the terms and conditions as set out by the user agreement.</label>
+                </div>
             </div>
-        </div>
-        <div class="row common-center" id="row4">
-            <div class="col-sm-6 common-center-horizontally">
-                <button type="submit" class="buttonDis" id="button" disabled="true">Continue</button>
+            <div class="row common-center" id="row4">
+                <div class="col-sm-6 common-center-horizontally">
+                    <button type="submit" class="buttonDis" id="button" disabled="true">Continue</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-
 </div>
 {% endblock %}
 
