@@ -12,7 +12,7 @@
 <!-- This Page's CSS -->
 <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'assets_view/css/asset_view.css' %}">
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
 {% endblock %}
 
@@ -42,7 +42,7 @@
             </div>
 
             <!-- TradingView Widget END -->
-            <!-- 
+            <!--
 
             <form id="buy-sell-form" action="{% url 'page_404' %}" method="post">
                 {{ csrf }}
@@ -91,7 +91,11 @@
                     <label for="amount">Price range:</label>
                     <input type="text" id="amount" readonly>
                 </p>
-                <div id="slider-range"></div>
+                 <div class="range-inputs">
+                     <input type="number" id="min-price" name="min-price" min="0" class="range-input">
+                     <input type="number" id="max-price" name="max-price" min="0" class="range-input">
+                 </div>
+                 <div id="slider-range"></div>
             </form>
 
             <div class="buttons">
@@ -118,7 +122,7 @@
 
 <!-- This Page's JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
 <script src="{% static 'admin/js/jquery.init.js' %}"></script>

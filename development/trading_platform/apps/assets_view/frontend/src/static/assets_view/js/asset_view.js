@@ -7,8 +7,8 @@ function csrfSafeMethod(method) {
 
 document.addEventListener('DOMContentLoaded', () => {
     $ = django.jQuery;
-    // initTradingViewWidget();  // TODO: uncomment when done debugging
-    // initSlider();
+    initTradingViewWidget();
+    initSlider();
 });
 
 
@@ -33,7 +33,7 @@ function initTradingViewWidget() {
     new TradingView.widget(
         {
             "width": 1000,
-            "height": 490,
+            "height": 400,
             "symbol": symbol,
             "interval": "1",
             "timezone": "Etc/UTC",
@@ -49,21 +49,39 @@ function initTradingViewWidget() {
 }
 
 
-// function initSlider() {
-//     $(function () {
-//         $("#slider-range").slider({
-//             range: true,
-//             min: 0,
-//             max: 5000,
-//             values: [1500, 3000],
-//             slide: function (event, ui) {
-//                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-//             }
-//         });
-//         $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-//             " - $" + $("#slider-range").slider("values", 1));
-//     });
-// }
+function initSlider() {
+    $(function () {
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 5000,
+            values: [1500, 3000],
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.values[0].toFixed(2) + " - $" + ui.values[1].toFixed(2));
+                $("#min-price").val(ui.values[0].toFixed(2));
+                $("#max-price").val(ui.values[1].toFixed(2));
+            }
+        });
+        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+            " - $" + $("#slider-range").slider("values", 1));
+        $("#min-price").val($("#slider-range").slider("values", 0));
+        $("#max-price").val($("#slider-range").slider("values", 1));
+
+        $("#min-price").on("input", function() {
+            if (parseFloat(($("#min-price").val())) <= parseFloat($("#max-price").val())) {
+                $("#slider-range").slider("values", [parseFloat($("#min-price").val()), parseFloat($("#max-price").val())]);
+                $("#amount").val("$" + parseFloat(($("#min-price").val())).toFixed(2) + " - $" + parseFloat($("#max-price").val()).toFixed(2));
+            }
+        });
+
+        $("#max-price").on("input", function() {
+           if (parseFloat(($("#max-price").val())) >= parseFloat($("#min-price").val())) {
+                $("#slider-range").slider("values", [parseFloat($("#min-price").val()), parseFloat($("#max-price").val())]);
+                $("#amount").val("$" + parseFloat(($("#min-price").val())).toFixed(2) + " - $" + parseFloat($("#max-price").val()).toFixed(2));
+           }
+        });
+    });
+}
 
 
 function initBuySellForm() {
