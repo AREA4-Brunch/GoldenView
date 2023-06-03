@@ -2,9 +2,12 @@ import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from ..user_management.backend.src.utils.user_type import is_trader
+from ..user_management.backend.src.utils.user_type import cast_to_trader
 
 from ..user_management.models import Trader, User
+
+from apps.user_management.backend.src.utils.user_type import cast_to_trader
+
 
 # Create your views here.
 from ..user_management.backend.src.utils.user_terms import did_accept_terms, accept_terms
@@ -14,13 +17,6 @@ def terms_of_agreement(request: HttpRequest):
     
     #if not is_trader(request.user):
         #return redirect('register')
-
-    try:
-        if did_accept_terms(Trader(request.user)):
-            return redirect('home')
-
-    except Exception as e:
-        return redirect('home')
 
     context = {
         'checkbox_err': request.session.pop('checkbox_err', None),
@@ -42,7 +38,16 @@ def accept_terms_form(request: HttpRequest):
         return redirect('page_404')
 
     try:
-        accept_terms(Trader(request.user))
+        trader = cast_to_trader(request.user)
+        if trader is None:
+            request.session['internal_err'] = 'These terms are meant only for Trader type of users.'
+            return redirect('disclaimer_page')
+
+        if did_accept_terms(trader):
+            request.session['internal_err'] = 'You have already accepted the terms.'
+            return redirect('home')
+
+        accept_terms(trader)
 
     except Exception as e:
         request.session['internal_err'] = str(e)

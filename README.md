@@ -249,11 +249,11 @@ https://crete.etf.bg.ac.rs/admin/repos/project_Terminal,general
 
 1. In case of error message `The syntax of the command is incorrect.` or out of sheer desperation try the following.
     ```
-    git clone "https://crete.etf.bg.ac.rs/project_Terminal" && (cd "project_Terminal" && mkdir -p .git\hooks & curl -Lo .git\hooks\commit-msg https://crete.etf.bg.ac.rs/tools/hooks/commit-msg & attrib +x .git\hooks\commit-msg)
+    git clone "https://crete.etf.bg.ac.rs/project_Terminal" & (cd "project_Terminal" & mkdir -p .git\hooks & curl -Lo .git\hooks\commit-msg https://crete.etf.bg.ac.rs/tools/hooks/commit-msg & attrib +x .git\hooks\commit-msg)
     ```
 2. Only if the option 1. did not work because curl failed due to our college's dumb SSL try this:
     ```
-    git clone "https://crete.etf.bg.ac.rs/project_Terminal" && (cd "project_Terminal" && mkdir -p .git\hooks & curl -Lo .git\hooks\commit-msg --insecure https://crete.etf.bg.ac.rs/tools/hooks/commit-msg & attrib +x .git\hooks\commit-msg)
+    git clone "https://crete.etf.bg.ac.rs/project_Terminal" & (cd "project_Terminal" & mkdir -p .git\hooks & curl -Lo .git\hooks\commit-msg --insecure https://crete.etf.bg.ac.rs/tools/hooks/commit-msg & attrib +x .git\hooks\commit-msg)
     ```
 
 

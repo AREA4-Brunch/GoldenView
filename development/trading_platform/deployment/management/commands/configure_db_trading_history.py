@@ -202,7 +202,7 @@ class Command(BaseCommand):
         log_path = options.pop('logpath', default_logs_path)
         host = options.pop('host', default_host)
         port: int = options.pop('port', default_port)
-        
+
         mongod_exe_path = config_data['MONGODB_SERVICE_PATH']
 
         return (mongod_exe_path, data_path, log_path, host, port)

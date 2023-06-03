@@ -27,20 +27,33 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-                <div class="d-flex profile">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{% static 'common/images/profile.png' %}" alt="User Profile Image" width="30" height="30">
-                            Andrito
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Profile</a>
-                            <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+                <!-- Add the user icon and and links to logout, settings, etc. -->
+                {%  if user and user.is_authenticated %}
+                    <div class="d-flex profile">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'common/images/profile.png' %}" alt="User Profile Image" width="30" height="30">
+                                    {{ user }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="d-flex profile">
+                        <a class="btn btn-outline-warning" href="{% url 'login' %}">
+                            Login
+                        </a>
+                        <a style="margin-left: 5px;" class="btn btn-outline-warning" href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </nav>

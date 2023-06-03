@@ -133,6 +133,14 @@ as a service (you can but it is not neccessary).<br/>
     python manage.py runserver
     ```
 
+9. Create a superuser and then create `can_trade` group
+    ```cmd
+    python manage.py createsuperuser
+    ```
+
+    Use the Django built-in admin page to create a group called `can_trade`.
+
+
 
 ## **Adding a new app**
 

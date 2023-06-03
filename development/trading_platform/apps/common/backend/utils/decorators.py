@@ -2,10 +2,12 @@ import logging
 import django.shortcuts
 
 from apps.user_management.backend.src.utils.user_terms import did_accept_terms
-from apps.user_management.backend.src.utils.user_type import is_trader
+from apps.user_management.backend.src.utils.user_type import cast_to_trader
 
 from functools import wraps
 from django.http import HttpRequest
+
+from apps.user_management.models import User
 
 
 
@@ -22,7 +24,7 @@ def if_trader_check(check, redirect, raise_exception=True):
         def wrapped_view(request: HttpRequest, *args, **kwargs):
             def has_access(user):
                 if user is None: raise Exception('user is none');
-                return is_trader(user) and check(request)
+                return cast_to_trader(user) is not None and check(request)
 
             try:
                 if has_access(request.user):
@@ -55,7 +57,8 @@ def if_trader_accept_terms_required(
         def wrapped_view(request: HttpRequest, *args, **kwargs):
             def has_access(user):
                 if user is None: raise Exception('user is none');
-                return is_trader(user) and did_accept_terms(user)
+                trader = cast_to_trader(user)
+                return trader is not None and did_accept_terms(trader)
 
             try:
                 if has_access(request.user):
@@ -70,3 +73,7 @@ def if_trader_accept_terms_required(
 
         return wrapped_view
     return decorator
+
+
+def can_user_trade(user: User):
+    return user.groups.filter(name='can_trade').exists()
