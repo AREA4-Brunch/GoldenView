@@ -12,7 +12,7 @@
 <!-- This Page's CSS -->
 <link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'assets_view/css/asset_view.css' %}">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
 
 {% endblock %}
 
@@ -28,7 +28,7 @@
 
 
 {% block content %}
-<div id="asset_view-content">
+<div id="asset_view-content" data-asset-ticker="{{ symbol }}">
     <div class="row">
         {% include 'assets_view/components/dashboard/dashboard.html' %}
 
@@ -38,45 +38,68 @@
             <div class="tradingview">
                 <div class="tradingview-widget-container">
                     <div id="tradingview_3edba"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                    <script type="text/javascript">
-                        var symbol
-                        if ("{{symbol}}" === "none") {
-                            symbol = "NASDAQ:AAPL"
-                        }
-                        else {
-                            symbol = "NASDAQ:" + "{{ symbol }}"
-                        }
-                        new TradingView.widget(
-                            {
-                                "width": 1000,
-                                "height": 490,
-                                "symbol": symbol,
-                                "interval": "1",
-                                "timezone": "Etc/UTC",
-                                "theme": "light",
-                                "style": "1",
-                                "locale": "en",
-                                "toolbar_bg": "#f1f3f6",
-                                "enable_publishing": false,
-                                "allow_symbol_change": true,
-                                "container_id": "tradingview_3edba"
-                            }
-                        );
-                    </script>
                 </div>
             </div>
+
             <!-- TradingView Widget END -->
-            <div class="buttons">
-                <button class="buy">Buy</button>
-                <input type="number" id="quantity" class="quantity" placeholder="Quantity">
-                <button class="sell">Sell</button>
+            <!-- 
+
+            <form id="buy-sell-form" action="{% url 'page_404' %}" method="post">
+                {{ csrf }}
+                <div class="buttons">
+                    <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
+                    <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
+                    <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
+                </div>
+
+                <input type="number" name="startRange" placeholder="Start Range">
+                <input type="number" name="endRange" placeholder="End Range">
+                <input type="range" name="sliderRange" min="0" max="100" step="1">
+            </form>
+
+            <form id="buy-sell-form" action="{% url 'page_404' %}" method="post">
+                {{ csrf }}
+                <div class="buttons">
+                    <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
+                    <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
+                    <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
+                </div>
+                <p class="price-range">
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" readonly>
+                </p>
+                <div id="slider-range"></div>
+            </form> -->
+            <!-- <div class="container mt-5">
+                <div class="row">
+                  <div class="col-md-8">
+                    <input type="range" id="rangeSlider" name="rangeSlider" />
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" class="form-control" id="startRange" placeholder="Start Range" min="0" max="100">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" class="form-control" id="endRange" placeholder="End Range" min="0" max="100">
+                  </div>
+                </div>
             </div>
-            <p class="price-range">
-                <label for="amount">Price range:</label>
-                <input type="text" id="amount" readonly>
-            </p>
-            <div id="slider-range"></div>
+             -->
+
+             <form id="buy-sell-form" action="{% url 'page_404' %}" method="post" data-csrf-token="{{ csrf_token }}">
+                {% csrf_token %}
+                <p class="price-range">
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" readonly>
+                </p>
+                <div id="slider-range"></div>
+            </form>
+
+            <div class="buttons">
+                <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
+                <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
+                <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
+            </div>
+
             <br>
             <br>
             <br>
@@ -95,7 +118,13 @@
 
 <!-- This Page's JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
+
+<!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
+<script src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script src="{% static 'assets_view/js/asset_view.js' %}"></script>
+
 
 {% endblock %}

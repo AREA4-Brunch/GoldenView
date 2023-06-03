@@ -4,6 +4,8 @@ from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from apps.user_management.models import User, Trader, BasicUser, Country
 
+from django.contrib.auth.models import Group
+
 
 def create_basic_user(email, username, password, birthday, gender, country):
     """
@@ -31,6 +33,11 @@ def create_basic_user(email, username, password, birthday, gender, country):
                 email=email,
             )
 
+            # add the user to the group of authorized to trade
+            group = Group.objects.get(name='can_trade')
+            user.groups.add(group)
+            user.save()
+    
             trader = Trader.objects.create(
                 idtrader=user,
                 birthday=birthday,
@@ -44,5 +51,7 @@ def create_basic_user(email, username, password, birthday, gender, country):
             return basic_user
 
         except Exception as e:
+            import traceback
             logging.error(f"Error creating BasicUser: {e}")
+            print(traceback.format_exc())
             raise e

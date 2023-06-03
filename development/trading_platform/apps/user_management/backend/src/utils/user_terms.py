@@ -1,5 +1,6 @@
 import datetime
 from apps.user_management.models import Trader
+from django.utils import timezone
 
 
 def did_accept_terms(user: Trader):
@@ -14,14 +15,5 @@ def did_accept_terms(user: Trader):
 
 
 def accept_terms(user: Trader):
-
-    # ovde iz nekog razloga nece da sacuva ne znam koji je problem
-    #birthday i country ne valjaju iz nekog razloga
-
-    user.termsacceptancetime=datetime.date.today()
-    user.birthday=user.birthday
-    user.idcountry=user.idcountry
-
-    #trader has no idcountry nakon 22. i 23. linije
-
+    user.termsacceptancetime=timezone.now()
     user.save()
