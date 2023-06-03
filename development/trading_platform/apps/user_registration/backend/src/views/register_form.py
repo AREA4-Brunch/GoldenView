@@ -63,7 +63,7 @@ def get_cleaned_data(request: HttpRequest):
             is_valid = False
             request.session['pwd_err'] = 'Invalid password'
 
-        try:  # process gender
+        try:  # process country
             user_data["cntry"] = request.POST["country"]
         except Exception as e:
             is_valid = False

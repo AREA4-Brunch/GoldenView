@@ -3,6 +3,10 @@ const countryData = [
     { id: "us", text: "United States", flag: "us" },
     { id: "ca", text: "Canada", flag: "ca" },
     { id: "mx", text: "Mexico", flag: "mx" },
+    { id :"rs", text: "Serbia", flag: "rs"},
+    { id: "ru", text: "Russia", flag: "ru"},
+    { id: "hr", text: "Croatia", flag: "hr"},
+    { id: "me", text: "Montenegro", flag: "me"},
 ];
 
 
