@@ -62,15 +62,21 @@ def buy_asset(request: HttpRequest):
     try:
         trader = cast_to_trader(request.user)
         if trader is None:
-            raise Exception('Only traders can make purchases. How did this user end up in `can_trade` group?')
+            logging.error(f'How did user iduser=`{request.user.iduser}` end up in `can_trade` group?')
+            raise Exception('Only traders can make purchases.')
 
         request_data['trader'] = trader
-        request_data = asset_view_backend.get_cleaned_data(request, response)
-        # asset_view_backend.send_buy_sell_request(
-        #     is_buy_request=True,
-        #     request_data=request_data
-        # )
 
+        request_data = asset_view_backend.get_cleaned_data(request, response)
+
+        asset_view_backend.send_buy_sell_request(
+            is_purchase_request=True,
+            request_data=request_data,
+            # response=response
+        )
+
+        # successfully created request
+        response['success_msg'] = 'Request successfuly submitted.'
         status = 200
 
     except asset_view_backend.InvalidBuySellRequestFormException as e:

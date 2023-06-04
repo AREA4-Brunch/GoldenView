@@ -22,6 +22,37 @@ class Asset(models.Model):
         db_table = 'asset'
 
 
+class ActiveTradeRequest(models.Model):
+    idtraderequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idasset = models.ForeignKey('Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    iduser = models.ForeignKey('Trader', models.DO_NOTHING, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
+    quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
+    totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
+    quantityrequired = models.IntegerField(db_column='QuantityRequired', null=False, blank=False)  # Field name made lowercase.
+    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
+    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
+
+    class Meta:
+        managed = True
+        db_table = 'activetraderequest'
+
+
+class PurchaseRequest(models.Model):
+    idpurchaserequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = True
+        db_table = 'purchaserequest'
+
+
+class SalesRequest(models.Model):
+    idsalesrequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = True
+        db_table = 'salesrequest'
+
+
 
 # ======================================
 # NoSQL entities:

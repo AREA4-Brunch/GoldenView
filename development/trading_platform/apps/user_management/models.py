@@ -127,16 +127,6 @@ class Trader(models.Model):
         db_table = 'trader'
 
 
-class Broker(models.Model):
-    idbroker = models.OneToOneField('Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
-
-    class Meta:
-        # app_label = 'apps.user_management'
-        app_label = 'user_management'
-        managed = True
-        db_table = 'broker'
-
-
 class BasicUser(models.Model):
     idbasicuser = models.OneToOneField('Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
 
@@ -145,3 +135,12 @@ class BasicUser(models.Model):
         app_label = 'user_management'
         managed = True
         db_table = 'basicuser'
+
+
+class Broker(models.Model):
+    idbroker = models.OneToOneField('Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        app_label = 'broker_management'
+        managed = True
+        db_table = 'broker'

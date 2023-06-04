@@ -1,8 +1,9 @@
+import logging
+
 from django.http import HttpRequest
 
 from apps.asset_management.models import Asset
-from apps.asset_management.backend.src.utils.asset_purchase import send_buy_sell_request
-from apps.user_management.models import Trader
+from apps.asset_management.backend.src.utils.trading import create_buy_sell_request
 
 
 
@@ -44,6 +45,9 @@ def get_cleaned_data(
             is_valid = False
             response['errors'].append('Invalid ticker form data.')
 
+        # TODO: handle contracts of broker in name of user
+        request_data['contract'] = None
+
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')
 
@@ -69,6 +73,8 @@ def get_cleaned_data(
             is_valid = False
             response['errors'].append('Failed to find the asset requested.')
 
+        # TODO: handle contracts of broker in name of user
+
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')
 
@@ -80,12 +86,31 @@ def get_cleaned_data(
 
 
 def send_buy_sell_request(
-    is_buy_request: bool,
-    request_data: dict
+    is_purchase_request: bool,
+    request_data: dict,
+    # response: dict[str]
 ):
-    send_buy_sell_request(
-        is_buy_request=is_buy_request,
-        trader=request.trader
-    )
+    try:
+        request = create_buy_sell_request(
+            is_purchase_request=is_purchase_request,
+            trader=request_data['trader'],
+            asset=request_data['asset'],
+            quantity=request_data['quantity'],
+            price_lower_bound=request_data['min'],
+            price_upper_bound=request_data['max'],
+            contract=request_data['contract']
+        )
 
-    return
+    except Exception as e:
+        # just reraise and the error should be handled by view
+        # response['errors'].append(str(e))
+        raise e
+
+    try:
+        # queue up the task that matches buy and sell request
+        # as the change in db happened:
+        pass
+
+    except Exception as e:
+        # Internal error user should not be notified of
+        logging.error('Failed to queue up the requests matcher call')

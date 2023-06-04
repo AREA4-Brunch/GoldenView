@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'apps.contact_page.apps.Contact_pageConfig',
     'apps.asset_management.apps.AssetManagementConfig',
     'apps.user_logout.apps.UserLogoutConfig',
+    'apps.broker_management.apps.BrokerManagementConfig',
+    'apps.file_management.apps.FileManagementConfig',
 ]
 
 MIDDLEWARE = [
