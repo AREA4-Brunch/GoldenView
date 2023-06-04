@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'apps.user_registration.apps.UserRegistrationConfig',
     'apps.user_management.apps.UserManagementConfig',
     'apps.disclaimer.apps.DisclaimerConfig',
+    'apps.password_reset.apps.password_resetConfig',
+    'apps.contact_page.apps.Contact_pageConfig',
     'apps.asset_management.apps.AssetManagementConfig',
     'apps.user_logout.apps.UserLogoutConfig',
 ]
