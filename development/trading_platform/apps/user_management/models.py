@@ -138,7 +138,7 @@ class BasicUser(models.Model):
 
 
 class Broker(models.Model):
-    idbroker = models.OneToOneField('Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+    idbroker = models.OneToOneField('user_management.Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
 
     class Meta:
         app_label = 'broker_management'

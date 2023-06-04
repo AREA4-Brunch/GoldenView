@@ -118,6 +118,33 @@ as a service (you can but it is not neccessary).<br/>
 
     ```cmd
 
+    python manage.py makemigrations file_management
+
+    ```
+
+    ```cmd
+
+    python manage.py migrate file_management
+
+    ```
+    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
+
+    
+    ```cmd
+
+    python manage.py makemigrations broker_management
+
+    ```
+
+    ```cmd
+
+    python manage.py migrate broker_management
+
+    ```
+    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
+
+    ```cmd
+
     python manage.py makemigrations
 
     ```

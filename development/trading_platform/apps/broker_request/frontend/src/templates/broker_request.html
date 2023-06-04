@@ -1,0 +1,86 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'password_reset/css/password_reset.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    password_reset
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="password_reset_page-content" class="common-center">
+
+    <div class="container-fluid">
+        <div id="page-txt" class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
+                <h2>
+                    password_reset
+                </h2>
+            </div>
+        </div>
+        <div class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
+                
+            </div>
+        </div>
+        <form action="{% url 'broker_request_form' %}" method="POST">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>
+                        <br>
+                        <b>Message</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                        <br>
+                        <b style="color:red">{{errmsg}}</b>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br>
+                        <div style="text-align:center">
+                            <button type="submit" class="buttonEn" id="button" style="width:50%;">Send</button>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'password_reset/js/password_reset.js' %}"></script>
+
+{% endblock %}
