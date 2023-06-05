@@ -35,13 +35,27 @@
                         {% csrf_token %}
                         <div class="row"><button style="width:70%" class="btn btn-outline-warning">Requests</button></div>
                     </form>
-                    <div class="row"><button style="width:70%" class="btn btn-outline-warning">Log out</button></div> 
+                    <form action="{% url 'adminlogout' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row"><button style="width:70%" class="btn btn-outline-warning" name="logout">Log out</button></div> 
+                    </form>
                 </div>
             </div>
             <div class="col-sm-10">
                 <form action="{% url 'administrator_dashboard_form' %}" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                    <table id="tabela" class="table table-striped">
+                    
+                        <tr>
+                            <td>
+                                {% for field in form %}
+                                {{field}}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    
+                    </table>
+                    
                     <table id="tabela" class="table table-striped">
                         <tr>
                             <td colspan="6">
@@ -59,9 +73,10 @@
                         </tr>
 
                         {% for user, userType in users %}
+                            
                             <tr>
                                 <td>
-                                    
+                                    <input type="checkbox" name="asd" id="asd" >
                                 </td>
                                 <td>
                                     <table>

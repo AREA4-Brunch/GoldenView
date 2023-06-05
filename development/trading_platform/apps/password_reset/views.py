@@ -85,3 +85,6 @@ def password_reset_form(request: HttpRequest):
         return redirect('password_reset')
 
     return redirect('password_reset')
+
+def cancel_reset(request:HttpRequest):
+    return redirect('home')

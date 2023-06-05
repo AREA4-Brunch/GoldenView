@@ -1,8 +1,10 @@
 from django.contrib import admin
 
+from ..asset_management.models import MakeBeliefOwns
+
 # Register your models here.
 
-from .models import User, Broker, BasicUser, Country, MakeBeliefOwns, FundsTransferMethod, Trader
+from .models import User, Broker, BasicUser, Country, FundsTransferMethod, Trader
 
 admin.site.register(User)
 admin.site.register(Broker)

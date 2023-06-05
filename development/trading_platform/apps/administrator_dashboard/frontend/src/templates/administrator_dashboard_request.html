@@ -35,13 +35,19 @@
                         <div class="row"><button style="width:70%" class="btn btn-outline-warning">Users</button></div>
                      </form>
                     <div class="row"><button style="width:70%" class="btn btn-warning">Requests</button></div>
-                    <div class="row"><button style="width:70%" class="btn btn-outline-warning">Log out</button></div> 
+                    
+                    <form action="{% url 'adminlogout' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row"><button style="width:70%" class="btn btn-outline-warning" name="logout">Log out</button></div> 
+                    </form>
                 </div>
             </div>
             <div class="col-sm-10">
-                <form action="{% url 'administrator_dashboard_form' %}" method="POST">
+                <form action="{% url 'administrator_dashboard_request_form' %}" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                    {{form.as_table}}
+                    
                     <table id="tabela" class="table table-striped">
                         <tr>
                             <td colspan="6">
@@ -52,13 +58,13 @@
                         <tr>
                             <td><input type="checkbox" name="all" id="all"></td>
                             <td>Name</td>
+                            <td></td>
                             <td>Status</td>
-                            <td>Role</td>
                             <td>Email address</td>
                             <td id="trash"></td>
                         </tr>
 
-                        {% for user, userType in users %}
+                        {% for broker, user in users %}
                             <tr>
                                 <td>
                                     
@@ -74,10 +80,9 @@
                                     </table>
                                 </td>
                                 <td id="active" style="vertical-align: middle;">
-                                    {{user.is_active}}
                                 </td>
                                 <td>
-                                    {{userType}}
+                                    Request
                                 </td>
                                 <td colspan="2">
                                     {{user.email}}
@@ -85,7 +90,10 @@
                             </tr>
                         {% endfor %}
                     </table>
-                    <button name="kello" type="submit"><img style="width: 7.5%; " src="../static/administrator_dashboard/images/trashBin.jpg" alt=""></button>
+                    <div>
+                        <button name="delete" value="delete" type="submit"><img style="width: 7.5%; " src="../static/administrator_dashboard/images/trashBin.jpg" alt=""></button>
+                        <button name="approve" name="approve" type="submit"><img style="width: 3.5%; " src="../static/administrator_dashboard/images/greenTick.png" alt=""></button>
+                    </div>
                 </form>
             </div>
         </div>

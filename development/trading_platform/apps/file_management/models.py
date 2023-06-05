@@ -6,6 +6,9 @@ from django.db import models
 class TextFile(models.Model):
     filepath = models.CharField(db_column='FilePath', primary_key=True, max_length=128)  # Field name made lowercase.
 
+    def deleteRow(self):
+        self.delete()
+
     class Meta:
         app_label = 'file_management'
         managed = True
@@ -15,6 +18,12 @@ class TextFile(models.Model):
 class BrokerRequestFile(models.Model):
     filepath = models.OneToOneField('TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
     requestcontent = models.CharField(db_column='RequestContent', max_length=256, blank=True, null=True)  # Field name made lowercase.
+
+    def __str__(self) -> str:
+        return ""
+
+    def deleteRow(self):
+        self.delete()
 
     class Meta:
         app_label = 'file_management'
