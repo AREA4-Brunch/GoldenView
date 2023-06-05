@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'apps.user_logout.apps.UserLogoutConfig',
     'apps.broker_management.apps.BrokerManagementConfig',
     'apps.file_management.apps.FileManagementConfig',
-    'apps.administrator_dashboard.apps.administrator_dashboardConfig',
+    'apps.administrator_dashboard.apps.AdministratorDashboardConfig',
+    'apps.portfolio.apps.PortfolioConfig',
 ]
 
 MIDDLEWARE = [

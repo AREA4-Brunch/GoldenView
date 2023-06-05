@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AdministratorDashboardConfig(AppConfig):
+class PortfolioConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.administrator_dashboard'
+    name = 'apps.portfolio'

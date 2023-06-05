@@ -22,13 +22,26 @@ class Asset(models.Model):
         db_table = 'asset'
 
 
+class MakeBeliefOwns(models.Model):
+    idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
+    quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
+
+    class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
+        managed = True
+        db_table = 'makebeliefowns'
+        unique_together = (('idpaymentmethod', 'idasset'),)
+
+
 # move unitpricelowerbound and unitpriceupperbound
 # into PurchaseRequest and SalesRequest so the indexes
 # could be raised over them for O(m+n) match all requests ??
 # raise an index over idasset it for quicker search ??
 class ActiveTradeRequest(models.Model):
     idtraderequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idasset = models.ForeignKey('Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
     iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
     quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
     totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
@@ -37,6 +50,8 @@ class ActiveTradeRequest(models.Model):
     # unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
 
     class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
         managed = True
         db_table = 'activetraderequest'
 
@@ -47,6 +62,8 @@ class PurchaseRequest(models.Model):
     unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
 
     class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
         managed = True
         db_table = 'purchaserequest'
 
@@ -57,6 +74,8 @@ class SalesRequest(models.Model):
     unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
 
     class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
         managed = True
         db_table = 'salesrequest'
 
