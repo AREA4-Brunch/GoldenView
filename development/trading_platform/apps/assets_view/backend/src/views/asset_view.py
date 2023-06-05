@@ -3,7 +3,8 @@ import logging
 from django.http import HttpRequest
 
 from apps.asset_management.models import Asset
-from apps.asset_management.backend.src.utils.trading import create_buy_sell_request
+from apps.asset_management.backend.src.utils.trading import create_buy_sell_request, \
+                                                            match_traders_request
 
 
 
@@ -87,7 +88,7 @@ def get_cleaned_data(
 
 def send_buy_sell_request(
     is_purchase_request: bool,
-    request_data: dict,
+    request_data: dict
     # response: dict[str]
 ):
     try:
@@ -108,9 +109,11 @@ def send_buy_sell_request(
 
     try:
         # queue up the task that matches buy and sell request
-        # as the change in db happened:
-        pass
+        # as now the change in db happened:
+        match_traders_request(is_purchase_request=is_purchase_request,
+                              request_id=request.idtraderequest)
+        # match_traders_request(is_purchase_request=False, request_id=9)
 
     except Exception as e:
-        # Internal error user should not be notified of
+        # Internal error that user should not be notified about
         logging.error('Failed to queue up the requests matcher call')

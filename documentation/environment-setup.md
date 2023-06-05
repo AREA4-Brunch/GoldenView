@@ -81,84 +81,74 @@ as a service (you can but it is not neccessary).<br/>
     ```
 
 7. Run the following to apply all database linking neccessary for current state of project to work:
- ```cmd
-
+    ```cmd
     python manage.py showmigrations
-
     ```
+
     There should be no erros.
 
     ```cmd
-
     python manage.py makemigrations asset_management
-
     ```
 
     ```cmd
-
     python manage.py migrate asset_management
-
     ```
 
     Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
 
     ```cmd
-
     python manage.py makemigrations user_management
-
     ```
 
     ```cmd
-
     python manage.py migrate user_management
-
     ```
 
     Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
 
     ```cmd
-
     python manage.py makemigrations file_management
-
     ```
 
     ```cmd
-
     python manage.py migrate file_management
-
     ```
     Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
 
     
     ```cmd
-
     python manage.py makemigrations broker_management
-
     ```
 
     ```cmd
-
     python manage.py migrate broker_management
-
     ```
     Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
 
     ```cmd
-
     python manage.py makemigrations
-
     ```
 
     ```cmd
-
     python manage.py migrate
-
     ```
 
-8. Run the following to start the server:
+8. Run the following to start the server and `process_tasks` cmnd:
     ```cmd
+    python manage.py launch
+    ```
+
+    That is equivalent to calling:
+
+    ```cmd
+    python manage.py process_tasks 
     python manage.py runserver
     ```
+
+    where process_tasks is in new cmd window and environment variables set by configure_db are all inherited.
+    So when stopping the server you do not have to stop
+    `process_tasks` (unless reconfiguring 'default' db). Later you can just call `runserver` if `process_tasks` is still running.
 
 9. Create a superuser and then create `can_trade` group
     ```cmd
