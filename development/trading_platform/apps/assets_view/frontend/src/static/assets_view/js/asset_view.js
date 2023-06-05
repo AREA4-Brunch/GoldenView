@@ -7,7 +7,7 @@ function csrfSafeMethod(method) {
 
 document.addEventListener('DOMContentLoaded', () => {
     $ = django.jQuery;
-    initTradingViewWidget();
+    // initTradingViewWidget();
     initSlider();
 });
 
@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
 function initTradingViewWidget() {
     // setup the symbol from django embedded variable into html
     let symbol = document.getElementById('asset_view-content').dataset.assetTicker;
-    console.log(`Caught asset ticker: ${symbol}`);
+    // console.log(`Caught asset ticker: ${symbol}`);
 
     if (symbol === null) {
         symbol = "NASDAQ:AAPL";
@@ -127,13 +127,18 @@ function submitForm(endpoint) {
     // const form_data = $(form).serialize();
     const symbol = document.getElementById('asset_view-content')
                            .dataset.assetTicker;
+    // const form_data = {
+    //     'quantity': 15,
+    //     'min': 250,
+    //     'max': 275,
+    //     'ticker': symbol
+    // };
     const form_data = {
         'quantity': 25,
         'min': 200,
-        'max': 300,
+        'max': 255,
         'ticker': symbol
     };
-
     $.ajax({
         url: form.action,
         xhrFields: {

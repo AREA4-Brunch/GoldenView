@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'background_task',
+
     'deployment',  # for project commands, staticfiles finders, etc.
     'apps.common',  # for common constant content (static, const .html, imgs...)
 

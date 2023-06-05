@@ -65,13 +65,12 @@ def buy_asset(request: HttpRequest):
             logging.error(f'How did user iduser=`{request.user.iduser}` end up in `can_trade` group?')
             raise Exception('Only traders can make purchases.')
 
-        request_data['trader'] = trader
-
         request_data = asset_view_backend.get_cleaned_data(request, response)
+        request_data['trader'] = trader
 
         asset_view_backend.send_buy_sell_request(
             is_purchase_request=True,
-            request_data=request_data,
+            request_data=request_data
             # response=response
         )
 
@@ -88,7 +87,7 @@ def buy_asset(request: HttpRequest):
         response['errors'].append(f'Internal: {e}')
         # ajax request so do not set the internal_error
         # request.session['internal_error'] = str(e)
-        logging.error(f'Internal error: {e}')
+        logging.exception(f'Internal error: {e}')
 
     finally:
         return JsonResponse(response, status=status)
@@ -98,18 +97,45 @@ def buy_asset(request: HttpRequest):
 @user_passes_test(can_user_trade)
 @if_trader_accept_terms_required()
 def sell_asset(request: HttpRequest):
-    asset_prices = get_assets()
-    context = {
-        "asset_prices": asset_prices,
-        'internal_err': request.session.pop('internal_err', None),
-    }
-    # return render(
-    #     request=request,
-    #     template_name='assets_view/assets_list/assets_list.html',
-    #     context=context
-    # )
+    if request.method == 'GET':
+        request.session['link_404'] = request.get_full_path()
+        return redirect('page_404')
 
+    status = 500
     response = {
+        'success_msg': '',
+        'errors': []
     }
 
-    return JsonResponse(response)
+    try:
+        trader = cast_to_trader(request.user)
+        if trader is None:
+            logging.error(f'How did user iduser=`{request.user.iduser}` end up in `can_trade` group?')
+            raise Exception('Only traders can make purchases.')
+
+        request_data = asset_view_backend.get_cleaned_data(request, response)
+        request_data['trader'] = trader
+
+        asset_view_backend.send_buy_sell_request(
+            is_purchase_request=False,
+            request_data=request_data
+            # response=response
+        )
+
+        # successfully created request
+        response['success_msg'] = 'Request successfuly submitted.'
+        status = 200
+
+    except asset_view_backend.InvalidBuySellRequestFormException as e:
+        status = 500
+        logging.error(f'InvalidBuySellRequestFormException error: {e}')
+
+    except Exception as e:
+        status = 500
+        response['errors'].append(f'Internal: {e}')
+        # ajax request so do not set the internal_error
+        # request.session['internal_error'] = str(e)
+        logging.exception(f'Internal error: {e}')
+
+    finally:
+        return JsonResponse(response, status=status)
