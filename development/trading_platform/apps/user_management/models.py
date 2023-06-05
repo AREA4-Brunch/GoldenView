@@ -45,6 +45,9 @@ class User(AbstractUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['email']
 
+    def deleteRow(self):
+        self.delete()
+
     class Meta:
         # app_label = 'apps.user_management'
         app_label = 'user_management'

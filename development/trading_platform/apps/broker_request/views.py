@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.hashers import check_password, make_password
 
+from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker
+
+from ..file_management.models import BrokerRequestFile, TextFile
+
 from ..broker_request.backend.src.views.forms import BrokerRequestForm
-
-from ..user_management.models import User
-
 
 def rendering(request, form, errmsg):
     return render(
@@ -19,8 +20,10 @@ def rendering(request, form, errmsg):
 
 @login_required(login_url='login')
 def broker_request(request: HttpRequest):
-    form = BrokerRequestForm()
-    return rendering(request,form,"")
+    if cast_to_trader(request.user) is None and cast_to_broker(request.user) is None:
+        form = BrokerRequestForm()
+        return rendering(request,form,"")
+    return redirect("home")
 
 @login_required(login_url='login')
 def broker_request_form(request: HttpRequest):
@@ -32,10 +35,19 @@ def broker_request_form(request: HttpRequest):
         form = BrokerRequestForm(request.POST)
         if(form.is_valid()):
             messageform = form.cleaned_data['message']
+            fp = "broker_request/file/" + request.user.username
+            x = TextFile.objects.filter(filepath = fp).values()
+    
+            if len(x) > 0:
+                wrongmsg="You already sent request."
+                return rendering(request, form, wrongmsg)
+            
+            textfile = TextFile(filepath = fp)
+            textfile.save()
+            broker = BrokerRequestFile(filepath = textfile, requestcontent = messageform)
+            broker.save()
             #supportrequest = BrokerReqeustForm(name=nameform, email=emailform, time=date.today(), msg=messageform)
             #supportrequest.save()
-            
-            
 
         else:
             wrongmsg=""

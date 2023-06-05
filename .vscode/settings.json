@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./development/trading_platform"
+    ]
+}

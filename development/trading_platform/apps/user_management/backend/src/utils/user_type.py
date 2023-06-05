@@ -1,4 +1,4 @@
-from apps.user_management.models import User, Trader
+from apps.user_management.models import User, Trader, Broker
 
 
 def cast_to_trader(user: User):
@@ -8,5 +8,15 @@ def cast_to_trader(user: User):
     trader = user.trader
     if trader and isinstance(trader, Trader):
         return trader
+
+    return None
+
+def cast_to_broker(user: User):
+    if not getattr(user, 'broker', False):
+        return None
+
+    broker = user.broker
+    if broker and isinstance(broker, Broker):
+        return broker
 
     return None

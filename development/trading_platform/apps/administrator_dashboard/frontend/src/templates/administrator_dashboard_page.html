@@ -1,0 +1,107 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'administrator_dashboard/css/administrator_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    administrator_dashboard
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="administrator_dashboard_page-content" class="common-center">
+    <div class="container-fluid">
+        <div class="row" id="row1">
+            <div style="vertical-align: middle;" class="col-sm-2">
+                <div style="margin-top: auto; margin-bottom: auto;">
+                    <div class="row"><button style="width:70%" class="btn btn-warning">Users</button></div>
+                    <form action="{% url 'administrator_dashboard_request_form' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row"><button style="width:70%" class="btn btn-outline-warning">Requests</button></div>
+                    </form>
+                    <div class="row"><button style="width:70%" class="btn btn-outline-warning">Log out</button></div> 
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <form action="{% url 'administrator_dashboard_form' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                    <table id="tabela" class="table table-striped">
+                        <tr>
+                            <td colspan="6">
+                                Users
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><input type="checkbox" name="all" id="all"></td>
+                            <td>Name</td>
+                            <td>Status</td>
+                            <td>Role</td>
+                            <td>Email address</td>
+                            <td id="trash"></td>
+                        </tr>
+
+                        {% for user, userType in users %}
+                            <tr>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>{{user.first_name}}  {{user.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: gray;">@{{user.username}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td id="active" style="vertical-align: middle;">
+                                    {{user.is_active}}
+                                </td>
+                                <td>
+                                    {{userType}}
+                                </td>
+                                <td colspan="2">
+                                    {{user.email}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button name="kello" type="submit"><img style="width: 7.5%; " src="../static/administrator_dashboard/images/trashBin.jpg" alt=""></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'administrator_dashboard/js/administrator_dashboard.js' %}"></script>
+
+{% endblock %}
