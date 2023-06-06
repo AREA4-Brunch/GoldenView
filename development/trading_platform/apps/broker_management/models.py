@@ -22,6 +22,9 @@ class BrokerBasicUserContract(models.Model):
     feepercentage = models.FloatField(db_column='FeePercentage', null=False, default=0.)  # Field name made lowercase.
     expirationtime = models.DateTimeField(db_column='ExpirationTime', blank=False, null=False)  # Field name made lowercase.
 
+    def deleteRow(self):
+        self.delete()
+
     class Meta:
         app_label = 'broker_management'
         managed = True
