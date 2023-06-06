@@ -7,7 +7,7 @@ function csrfSafeMethod(method) {
 
 document.addEventListener('DOMContentLoaded', () => {
     $ = django.jQuery;
-    // initTradingViewWidget();
+    initTradingViewWidget();
     initSlider();
 });
 
@@ -133,12 +133,16 @@ function submitForm(endpoint) {
     //     'max': 275,
     //     'ticker': symbol
     // };
+    const quantity = document.getElementById('quantity').value;
+    const min = document.getElementById('min-price').value;
+    const max = document.getElementById('max-price').value;
+    const contract = document.getElementById('contract').value;
     const form_data = {
-        'quantity': 25,
-        'min': 200,
-        'max': 255,
+        'quantity': quantity,
+        'min': min,
+        'max': max,
         'ticker': symbol,
-        'contract': 1  // optional
+        'contract': contract  // optional
     };
     $.ajax({
         url: form.action,

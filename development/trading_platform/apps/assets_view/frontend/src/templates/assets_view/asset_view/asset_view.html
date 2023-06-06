@@ -103,6 +103,9 @@
                 <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
                 <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
             </div>
+            <div class="buttons">
+                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)">
+            </div>
 
             <br>
             <br>
@@ -127,7 +130,7 @@
 <!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
 <script src="{% static 'admin/js/jquery.init.js' %}"></script>
 
-<!-- <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script src="{% static 'assets_view/js/asset_view.js' %}"></script>
 
 
