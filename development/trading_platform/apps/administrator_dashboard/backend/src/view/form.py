@@ -7,14 +7,8 @@ from apps.user_management.models import User
 
 
 class AdministratorDashboardForm(forms.Form):
-    choices = forms.ModelMultipleChoiceField(
-        queryset = User.objects.all(),
-        widget  = forms.CheckboxSelectMultiple,
-    )
+    pass
 
 
 class AdministratorDashboardRequestForm(forms.Form):
-    choices = forms.ModelMultipleChoiceField(
-        queryset = BrokerRequestFile.objects.all(),
-        widget  = forms.CheckboxSelectMultiple,
-    )
+    pass

@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="col-sm-10">
-                <form action="{% url 'administrator_dashboard_request_form' %}" method="POST">
+                <form action="{% url 'administrator_dashboard_request_delete_form' %}" method="POST">
                 {% csrf_token %}
 
                     {{form.as_table}}
@@ -87,14 +87,20 @@
                                 <td colspan="2">
                                     {{user.email}}
                                 </td>
+                                <td>
+                                    <div>
+                                        <button name="{{broker.filepath.filepath}}" value="delete" type="submit"><img style="width: 7.5%; " src="../static/administrator_dashboard/images/trashBin.jpg" alt=""></button></form>
+                                        <form action="{% url 'administrator_dashboard_request_approve_form' %}" method="POST">
+                                        {% csrf_token %}
+                                        <button name="{{broker.filepath.filepath}}" value="aprove" type="submit"><img style="width: 3.5%; " src="../static/administrator_dashboard/images/greenTick.png" alt=""></button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
-                    <div>
-                        <button name="delete" value="delete" type="submit"><img style="width: 7.5%; " src="../static/administrator_dashboard/images/trashBin.jpg" alt=""></button>
-                        <button name="approve" name="approve" type="submit"><img style="width: 3.5%; " src="../static/administrator_dashboard/images/greenTick.png" alt=""></button>
-                    </div>
-                </form>
+                    
+                
             </div>
         </div>
     </div>

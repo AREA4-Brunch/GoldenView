@@ -54,11 +54,15 @@ def administrator_dashboard_form(request: HttpRequest):
     try:
         form = AdministratorDashboardForm(request.POST)
         if(form.is_valid()):
-            users = form.cleaned_data.get("choices")
-            for user in users:
-                user.deleteRow()
+            user=""
+            for i in User.objects.all():
+                if i.username in request.POST:
+                    user=i
+                    break
+            
+            user.deleteRow()
         else:
-            return rendering1(request, createContext1(), form)
+            return administrator_dashboard(request)
         pass
 
 
@@ -101,40 +105,69 @@ def administrator_dashboard_request(request: HttpRequest):
     return rendering2(request, createContext2(),form)
 
 @login_required(login_url='login')
-def administrator_dashboard_request_form(request: HttpRequest):
+def administrator_dashboard_request_delete_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
         return redirect('page_404')
 
     try:
-        
-        if 'logout' in request.POST:
-            return redirect('logut')
-        
+
+        form = AdministratorDashboardRequestForm(request.POST)
+        if(form.is_valid()):
+            broker=""
+            for i in BrokerRequestFile.objects.all():
+                if i.filepath.filepath in request.POST:
+                    broker=i
+                    break
+
+            fp = broker.filepath
+            broker.deleteRow()
+            fp.deleteRow() 
+
+        else:
+            print("else")
+            return administrator_dashboard_request(request)
+        pass
+
+
+    except Exception as e:
+        request.session['internal_err'] = str(e)
+        logging.error(f'Internal error: {e}')
+        return administrator_dashboard_request(request)
+
+    return administrator_dashboard_request(request)
+
+@login_required(login_url='login')
+def administrator_dashboard_request_approve_form(request: HttpRequest):
+    if request.method == 'GET':
+        request.session['link_404'] = request.get_full_path()
+        return redirect('page_404')
+
+    try:
+
         form = AdministratorDashboardRequestForm(request.POST)
         if(form.is_valid()):
             print(request.POST)
-            if 'delete' in request.POST:
-                print("delete")
-                brokers = form.cleaned_data.get("choices")
-                for broker in brokers:
-                    fp = broker.filepath
-                    broker.deleteRow()
-                    fp.deleteRow() 
-            elif 'approve' in request.POST:
-                print("approve")
-                brokers = form.cleaned_data.get("choices")
-                for broker in brokers:
-                    username = broker.filepath.filepath.split("/")[2]
-                    filetext = TextFile(filepath="brokerBasicUserContract/file/"+username)
-                    BrokerContract = ApprovalReportFile(filepath = filetext, approvalcontent="User is approved to become a Broker")
-                    BrokerContract.save()
+            broker=""
+            for i in BrokerRequestFile.objects.all():
+                if i.filepath.filepath in request.POST:
+                    broker=i
+                    break
+            
+            username = broker.filepath.filepath.split("/")[2]
+            filetext = TextFile(filepath="brokerApprovalContract/file/"+username)
+            filetext.save()
+            BrokerContract = ApprovalReportFile(filepath = filetext, approvalcontent="User is approved to become a Broker")
+            BrokerContract.save()
 
-                    user = User.objects.get(username=username)
-                    trader = Trader.objects.get(idtrader=user)
-                    userbroker = Broker(idbroker=trader)
-                    userbroker.save()
+            user = User.objects.get(username=username)
+            trader = Trader.objects.get(idtrader=user)
+            userbroker = Broker(idbroker=trader)
+            userbroker.save()
 
+            fp = broker.filepath
+            broker.deleteRow()
+            fp.deleteRow() 
 
         else:
             print("else")

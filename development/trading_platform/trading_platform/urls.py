@@ -30,6 +30,7 @@ urlpatterns = [
     path('contact_page/', include('apps.contact_page.urls')),
     path('broker_request/', include('apps.broker_request.urls')),
     path('logout/', include('apps.user_logout.urls')),
-    path('administrator_dashboard/', include('apps.administrator_dashboard.urls'))
+    path('administrator_dashboard/', include('apps.administrator_dashboard.urls')),
+    path('broker_dashboard/', include('apps.broker_dashboard.urls'))
     # path('api/user/', include('apps.user_management.urls')),
 ]

@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'apps.broker_management.apps.BrokerManagementConfig',
     'apps.file_management.apps.FileManagementConfig',
     'apps.administrator_dashboard.apps.AdministratorDashboardConfig',
+    'apps.broker_dashboard.apps.BrokerDashboardConfig',
     'apps.portfolio.apps.PortfolioConfig',
 ]
 

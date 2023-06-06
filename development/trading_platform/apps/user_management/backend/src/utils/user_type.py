@@ -12,6 +12,9 @@ def cast_to_trader(user: User):
     return None
 
 def cast_to_broker(user: User):
+    user = cast_to_trader(user)
+    if(user==None): return None
+
     if not getattr(user, 'broker', False):
         return None
 
