@@ -1,6 +1,7 @@
 import random
+import logging
 
-from apps.asset_management.models import AssetStats
+from apps.asset_management.models import AssetStats, Asset
 
 
 def generate_asset_values_predictions(asset_id:int, start_day, num_days_to_predict: int):
@@ -33,3 +34,14 @@ def upsert_asset_values_predictions(asset_id, start_day, predictions):
         asset_stats.daily_predictions = daily_predictions
 
     asset_stats.save()
+
+
+def fetch_asset_values_predictions(asset_ticker_symbol: str):
+    try:
+        asset_id = Asset.objects.get(tickersymbol=asset_ticker_symbol).idasset
+    except Asset.DoesNotExist as e:
+        logging.error(f'Given asset does not exist: {asset_ticker_symbol}')
+        return {}
+
+    asset_stats = AssetStats.objects(asset_id=asset_id).first()
+    return asset_stats.daily_predictions

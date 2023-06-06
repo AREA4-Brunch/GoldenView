@@ -12,6 +12,7 @@ from .backend.src.views import asset_view as asset_view_backend
 from apps.user_management.backend.src.utils.user_type import cast_to_trader
 
 from apps.user_management.models import Trader
+from apps.asset_management.backend.src.utils.asset_predictions import fetch_asset_values_predictions
 
 
 # Create your views here.
@@ -39,6 +40,14 @@ def asset_view(request, symbol: str):
         "symbol": symbol,
         'internal_err': request.session.pop('internal_err', None),
     }
+
+    try:
+        preds = fetch_asset_values_predictions(symbol)
+        context['preds'] = f'start_day: {preds.start_day}, values in USD: {preds.pred_vals}'
+
+    except Exception as e:
+        logging.exception(f'Failed to fetch the predictions for {symbol}')
+
     return render(
         request=request,
         template_name='assets_view/asset_view/asset_view.html',

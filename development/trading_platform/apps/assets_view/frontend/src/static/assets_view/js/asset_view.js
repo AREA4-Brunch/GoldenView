@@ -133,17 +133,21 @@ function submitForm(endpoint) {
     //     'max': 275,
     //     'ticker': symbol
     // };
-    const quantity = document.getElementById('quantity').value;
-    const min = document.getElementById('min-price').value;
-    const max = document.getElementById('max-price').value;
+    const quantity = parseInt(document.getElementById('quantity').value, 10);
+    const min = parseFloat(document.getElementById('min-price').value);
+    const max = parseFloat(document.getElementById('max-price').value);
     const contract = document.getElementById('contract').value;
-    const form_data = {
+    let form_data = {
         'quantity': quantity,
         'min': min,
         'max': max,
         'ticker': symbol,
-        'contract': contract  // optional
     };
+
+    if (contract) {
+        form_data['contract'] = parseInt(contract, 10);
+    }
+
     $.ajax({
         url: form.action,
         xhrFields: {

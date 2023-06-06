@@ -49,10 +49,10 @@ def get_cleaned_data(
             response['errors'].append('Invalid ticker form data.')
 
         try:  # process contract
-            request_data["contract"] = request.POST.get("contract", None)
+            request_data["contract"] = int(request.POST.get("contract", None))
         except Exception as e:
             is_valid = False
-            response['contract'].append('Invalid contract form data.')
+            response['errors'].append('Invalid contract form data.')
 
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')
@@ -94,7 +94,7 @@ def get_cleaned_data(
             except Exception as e:
                 is_valid = False
                 response['errors'].append('Failed to find the contract requested.')
-                logging.exception('Failure man!')
+                logging.error('Failed to find the contract requested.')
 
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')

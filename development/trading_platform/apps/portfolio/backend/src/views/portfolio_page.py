@@ -15,7 +15,7 @@ class InvalidForm(Exception):
 
 def get_cleaned_data(
     request: HttpRequest,
-    response: dict[str]
+    context: dict[str]
 ):
     request_data = {}
 
@@ -23,10 +23,10 @@ def get_cleaned_data(
         is_valid = True
 
         try:  # process contract
-            request_data["contract"] = request.POST.get("contract", None)
+            request_data["contract"] = int(request.POST.get("contract", None))
         except Exception as e:
             is_valid = False
-            response['contract'].append('Invalid contract form data.')
+            context['internal_err'] = 'Invalid contract form data.'
 
         if not is_valid:
             raise InvalidForm('Form is not valid')
@@ -48,8 +48,8 @@ def get_cleaned_data(
 
             except Exception as e:
                 is_valid = False
-                response['errors'].append('Failed to find the contract requested.')
-                logging.exception('Failure man!')
+                context['internal_err'] = 'Failed to find the contract requested.'
+                logging.error('Failed to find the contract requested.')
 
         if not is_valid:
             raise InvalidForm('Form is not valid')
@@ -61,13 +61,16 @@ def get_cleaned_data(
     return request_data
 
 
-def fetch_all_users_trade_requests(request_data: dict):
+def fetch_all_users_trade_requests(
+    request_data: dict,
+    context: dict
+):
     (active_trade_requests, carried_out_requests) \
         = portfolio.fetch_all_users_trade_requests(
         trader=request_data['trader']
     )
 
-    active_trade_requests = [req.to_dict() for req in active_trade_requests]
-    carried_out_requests = [req.to_json() for req in carried_out_requests]
+    trade_requests = [req.to_dict() for req in active_trade_requests] \
+                   + [req.to_json() for req in carried_out_requests]
 
-    return (active_trade_requests, carried_out_requests)
+    context['trade_requests'] = trade_requests
