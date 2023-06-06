@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
 
     <!-- This Page's CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'broker_dashboard/css/broker_dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'user_dashboard/css/user_dashboard.css' %}">
 
 {% endblock %}
 
@@ -31,53 +31,46 @@
         <div class="row common-center">
             
             <div class="col-sm-6">
-                <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
+                <form action="{% url 'user_dashboard_send_request_accept_form'%}" method="POST">
                     {% csrf_token %}
                 <div class="">
                     <h2>Contact form</h2>
                 </div>
                 <div style="color: gray;">
-                    Send contract to Basic User <label name="username" id="message">{{user.username}}</label>
+                    Send contract to Basic User <label name="username" id="message">{{contract.filepath.filepath}}</label>
                 </div>
                 
                     <table>
                         <tr>
                             <td>
                                 <br>
-                                Fee ($USD)
+                                {{contract.filepath.filepath}}
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" name="fee">
-                                <br>
-                                <b style="color:red">{{errfee}}</b>
-                                <br>
+                                
                             </td>
                         </tr>
+                        
                         <tr>
                             <td>
-                                <br>
-                                Why do you think you are perfect Broker for this user?
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <textarea name="message" id="message" cols="60" rows="10"></textarea>
-                                <br>
-                                <b style="color:red">{{errmsg}}</b>
-                                <br>
+                                {{contract.contractcontent}}
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <br>
                                 <div>
-                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="width:50%;">Send contract</button>
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">accept contract</button>
                                 </form>
-                                    <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
+                                    <form action="{% url 'user_dashboard_send_request_decline_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="width:50%;">Cancel</button>
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">decline contract</button>
+                                    <form action="{% url 'user_dashboard_send_request_cancel_form'%}" method="POST">
+                                    {% csrf_token %}
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">cancel</button>
+                                    
                                 </div>
                             </td>
                         </tr>

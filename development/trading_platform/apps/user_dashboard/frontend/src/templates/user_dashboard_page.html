@@ -1,0 +1,120 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'user_dashboard/css/user_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    user_dashboard
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="user_dashboard_page-content" class="common-center">
+    <div class="container-fluid">
+        <div class="row" id="row1">
+            <div style="vertical-align: middle;" class="col-sm-2">
+                <div style="margin-top: auto; margin-bottom: auto;">
+                    <div class="row"><button style="width:70%" class="btn btn-warning">Home</button></div>
+                    <form action="{% url 'adminlogout' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row"><button style="width:70%" class="btn btn-outline-warning" name="logout">Log out</button></div> 
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <form action="{% url 'user_dashboard_form' %}" method="POST">
+                {% csrf_token %}
+                    <table id="tabela" class="table table-striped">
+                    
+                        <tr>
+                            <td>
+                                {% for field in form %}
+                                {{field}}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    
+                    </table>
+                    
+                    <table id="tabela" class="table table-striped">
+                        <tr>
+                            <td colspan="6">
+                                Users
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><input type="checkbox" name="all" id="all"></td>
+                            <td>Name</td>
+                            <td>Status</td>
+                            <td>Role</td>
+                            <td>Email address</td>
+                            <td id="trash"></td>
+                        </tr>
+
+                        {% for user, contract in contracts %}
+                            
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>{{user.first_name}}  {{user.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: gray;">@{{user.username}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td id="active" style="vertical-align: middle;">
+                                    {{user.is_active}}
+                                </td>
+                                <td>
+                                    {{userType}}
+                                </td>
+                                <td colspan="2">
+                                    {{user.email}}
+                                </td>
+                                <td>
+                                    <button name={{contract.filepath.filepath}} type="submit"><img style="width: 7.5%; " src="../static/user_dashboard/images/trashBin.jpg" alt=""></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'user_dashboard/js/user_dashboard.js' %}"></script>
+
+{% endblock %}

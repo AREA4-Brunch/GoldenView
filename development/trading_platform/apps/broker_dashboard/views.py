@@ -93,47 +93,53 @@ def broker_dashboard_send_request(request: HttpRequest, user):
     return rendering2(request,user,form,"","")
 
 
-def broker_dashboard_send_request_form(request: HttpRequest, username):
+def broker_dashboard_send_request_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
         return redirect('page_404')
 
     try:
-        print("aa")
         form = BrokerDasboardRequestForm(request.POST)
+        user=""
+        for i in User.objects.all():
+            if i.username in request.POST:
+                user=i
+                break
         if(form.is_valid()):
+            
             messageform = form.cleaned_data['message']
             feeform = form.cleaned_data['fee']
-            username = form.cleaned_data['username']
-            fp = "broker_basicuser_contract/file/" + request.user.username + "/" + username
+            
+            fp = "broker_basicuser_contract/file/" + request.user.username + "/" + user.username
             
             x = TextFile.objects.filter(filepath = fp).values()
     
             if len(x) > 0:
                 wrongmsg="You already sent request."
-                return rendering2(request, User.objects.get(username=username) ,form, wrongmsg, "")
+                return rendering2(request, user ,form, wrongmsg, "")
             
             textfile = TextFile(filepath = fp)
             textfile.save()
-            broker = BrokerBasicUserContractFile(filepath = textfile, requestcontent = messageform+"\n fee:"+feeform+"$")
+            msg = messageform+"\n fee:"+str(feeform)+"$"
+            broker = BrokerBasicUserContractFile(filepath = textfile, contractcontent = msg)
             broker.save()
-            #supportrequest = BrokerReqeustForm(name=nameform, email=emailform, time=date.today(), msg=messageform)
-            #supportrequest.save()
 
         else:
             wrongmsg=""
             if(form.data['message']==""): wrongmsg="you can't leave this field empty"
             wrongfee=""
             if(form.data['fee']==""): wrongfee="you can't leave this field empty"
-            return rendering2(request, User.objects.get(username=username) ,form, wrongmsg, wrongfee)
+            return rendering2(request, user ,form, wrongmsg, wrongfee)
 
 
     except Exception as e:
+        print("error")
         request.session['internal_err'] = str(e)
         logging.error(f'Internal error: {e}')
         return broker_dashboard(request)
 
     return broker_dashboard(request)
+
 #################################################################
 
 def adminlogout(request: HttpRequest):

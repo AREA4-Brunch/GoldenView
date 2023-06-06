@@ -45,6 +45,12 @@ class BrokerBasicUserContractFile(models.Model):
     filepath = models.OneToOneField('TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
     contractcontent = models.CharField(db_column='ContractContent', max_length=256, blank=True, null=True)  # Field name made lowercase.
 
+    def __str__(self) -> str:
+        return self.contractcontent
+
+    def deleteRow(self):
+        self.delete()
+
     class Meta:
         app_label = 'file_management'
         managed = True
