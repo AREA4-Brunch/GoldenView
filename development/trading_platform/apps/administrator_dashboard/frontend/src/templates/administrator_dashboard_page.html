@@ -27,45 +27,41 @@
 {% block content %}
 <div id="administrator_dashboard_page-content" class="common-center">
     <div class="container-fluid">
-        <div class="row" id="row1">
-            <div style="vertical-align: middle;" class="col-sm-2">
-                <div style="margin-top: auto; margin-bottom: auto;">
-                    <div class="row"><button style="width:70%" class="btn btn-warning">Users</button></div>
-                    <form action="{% url 'administrator_dashboard_request' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="row"><button style="width:70%" class="btn btn-outline-warning">Requests</button></div>
-                    </form>
-                    <form action="{% url 'adminlogout' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="row"><button style="width:70%" class="btn btn-outline-warning" name="logout">Log out</button></div> 
-                    </form>
-                </div>
+        <div class="row">
+            <div class="col-md-3 left-nav-bar">
+                <ul class="nav navbar-vertical">
+                    <li class="nav-item nav-item-vertical nav-item-active">
+                        <img src="{% static 'common/images/portfolio.png' %}" alt="">
+                        <a class="nav-link nav-link-vertical" href="#">Users</a>
+                    </li>
+                    <li class="nav-item nav-item-vertical">
+                        <img src="{% static 'assets_view/images/assetsview.png' %}" alt="">
+                        <form action="{% url 'administrator_dashboard_request' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row"><a class="nav-link nav-link-vertical" href="administrator_dashboard_request">Requests</a></div>
+                        </form>
+                    </li>
+                    <li class="nav-item nav-item-vertical">
+                        <img src="{% static 'common/images/logout.png' %}" alt="">
+                        <form action="{% url 'adminlogout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row"><a class="nav-link nav-link-vertical" href="adminlogout">Logout</a></div>
+                        </form>
+                    </li>
+                </ul>
             </div>
-            <div class="col-sm-10">
+            <div class="col-md-9">
                 <form action="{% url 'administrator_dashboard_form' %}" method="POST">
-                {% csrf_token %}
-                    <table id="tabela" class="table table-striped">
-                    
+                    {% csrf_token %}
+                    <table id="table" class="table table-striped">
                         <tr>
-                            <td>
-                                {% for field in form %}
-                                {{field}}
-                                {% endfor %}
-                            </td>
-                        </tr>
-                    
-                    </table>
-                    
-                    <table id="tabela" class="table table-striped">
-                        <tr>
-                            <td colspan="6">
+                            <td colspan="5" style="font-weight: 800">
                                 Users
                             </td>
                         </tr>
                         
-                        <tr>
-                            <td><input type="checkbox" name="all" id="all"></td>
-                            <td>Name</td>
+                        <tr id="bold">
+                            <td>Username</td>
                             <td>Status</td>
                             <td>Role</td>
                             <td>Email address</td>
@@ -74,27 +70,17 @@
 
                         {% for user, userType in users %}
                             
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="asd" id="asd" style="opacity:0; position:absolute; left:9999px;" >
-                                </td>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <td>{{user.first_name}}  {{user.last_name}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="color: gray;">@{{user.username}}</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td id="active" style="vertical-align: middle;">
-                                    {{user.is_active}}
-                                </td>
+                            <tr id="columns">
+                                <td style="color: gray;">@{{user.username}}</td>
+                                {% if user.is_active %}
+                                    <td style="color: lightgreen">Active</td>
+                                {% else %}
+                                    <td style="color: indianred">Inactive</td>
+                                {% endif %}
                                 <td>
                                     {{userType}}
                                 </td>
-                                <td colspan="2">
+                                <td>
                                     {{user.email}}
                                 </td>
                                 <td>
@@ -104,6 +90,15 @@
                         {% endfor %}
                     </table>
                 </form>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
         </div>
     </div>
@@ -119,6 +114,5 @@
 {% block included_js %}
 
     <!-- This Page's JS -->
-    <script src="{% static 'administrator_dashboard/js/administrator_dashboard.js' %}"></script>
 
 {% endblock %}
