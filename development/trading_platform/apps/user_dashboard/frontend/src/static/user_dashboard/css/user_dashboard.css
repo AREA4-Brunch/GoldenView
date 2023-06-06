@@ -1,16 +1,156 @@
-td {
+html,
+body {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+table {
+    max-width: 100%;
+}
+
+#content {
+    display: flex;
+    height: 100%;
+    margin: 0;
+}
+
+.header {
+    margin-left: 1vw;
+    align-items: center;
     vertical-align: middle;
+    /* Gray/50 */
+    background: #F9FAFB;
+    /* Gray/200 */
+    border-bottom: 1px solid #EAECF0;
 }
 
-#trash {
-    text-align: right;
+h1 {
+    margin-left: 2vw;
 }
 
-#tabela {
-    width: 85%;
-}   
-
-body{
-    background-color: white;
+h5 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/900 */
+    color: #101828;
+    margin-top: 2vh;
+    margin-left: 2vw;
 }
 
+span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/500 */
+    color: #667085;
+    margin-left: 2vw;
+}
+
+hr {
+    border-bottom: 1px solid #EAECF0;
+    margin-left: 1vw;
+}
+
+.status-up {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: lawngreen;
+    margin-top: 1vh;
+    margin-left: 1.5vw;
+}
+
+button {
+    all: unset;
+}
+
+.left-nav-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    box-shadow: -1px 9px 16px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5vh;
+}
+
+.nav-item-vertical {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item-active {
+    background: #AF9A70;
+    border-radius: 12px;
+}
+
+#table {
+    margin-top: 4vh;
+    margin-left: 0.5vw;
+}
+
+#bold {
+    font-weight: 500;
+    text-align: center;
+}
+
+#columns {
+    text-align: center;
+}
+
+main {
+    all: unset;
+}
+
+.buttonEn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 8px;
+    color: white;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+
+
+    background: #AF9A70;
+    border: 1px solid #AF9A70;
+    /* Shadow/xs */
+
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+}
+
+.middleContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.centerButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

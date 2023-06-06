@@ -37,7 +37,7 @@
                     <h2>Contact form</h2>
                 </div>
                 <div style="color: gray;">
-                    Send contract to Basic User <label name="username" id="message">{{user.username}}</label>
+                    Send contract to Basic User: <label name="username" id="message">{{user.username}}</label>
                 </div>
                 
                     <table>
@@ -49,7 +49,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" name="fee">
+                                <input type="text" name="fee" class="inputInfo">
                                 <br>
                                 <b style="color:red">{{errfee}}</b>
                                 <br>
@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <textarea name="message" id="message" cols="60" rows="10"></textarea>
+                                <textarea name="message" id="message" cols="60" rows="10" class="inputInfo"></textarea>
                                 <br>
                                 <b style="color:red">{{errmsg}}</b>
                                 <br>
@@ -72,12 +72,12 @@
                         <tr>
                             <td>
                                 <br>
-                                <div>
-                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="width:50%;">Send contract</button>
+                                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                    <button name="{{user.username}}" type="submit" id="button" class="buttonEn">Send contract</button>
                                 </form>
                                     <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="width:50%;">Cancel</button>
+                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred">Cancel</button>
                                 </div>
                             </td>
                         </tr>

@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row common-center">
             
-            <div class="col-sm-6">
+            <div class="middleContent">
                 <form action="{% url 'user_dashboard_send_request_accept_form'%}" method="POST">
                     {% csrf_token %}
                 <div class="">
@@ -61,15 +61,15 @@
                         <tr>
                             <td>
                                 <br>
-                                <div>
-                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">accept contract</button>
+                                <div class="centerButtons">
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button">Accept contract</button>
                                 </form>
                                     <form action="{% url 'user_dashboard_send_request_decline_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">decline contract</button>
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="color: indianred">Decline contract</button>
                                     <form action="{% url 'user_dashboard_send_request_cancel_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="width:50%;">cancel</button>
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button">Cancel</button>
                                     
                                 </div>
                             </td>
@@ -93,6 +93,5 @@
 {% block included_js %}
 
     <!-- This Page's JS -->
-    <script src="{% static 'broker_request/js/broker_request.js' %}"></script>
 
 {% endblock %}
