@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 import logging
 
 from typing import Union
@@ -24,7 +25,6 @@ from background_task.models import Task
 
 class InsufficentFunds(Exception):
     pass
-
 
 
 def create_buy_sell_request(

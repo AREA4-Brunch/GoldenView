@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from ..file_management.models import BrokerRequestFile, TextFile
 
 from ..broker_request.backend.src.views.forms import BrokerRequestForm
 
+# render page
 def rendering(request, form, errmsg):
     return render(
         request,
@@ -18,6 +20,7 @@ def rendering(request, form, errmsg):
         {"form": form,"errmsg":errmsg}
     )
 
+# request - http request
 @login_required(login_url='login')
 def broker_request(request: HttpRequest):
     #cast_to_trader(request.user) is None and
@@ -26,6 +29,7 @@ def broker_request(request: HttpRequest):
         return rendering(request,form,"")
     return redirect("home")
 
+# form for the broker request
 @login_required(login_url='login')
 def broker_request_form(request: HttpRequest):
     if request.method == 'GET':

@@ -1,6 +1,8 @@
+# Jovana Bjelica 2020/0349
 from typing import Any, Mapping, Optional
 from django.core.exceptions import ValidationError
 
+# validations for every input
 
 class PasswordValidationError(ValidationError):
     def __init__(self, message: Any, code: str | None = ..., params: Mapping[str, Any] | None = ...) -> None:

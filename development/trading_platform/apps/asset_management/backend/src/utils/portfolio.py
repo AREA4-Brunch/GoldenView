@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 from apps.asset_management.models import ActiveTradeRequest, \
                                          CarriedOutTradeRequest
 from apps.user_management.models import Trader
@@ -6,7 +7,7 @@ from apps.user_management.models import Trader
 def cancel_active_trade_request():
     return
 
-
+# function for getting all user trade requests
 def fetch_all_users_trade_requests(
     trader: Trader
 ):

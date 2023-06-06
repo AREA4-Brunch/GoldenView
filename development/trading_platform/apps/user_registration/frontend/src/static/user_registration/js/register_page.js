@@ -1,3 +1,4 @@
+// Jovana Bjelica 2020/0349
 // Country data
 const countryData = [
     { id: "us", text: "United States", flag: "us" },

@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083
 from django.urls import path
 
 import apps.disclaimer.views as views

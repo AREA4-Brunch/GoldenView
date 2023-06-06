@@ -1,8 +1,9 @@
+# Andrej Dujovic 2020/0306
 import logging
 import requests
 from django.http import HttpRequest
 
-
+# function for getting asset data from the Alpha Vantage API, limited to 5 because of API
 def get_assets(request: HttpRequest):
     try:
         symbols = ["MSFT", "AAPL", "AMZN", "NKE", "TSLA"]

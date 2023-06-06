@@ -1,3 +1,4 @@
+# Andrej Dujovic 2020/0306
 from django.urls import path
 
 import apps.assets_view.views as views

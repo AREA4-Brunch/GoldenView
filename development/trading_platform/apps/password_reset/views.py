@@ -1,3 +1,4 @@
+# Jovana Bjelica 2020/0349
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -8,14 +9,14 @@ from django.contrib.auth.hashers import check_password, make_password
 from ..user_management.models import User
 from ..password_reset.backend.src.views.forms import PasswordResetForm
 
-
+# render the page
 def rendering(request, form, errold, errnew):
     return render(
         request,
         'password_reset.html',
         {"form": form,"errold":errold,"errnew":errnew}
     )
-
+# request for reset of password
 @login_required(login_url='login')
 def password_reset(request: HttpRequest):
 
@@ -23,6 +24,7 @@ def password_reset(request: HttpRequest):
 
     return rendering(request,form,"","")
 
+# function for the form of the password reset, inputs
 @login_required(login_url='login')
 def password_reset_form(request: HttpRequest):
     if request.method == 'GET':
@@ -86,5 +88,6 @@ def password_reset_form(request: HttpRequest):
 
     return redirect('password_reset')
 
+# cancel reset, return to homeS
 def cancel_reset(request:HttpRequest):
     return redirect('home')

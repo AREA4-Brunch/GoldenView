@@ -1,3 +1,4 @@
+# Jovana Bjelica 2020/0349
 from django.apps import AppConfig
 
 

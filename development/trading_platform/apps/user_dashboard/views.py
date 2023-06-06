@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -17,6 +18,7 @@ from django.utils import timezone
 
 # Create your views here.
 
+# rendering the page
 def rendering1(request, contracts, form):
     return render(
         request,
@@ -24,6 +26,7 @@ def rendering1(request, contracts, form):
         {"contracts": contracts,"form": form}
     )
 
+# request for user dashboard
 @login_required(login_url='login')
 def user_dashboard(request: HttpRequest):
     if cast_to_broker(request.user) is not None:
@@ -51,6 +54,7 @@ def user_dashboard(request: HttpRequest):
 
     return rendering1(request, zip(bros,pushedcontracts), form)
 
+# function for the form on user dashboard page
 @login_required(login_url='login')
 def user_dashboard_form(request: HttpRequest):
     if request.method == 'GET':
@@ -83,6 +87,7 @@ def user_dashboard_form(request: HttpRequest):
 
 ######################################################################################
 
+# render second form
 def rendering2(request, contract, form):
     return render(
         request,
@@ -90,11 +95,13 @@ def rendering2(request, contract, form):
         {"contract": contract ,"form": form}
     )
 
+# request for the second form
 def user_dashboard_send_request(request: HttpRequest, contract):
     
     form = UserDasboardRequestForm()
     return rendering2(request,contract,form)
 
+# function for accepting the request
 def user_dashboard_send_request_accept_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
@@ -131,6 +138,7 @@ def user_dashboard_send_request_accept_form(request: HttpRequest):
 
     return user_dashboard(request)
 
+# function for declining the request
 def user_dashboard_send_request_decline_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
@@ -165,10 +173,12 @@ def user_dashboard_send_request_decline_form(request: HttpRequest):
 
     return user_dashboard(request)
 
+# function for canceling the request
 def user_dashboard_send_request_cancel_form(request: HttpRequest):
     return user_dashboard(request)
 
 #################################################################
 
+# logout for the user
 def adminlogout(request: HttpRequest):
     return redirect('logout')

@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 from django.contrib import admin
 
 # Register your models here.

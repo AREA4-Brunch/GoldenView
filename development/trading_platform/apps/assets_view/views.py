@@ -1,3 +1,4 @@
+# Andrej Dujovic 2020/0306
 import logging
 
 from django.http import HttpRequest, JsonResponse
@@ -17,7 +18,7 @@ from apps.asset_management.backend.src.utils.asset_predictions import fetch_asse
 
 # Create your views here.
 
-
+#sends assets
 @login_required(login_url='login')
 @if_trader_accept_terms_required()
 def assets_list(request):
@@ -32,7 +33,7 @@ def assets_list(request):
         context=context
     )
 
-
+# sends symbol for the trading view
 @login_required(login_url='login')
 @if_trader_accept_terms_required()
 def asset_view(request, symbol: str):
@@ -54,7 +55,7 @@ def asset_view(request, symbol: str):
         context=context
     )
 
-
+# request to buy asset
 @require_POST
 @login_required(login_url='login')
 @user_passes_test(can_user_trade)
@@ -107,7 +108,7 @@ def buy_asset(request: HttpRequest):
     finally:
         return JsonResponse(response, status=status)
 
-
+# request to sell asset
 @login_required(login_url='login')
 @user_passes_test(can_user_trade)
 @if_trader_accept_terms_required()

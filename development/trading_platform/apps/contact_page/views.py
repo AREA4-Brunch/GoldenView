@@ -1,3 +1,4 @@
+# Jovana Bjelica 2020/0349
 from datetime import date
 import logging
 from django.http import HttpRequest, HttpResponse
@@ -7,6 +8,7 @@ from ..website.models import SupportRequest
 
 from ..contact_page.backend.src.views.forms import ContactSupportForm
 
+# render page
 def rendering(request, form, name, email, msg):
     return render(
         request,
@@ -14,12 +16,14 @@ def rendering(request, form, name, email, msg):
         {"form": form,"errname":name,"erremail":email,"errmsg":msg}
     )
 
+# request for the page
 def contact_page(request: HttpRequest):
     
     form = ContactSupportForm()
 
     return rendering(request,form,"","","")
 
+# form for the contact page, inputs
 def form_contact_page(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()

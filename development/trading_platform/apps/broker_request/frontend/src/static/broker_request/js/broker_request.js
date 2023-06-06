@@ -1,3 +1,4 @@
+// Jovan Jovanovic 2020/0083
 let scroll = document.getElementById("scroll");
 let content = document.getElementById("content");
 let box = document.getElementById("check");

@@ -1,3 +1,4 @@
+# Andrej Dujovic 2020/0306
 import logging
 
 from django.http import HttpRequest
@@ -9,12 +10,12 @@ from apps.asset_management.backend.src.utils.trading import create_buy_sell_requ
                                                             process_all_active_requests
 from apps.broker_management.models import BrokerBasicUserContract
 
-
+# exception for invalid form filled
 class InvalidBuySellRequestFormException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
 
-
+# getting data
 def get_cleaned_data(
     request: HttpRequest,
     response: dict[str]
@@ -105,7 +106,7 @@ def get_cleaned_data(
 
     return request_data
 
-
+# requet to send or buy an asset
 def send_buy_sell_request(
     is_purchase_request: bool,
     request_data: dict

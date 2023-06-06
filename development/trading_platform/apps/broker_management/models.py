@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272 i Jovan Jovanovic 2020/0083
 from django.db import models
 
 from apps.asset_management.models import ActiveTradeRequest
@@ -10,6 +11,7 @@ from apps.file_management.models import BrokerBasicUserContractFile
 
 
 # `responsetime` avoid null with some dummy default value ?
+# form for the contract between broker and basic user
 class BrokerBasicUserContract(models.Model):
     idcontract = models.AutoField(db_column='IdContract', primary_key=True)  # Field name made lowercase.
     idbasicuser = models.ForeignKey(BasicUser, models.DO_NOTHING, db_column='IdBasicUser')  # Field name made lowercase.
@@ -30,7 +32,7 @@ class BrokerBasicUserContract(models.Model):
         managed = True
         db_table = 'brokerbasicusercontract'
 
-
+# check if it is binded by contract
 class IsBindedByContract(models.Model):
     # MUST BE CASCADE - as deleted active trade request get stored in nosql and this data with it
     idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.

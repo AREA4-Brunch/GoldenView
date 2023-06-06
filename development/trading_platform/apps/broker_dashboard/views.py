@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083
 from datetime import date
 import logging
 from django.http import HttpRequest
@@ -17,6 +18,7 @@ from ..user_management.models import Broker, Trader, User
 from django.utils import timezone
 # Create your views here.
 
+# render table
 def rendering1(request, users, form):
     return render(
         request,
@@ -24,6 +26,7 @@ def rendering1(request, users, form):
         {"users": users,"form": form}
     )
 
+# create data for table
 def createContext1():
     context = []  
     basicusers = []
@@ -39,6 +42,7 @@ def createContext1():
 
     return ziped
 
+# form/table for broker dashboard
 @login_required(login_url='login')
 def broker_dashboard(request: HttpRequest):
     if cast_to_broker(request.user) is None:
@@ -48,6 +52,7 @@ def broker_dashboard(request: HttpRequest):
     print(form)
     return rendering1(request, createContext1(),form)
 
+# form/table of the broker dashboard
 @login_required(login_url='login')
 def broker_dashboard_form(request: HttpRequest):
     if request.method == 'GET':
@@ -78,6 +83,7 @@ def broker_dashboard_form(request: HttpRequest):
 
 ######################################################################################
 
+# render request for broker
 def rendering2(request, user, form, errmsg,errfee):
     return render(
         request,
@@ -85,14 +91,14 @@ def rendering2(request, user, form, errmsg,errfee):
         {"user": user, "form": form,"errmsg":errmsg,"errfee":errfee}
     )
 
-
+# form for the broker dashboard request sent
 def broker_dashboard_send_request(request: HttpRequest, user):
     
     form = BrokerDasboardRequestForm()
     
     return rendering2(request,user,form,"","")
 
-
+# form for the broker dashboard request sent
 def broker_dashboard_send_request_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
@@ -157,5 +163,6 @@ def broker_dashboard_send_request_form(request: HttpRequest):
 
 #################################################################
 
+# logout for the user account
 def adminlogout(request: HttpRequest):
     return redirect('logout')

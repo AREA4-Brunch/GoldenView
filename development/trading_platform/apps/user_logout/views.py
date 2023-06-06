@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 
@@ -11,7 +12,7 @@ from datetime import date
 
 # Create your views here.
 
-
+#logout user
 @login_required(login_url='login')
 def logout(request: HttpRequest):
     logout_user(request)

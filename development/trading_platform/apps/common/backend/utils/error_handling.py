@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 import logging
 
 def internal_error_catcher(request, my_func):

@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272 i Jovan Jovanovic 2020/0083
 from django.apps import AppConfig
 
 

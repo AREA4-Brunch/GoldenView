@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,\
                                        PermissionsMixin, AbstractUser
@@ -6,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,\
 from datetime import datetime
 from django.utils import timezone
 
-
+# function for creatinf users and super users
 class UserManager(BaseUserManager):
     def create_user(self, username, password, email):
         # Create and save a regular user

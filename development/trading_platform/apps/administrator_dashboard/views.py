@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083 and Jovana Bjelica 2020/0349
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from ..user_management.models import Broker, Trader, User
 
 # Create your views here.
 
+# render the page
 def rendering1(request, users, form):
     return render(
         request,
@@ -36,6 +38,8 @@ def createContext1():
 
     return ziped
 
+
+#render admin dashboard
 @login_required(login_url='login')
 def administrator_dashboard(request: HttpRequest):
     if request.user.is_staff == 0:
@@ -45,6 +49,7 @@ def administrator_dashboard(request: HttpRequest):
 
     return rendering1(request, createContext1(),form)
 
+# form/table for the admin dashboard
 @login_required(login_url='login')
 def administrator_dashboard_form(request: HttpRequest):
     if request.method == 'GET':
@@ -75,6 +80,7 @@ def administrator_dashboard_form(request: HttpRequest):
 
 ######################################################################################
 
+# render request
 def rendering2(request, users, form):
     return render(
         request,
@@ -82,6 +88,7 @@ def rendering2(request, users, form):
         {"users": users,"form":form}
     )
 
+# request of brokers maker
 def createContext2():
     context = []  
     brokerusers = BrokerRequestFile.objects.all()
@@ -95,6 +102,7 @@ def createContext2():
 
     return ziped
 
+# admin request form/tablee
 @login_required(login_url='login')
 def administrator_dashboard_request(request: HttpRequest):
     if request.user.is_staff == 0:
@@ -104,6 +112,7 @@ def administrator_dashboard_request(request: HttpRequest):
 
     return rendering2(request, createContext2(),form)
 
+# delete user with admin form/table
 @login_required(login_url='login')
 def administrator_dashboard_request_delete_form(request: HttpRequest):
     if request.method == 'GET':
@@ -137,6 +146,7 @@ def administrator_dashboard_request_delete_form(request: HttpRequest):
 
     return administrator_dashboard_request(request)
 
+# approve request with admin form/table
 @login_required(login_url='login')
 def administrator_dashboard_request_approve_form(request: HttpRequest):
     if request.method == 'GET':
@@ -184,5 +194,6 @@ def administrator_dashboard_request_approve_form(request: HttpRequest):
 
 #################################################################
 
+# logout from account
 def adminlogout(request: HttpRequest):
     return redirect('logout')

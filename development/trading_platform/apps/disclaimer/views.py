@@ -1,3 +1,4 @@
+# Jovan Jovanovic 2020/0083
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -12,6 +13,7 @@ from apps.user_management.backend.src.utils.user_type import cast_to_trader
 # Create your views here.
 from ..user_management.backend.src.utils.user_terms import did_accept_terms, accept_terms
 
+# request for TOA
 @login_required(login_url='login')
 def terms_of_agreement(request: HttpRequest):
     
@@ -31,6 +33,7 @@ def terms_of_agreement(request: HttpRequest):
     )
 
 
+# function for accepting the TOA
 @login_required(login_url='login')
 def accept_terms_form(request: HttpRequest):
     if request.method == 'GET':

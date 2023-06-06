@@ -1,3 +1,4 @@
+// Andrej Dujovic 2020/0306
 let $ = null;
 
 function csrfSafeMethod(method) {

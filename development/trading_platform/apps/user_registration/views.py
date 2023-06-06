@@ -1,3 +1,4 @@
+# Jovana Bjelica 2020/0349
 import logging
 
 from django.shortcuts import render, redirect
@@ -10,12 +11,12 @@ import apps.user_login.backend.src.views.login_form as login_form
 
 # Create your views here.
 
-
+#exception if the user is already loged in
 class UserAlreadyLoggedInException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__('You are already logged in. To register you need to be logged out.')
 
-
+# request for register
 def register(request: HttpRequest):
     is_already_logged_in = request.user and request.user.is_authenticated
 
@@ -50,7 +51,7 @@ def register(request: HttpRequest):
         context=context
     )
 
-
+# function for the form of the request
 def register_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()

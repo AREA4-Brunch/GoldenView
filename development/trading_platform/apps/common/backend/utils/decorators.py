@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 import logging
 import django.shortcuts
 
@@ -10,7 +11,7 @@ from django.http import HttpRequest
 from apps.user_management.models import User
 
 
-
+# check if the user is a trader
 def if_trader_check(check, redirect, raise_exception=True):
     """
         If request.user is None raises exception
@@ -39,7 +40,6 @@ def if_trader_check(check, redirect, raise_exception=True):
 
         return wrapped_view
     return decorator
-
 
 def if_trader_accept_terms_required(
     redirect='disclaimer_page',

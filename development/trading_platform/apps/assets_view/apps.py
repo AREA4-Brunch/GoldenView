@@ -1,3 +1,4 @@
+# Andrej Dujovic 2020/0306
 from django.apps import AppConfig
 
 

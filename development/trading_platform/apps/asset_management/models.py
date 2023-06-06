@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 from django.db import models
 
 from mongoengine import fields, Document, EmbeddedDocument, EmbeddedDocumentField
@@ -10,7 +11,7 @@ from mongoengine import fields, Document, EmbeddedDocument, EmbeddedDocumentFiel
 # SQL entities:
 
 
-
+# model of the Asset in the database
 class Asset(models.Model):
     idasset = models.AutoField(db_column='IdAsset', primary_key=True)  # Field name made lowercase.
     tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16)  # Field name made lowercase.
@@ -40,6 +41,7 @@ class MakeBeliefOwns(models.Model):
 # into PurchaseRequest and SalesRequest so the indexes
 # could be raised over them for O(m+n) match all requests ??
 # raise an index over idasset it for quicker search ??
+# model of the Active trade request in the database
 class ActiveTradeRequest(models.Model):
     idtraderequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
     idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
@@ -56,7 +58,7 @@ class ActiveTradeRequest(models.Model):
         managed = True
         db_table = 'activetraderequest'
 
-
+# model of the purchase request in the database
 class PurchaseRequest(models.Model):
     idpurchaserequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
     unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
@@ -68,7 +70,7 @@ class PurchaseRequest(models.Model):
         managed = True
         db_table = 'purchaserequest'
 
-
+# model of the sales request in the database
 class SalesRequest(models.Model):
     idsalesrequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
     unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
@@ -86,7 +88,7 @@ class SalesRequest(models.Model):
 # NoSQL entities:
 
 
-
+# model of the transaction in the database
 class AssetTransaction(Document):
     id_trade_request_purchase = fields.LongField()
     id_trade_request_sale = fields.LongField()
@@ -99,7 +101,7 @@ class AssetTransaction(Document):
         'collection': 'asset_transaction'
     }
 
-
+# model of the stats in the database
 class AssetStats(Document):
     class DailyPredictions(EmbeddedDocument):
         start_day = fields.DateField(required=True)
@@ -113,7 +115,7 @@ class AssetStats(Document):
         'collection': 'asset_stats'
     }
 
-
+# model of the carried out requests in the database
 class CarriedOutTradeRequest(Document):
     class Contract(EmbeddedDocument):
         id = fields.IntField(primary_key=True)

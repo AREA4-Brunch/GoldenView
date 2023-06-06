@@ -1,9 +1,10 @@
+# Aleksandar Radenkovic 2020/0272
 import random
 import logging
 
 from apps.asset_management.models import AssetStats, Asset
 
-
+# generating value for the prediction
 def generate_asset_values_predictions(asset_id:int, start_day, num_days_to_predict: int):
     predictions = [
         random.randint(250, 350)
@@ -12,7 +13,7 @@ def generate_asset_values_predictions(asset_id:int, start_day, num_days_to_predi
 
     return predictions
 
-
+# show daily predictions
 def upsert_asset_values_predictions(asset_id, start_day, predictions):
     """ Update or insert if did not exist. """
 
@@ -35,7 +36,7 @@ def upsert_asset_values_predictions(asset_id, start_day, predictions):
 
     asset_stats.save()
 
-
+# function for getting the values of predictions
 def fetch_asset_values_predictions(asset_ticker_symbol: str):
     try:
         asset_id = Asset.objects.get(tickersymbol=asset_ticker_symbol).idasset

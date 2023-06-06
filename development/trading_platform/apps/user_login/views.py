@@ -1,3 +1,4 @@
+# Aleksandar Radenkovic 2020/0272
 import logging
 
 from django.shortcuts import render, redirect
@@ -12,13 +13,13 @@ from apps.user_management.models import User
 # Create your views here.
 
 
-
+# exception if the user is already registered
 class UserAlreadyLoggedInException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__('You are already logged in. To login you need to be logged out.')
 
 
-
+# request for login
 def login(request: HttpRequest):
     is_already_logged_in = request.user and request.user.is_authenticated
 
@@ -44,7 +45,7 @@ def login(request: HttpRequest):
         context=context
     )
 
-
+# function for the form for user login
 def login_form(request: HttpRequest):
     if request.method == 'GET':
         request.session['link_404'] = request.get_full_path()
