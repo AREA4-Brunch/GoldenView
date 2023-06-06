@@ -39,7 +39,7 @@ def user_dashboard(request: HttpRequest):
         str = contract.filepath.filepath.split('/')[3]
         if(str==request.user.username):
             acceptedcontracts = BrokerBasicUserContract.objects.all()
-            flagaccepted=False
+            flagaccepted=True
             for accepted in acceptedcontracts:
                 if(accepted.contractfilepath==contract):
                     if(accepted.wasaccepted==True): flagaccepted=False;break

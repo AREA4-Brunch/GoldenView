@@ -34,5 +34,6 @@ urlpatterns = [
     path('broker_dashboard/', include('apps.broker_dashboard.urls')),
     path('user_dashboard/', include('apps.user_dashboard.urls')),
     path('portfolio/', include('apps.portfolio.urls')),
+    path('compare_companies/', include('apps.comparingCompanies.urls'))
     # path('api/user/', include('apps.user_management.urls')),
 ]

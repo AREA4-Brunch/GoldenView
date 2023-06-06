@@ -1,0 +1,79 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'comparingCompanies/css/comparingCompanies.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    comparingCompanies
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="login_page-content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center; padding-top: 50px;">
+                <h1><b>Compare companies</b></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+                <p style="color: gray">Compare two companies to see which companies' stock is more favorable.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" style="text-align: center; padding-top: 50px; padding-left: 520px; border-radius: 20px;">
+                <div style="padding-bottom: 5px;">First companie</div>
+                <input style="border-radius: 7px;" placeholder="Name" type="text" name="" id="">
+            </div>
+            <div class="col-sm-6" style="text-align: center; padding-top: 50px; padding-right: 520px;">
+                <div style="padding-bottom: 5px;">Second companie</div>
+                <input style="border-radius: 7px;" placeholder="Name" type="text" name="" id="">
+            </div>
+        </div>
+        <div style="padding-top: 70px; text-align: center;" class="row">
+            <div>Paramerars for comparing</div>
+            <div class="col-sm-6">
+                <div style="border-radius: 4px; padding-left: 520px"><input type="checkbox" name="1" id="1"> <label for="1">Stock price</label> </div>
+                <div style="border-radius: 4px; padding-left: 520px"><input type="checkbox" name="2" id="2"> <label for="2">Conten creation</label></div>
+            </div>
+            <div class="col-sm-6">
+                <div style="border-radius: 4px; padding-right: 520px"><input type="checkbox" name="3" id="3"> <label for="3">Company rating</label></div>
+                <div style="border-radius: 4px; padding-right: 520px"><input type="checkbox" name="4" id="4"> <label for="4">Strategy & consulting</label></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'comparingCompanies/js/comparingCompanies.js' %}"></script>
+
+{% endblock %}
