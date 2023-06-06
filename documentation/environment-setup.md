@@ -81,56 +81,21 @@ as a service (you can but it is not neccessary).<br/>
     ```
 
 7. Run the following to apply all database linking neccessary for current state of project to work:
-    ```cmd
-    python manage.py showmigrations
-    ```
-
-    There should be no erros.
-
-    ```cmd
-    python manage.py makemigrations asset_management
-    ```
-
-    ```cmd
-    python manage.py migrate asset_management
-    ```
-
-    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
-
-    ```cmd
-    python manage.py makemigrations user_management
-    ```
-
-    ```cmd
-    python manage.py migrate user_management
-    ```
-
-    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
-
-    ```cmd
-    python manage.py makemigrations file_management
-    ```
-
-    ```cmd
-    python manage.py migrate file_management
-    ```
-    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
-
     
-    ```cmd
+     ```cmd
+    python manage.py makemigrations user_management
+    python manage.py migrate user_management
+
+    python manage.py makemigrations asset_management
+    python manage.py migrate asset_management
+
+    python manage.py makemigrations file_management
+    python manage.py migrate file_management
+
     python manage.py makemigrations broker_management
-    ```
-
-    ```cmd
     python manage.py migrate broker_management
-    ```
-    Ako javi gresku da neka tabela vec postoji dropuj celu semu, pokreni odgovarajuci init.sql i ponovi sada lepo sve kako pise :)
-
-    ```cmd
+    
     python manage.py makemigrations
-    ```
-
-    ```cmd
     python manage.py migrate
     ```
 

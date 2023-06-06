@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from ..asset_management.models import MakeBeliefOwns
+
 # Register your models here.
 
 from .models import User, Broker, BasicUser, Country, FundsTransferMethod, Trader

@@ -20,7 +20,8 @@ def rendering(request, form, errmsg):
 
 @login_required(login_url='login')
 def broker_request(request: HttpRequest):
-    if cast_to_trader(request.user) is None and cast_to_broker(request.user) is None:
+    #cast_to_trader(request.user) is None and
+    if  cast_to_broker(request.user) is None:
         form = BrokerRequestForm()
         return rendering(request,form,"")
     return redirect("home")

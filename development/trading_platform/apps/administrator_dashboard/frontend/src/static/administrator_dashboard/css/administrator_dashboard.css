@@ -1,3 +1,9 @@
+input[type="checkbox"]{
+    opacity:0; 
+    position:absolute; 
+    left:9999px;
+}
+
 td {
     vertical-align: middle;
 }
@@ -8,4 +14,4 @@ td {
 
 #tabela {
     width: 85%;
-}
+}   
