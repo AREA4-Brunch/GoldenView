@@ -1,0 +1,126 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio/css/portfolio.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="login_page-content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 left-nav-bar">
+                <ul class="nav navbar-vertical">
+                    <li class="nav-item nav-item-vertical nav-item-active">
+                        <img src="{% static 'common/images/portfolio.png' %}" alt="">
+                        <a class="nav-link nav-link-vertical" href="#">Portfolio</a>
+                    </li>
+                    <li class="nav-item nav-item-vertical">
+                        <img src="{% static 'assets_view/images/assetsview.png' %}" alt="">
+                        <form action="{% url 'administrator_dashboard_request' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row"><a class="nav-link nav-link-vertical" href="">Real time view</a></div>
+                        </form>
+                    </li>
+                    <li class="nav-item nav-item-vertical">
+                        <img src="{% static 'common/images/logout.png' %}" alt="">
+                        <form action="{% url 'adminlogout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row"><a class="nav-link nav-link-vertical" href="">Asset lists</a></div>
+                        </form>
+                    </li>
+                    <li class="nav-item nav-item-vertical">
+                        <img src="{% static 'common/images/logout.png' %}" alt="">
+                        <form action="{% url 'adminlogout' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row"><a class="nav-link nav-link-vertical" href="adminlogout">Logout</a></div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <table id="table" class="table table-striped">
+                        <tr>
+                            <td colspan="10" style="font-weight: 800">
+                                <input placeholder="Search transactions" id="searchbar" type="text" name="" id="">
+                            </td>
+                        </tr>
+                        
+                        <tr id="bold">
+                            <td>Name</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Quantaty</td>
+                            <td>Value</td>
+                            <td>Buy/Sell</td>
+                        </tr>
+
+                        {% for transaction in transactions %}
+                            
+                            <tr id="columns">
+                                <td><!----></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><!----></td>
+                                <td><!----></td>
+                                <td><!----></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </form>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'portfolio/js/portfolio.js' %}"></script>
+
+{% endblock %}
