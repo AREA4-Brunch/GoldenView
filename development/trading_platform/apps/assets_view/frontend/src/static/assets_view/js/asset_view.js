@@ -137,7 +137,8 @@ function submitForm(endpoint) {
         'quantity': 25,
         'min': 200,
         'max': 255,
-        'ticker': symbol
+        'ticker': symbol,
+        'contract': 1  // optional
     };
     $.ajax({
         url: form.action,

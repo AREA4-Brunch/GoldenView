@@ -22,6 +22,7 @@ class Asset(models.Model):
         db_table = 'asset'
 
 
+# raise index over idasset ??
 class MakeBeliefOwns(models.Model):
     idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
     idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
@@ -115,7 +116,7 @@ class AssetStats(Document):
 
 class CarriedOutTradeRequest(Document):
     class Contract(EmbeddedDocument):
-        _id = fields.IntField(required=True)
+        id = fields.IntField(primary_key=True)
         time = fields.DateTimeField(required=True)
         status = fields.StringField(required=True)
         fee_paid = fields.FloatField(precision=2)

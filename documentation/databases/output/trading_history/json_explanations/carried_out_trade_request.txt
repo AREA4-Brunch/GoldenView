@@ -27,7 +27,7 @@
     <!-- [Optional] contract it was binded by -->
     "contract": {
         <!-- in SQL db - BrokerBasicUserContract table - IdContract -->
-        "_id": 1,
+        "id": 1,
 
         <!-- time (ISODate) at which the request was rendered complete/carried out
              and broker's fee was charged

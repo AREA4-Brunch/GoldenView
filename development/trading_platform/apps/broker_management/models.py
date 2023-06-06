@@ -17,7 +17,7 @@ class BrokerBasicUserContract(models.Model):
     contractfilepath = models.ForeignKey(BrokerBasicUserContractFile, models.DO_NOTHING, db_column='ContractFilePath')  # Field name made lowercase.
     creationtime = models.DateTimeField(db_column='CreationTime', blank=False, null=False)  # Field name made lowercase.
     responsetime = models.DateTimeField(db_column='ResponseTime', blank=True, null=True)  # Field name made lowercase.
-    # wasaccepted: int = status: 0 - was not accepted
+    # wasaccepted: int = status: 0 - was not accepted, 1 - was accepted
     wasaccepted = models.IntegerField(db_column='WasAccepted', null=False, default=0)  # Field name made lowercase.
     feepercentage = models.FloatField(db_column='FeePercentage', null=False, default=0.)  # Field name made lowercase.
     expirationtime = models.DateTimeField(db_column='ExpirationTime', blank=False, null=False)  # Field name made lowercase.

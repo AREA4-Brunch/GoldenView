@@ -1,11 +1,13 @@
 import logging
 
 from django.http import HttpRequest
+from django.utils import timezone
 
 from apps.asset_management.models import Asset
 from apps.asset_management.backend.src.utils.trading import create_buy_sell_request, \
-                                                            match_traders_request
-
+                                                            match_traders_request, \
+                                                            process_all_active_requests
+from apps.broker_management.models import BrokerBasicUserContract
 
 
 class InvalidBuySellRequestFormException(Exception):
@@ -46,8 +48,11 @@ def get_cleaned_data(
             is_valid = False
             response['errors'].append('Invalid ticker form data.')
 
-        # TODO: handle contracts of broker in name of user
-        request_data['contract'] = None
+        try:  # process contract
+            request_data["contract"] = request.POST.get("contract", None)
+        except Exception as e:
+            is_valid = False
+            response['contract'].append('Invalid contract form data.')
 
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')
@@ -74,7 +79,22 @@ def get_cleaned_data(
             is_valid = False
             response['errors'].append('Failed to find the asset requested.')
 
-        # TODO: handle contracts of broker in name of user
+        # valite if the contract exists in the database
+        # and the user who sent is the accepted broker in the contract
+        if request_data['contract'] is not None:
+            try:
+                contract = BrokerBasicUserContract.objects.get(
+                    idcontract=request_data['contract'],
+                    idbroker=request.user.pk,
+                    wasaccepted=1,
+                    expirationtime__gt=timezone.now()
+                )
+                request_data["contract"] = contract
+
+            except Exception as e:
+                is_valid = False
+                response['errors'].append('Failed to find the contract requested.')
+                logging.exception('Failure man!')
 
         if not is_valid:
             raise InvalidBuySellRequestFormException('Form is not valid')
@@ -112,8 +132,7 @@ def send_buy_sell_request(
         # as now the change in db happened:
         match_traders_request(is_purchase_request=is_purchase_request,
                               request_id=request.idtraderequest)
-        # match_traders_request(is_purchase_request=False, request_id=9)
-
     except Exception as e:
+        # process_all_active_requests()
         # Internal error that user should not be notified about
         logging.error('Failed to queue up the requests matcher call')

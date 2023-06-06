@@ -11,6 +11,8 @@ from .backend.src.views.assets_list import get_assets
 from .backend.src.views import asset_view as asset_view_backend
 from apps.user_management.backend.src.utils.user_type import cast_to_trader
 
+from apps.user_management.models import Trader
+
 
 # Create your views here.
 
@@ -66,7 +68,11 @@ def buy_asset(request: HttpRequest):
             raise Exception('Only traders can make purchases.')
 
         request_data = asset_view_backend.get_cleaned_data(request, response)
-        request_data['trader'] = trader
+        
+        if request_data['contract'] is None:
+            request_data['trader'] = trader
+        else:
+            request_data['trader'] = request_data['contract'].idbasicuser.idbasicuser
 
         asset_view_backend.send_buy_sell_request(
             is_purchase_request=True,
@@ -114,7 +120,11 @@ def sell_asset(request: HttpRequest):
             raise Exception('Only traders can make purchases.')
 
         request_data = asset_view_backend.get_cleaned_data(request, response)
-        request_data['trader'] = trader
+        
+        if request_data['contract'] is None:
+            request_data['trader'] = trader
+        else:
+            request_data['trader'] = request_data['contract'].idbasicuser.idbasicuser
 
         asset_view_backend.send_buy_sell_request(
             is_purchase_request=False,
