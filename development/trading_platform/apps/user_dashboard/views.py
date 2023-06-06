@@ -3,6 +3,8 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from apps.broker_management.models import BrokerBasicUserContract
+
 from ..user_dashboard.backend.src.view.form import UserDasboardRequestForm, UserDashboardForm
 
 from ..administrator_dashboard.backend.src.view.form import AdministratorDashboardForm, AdministratorDashboardRequestForm
@@ -10,6 +12,8 @@ from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_t
 
 from ..file_management.models import ApprovalReportFile, BrokerBasicUserContractFile, BrokerRequestFile, TextFile
 from ..user_management.models import Broker, Trader, User
+
+from django.utils import timezone
 
 # Create your views here.
 
@@ -34,9 +38,16 @@ def user_dashboard(request: HttpRequest):
     for contract in contracts:
         str = contract.filepath.filepath.split('/')[3]
         if(str==request.user.username):
-            user = User.objects.get(username=contract.filepath.filepath.split('/')[2])
-            bros.append(user)
-            pushedcontracts.append(contract)
+            acceptedcontracts = BrokerBasicUserContract.objects.all()
+            flagaccepted=False
+            for accepted in acceptedcontracts:
+                if(accepted.contractfilepath==contract):
+                    if(accepted.wasaccepted==True): flagaccepted=False;break
+            
+            if flagaccepted==True:
+                user = User.objects.get(username=contract.filepath.filepath.split('/')[2])
+                bros.append(user)
+                pushedcontracts.append(contract)
 
     return rendering1(request, zip(bros,pushedcontracts), form)
 
@@ -96,11 +107,18 @@ def user_dashboard_send_request_accept_form(request: HttpRequest):
             if i.filepath.filepath in request.POST:
                 contract=i
                 break
-
+        
+        
         if(form.is_valid()):
-            #TODO: treba da se vidi sta da se radi sa tabelom kada se prihvati contract
-            pass
-
+            contractfajl = ""
+            contractfajls = BrokerBasicUserContract.objects.all()
+            for i in contractfajls:
+                if i.contractfilepath==contract:
+                    contractfajl=i
+            
+            contractfajl.wasaccepted=True
+            contractfajl.responsetime=timezone.now()
+            contractfajl.save()
         else:
             pass
 
@@ -128,6 +146,10 @@ def user_dashboard_send_request_decline_form(request: HttpRequest):
 
         if(form.is_valid()):
             textfile = contract.filepath
+            contractfajls = BrokerBasicUserContract.objects.all()
+            for i in contractfajls:
+                if i.contractfilepath==contract:
+                    i.deleteRow()
             contract.deleteRow()
             textfile.deleteRow()
 

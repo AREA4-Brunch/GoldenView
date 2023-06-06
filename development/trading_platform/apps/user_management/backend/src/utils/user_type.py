@@ -1,4 +1,4 @@
-from apps.user_management.models import User, Trader, Broker
+from apps.user_management.models import BasicUser, User, Trader, Broker
 
 
 def cast_to_trader(user: User):
@@ -22,4 +22,10 @@ def cast_to_broker(user: User):
     if broker and isinstance(broker, Broker):
         return broker
 
+    return None
+
+def cast_to_basic(user: User):
+    for basicuser in BasicUser.objects.all():
+        if user==basicuser.idbasicuser.idtrader:
+            return basicuser
     return None

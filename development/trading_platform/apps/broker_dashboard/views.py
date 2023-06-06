@@ -1,16 +1,20 @@
+from datetime import date
 import logging
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from ..broker_management.models import BrokerBasicUserContract
+
 from ..broker_dashboard.backend.src.view.form import BrokerDasboardRequestForm, BrokerDashboardForm
 
 from ..administrator_dashboard.backend.src.view.form import AdministratorDashboardForm, AdministratorDashboardRequestForm
-from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker
+from ..user_management.backend.src.utils.user_type import cast_to_basic, cast_to_trader, cast_to_broker
 
 from ..file_management.models import ApprovalReportFile, BrokerBasicUserContractFile, BrokerRequestFile, TextFile
 from ..user_management.models import Broker, Trader, User
 
+from django.utils import timezone
 # Create your views here.
 
 def rendering1(request, users, form):
@@ -26,13 +30,9 @@ def createContext1():
     users = User.objects.all()
         
     for user in users:
-        if user.is_staff == 1 or cast_to_broker(user) is not None:
-            continue
-        elif cast_to_trader(user) is not None:
-            context.append("Trader")
-        else:
+        if cast_to_basic(user) is not None and cast_to_broker(user) is None:
             context.append("Basic user")
-        basicusers.append(user)
+            basicusers.append(user)
          
 
     ziped = zip(basicusers,context)
@@ -120,9 +120,24 @@ def broker_dashboard_send_request_form(request: HttpRequest):
             
             textfile = TextFile(filepath = fp)
             textfile.save()
-            msg = messageform+"\n fee:"+str(feeform)+"$"
-            broker = BrokerBasicUserContractFile(filepath = textfile, contractcontent = msg)
-            broker.save()
+            brokercontract = BrokerBasicUserContractFile(filepath = textfile, contractcontent = messageform)
+            brokercontract.save()
+            print(cast_to_basic(user))
+            print(cast_to_broker(request.user))
+            print(brokercontract)
+            print(timezone.now())
+            print(feeform)
+            print(timezone.now() + timezone.timedelta(days=365))
+            contract = BrokerBasicUserContract(idbasicuser=cast_to_basic(user),
+                                               idbroker=cast_to_broker(request.user),
+                                               contractfilepath=brokercontract,
+                                               creationtime=timezone.now(),
+                                               responsetime=None,
+                                               wasaccepted=False,
+                                               feepercentage=feeform,
+                                               expirationtime=timezone.now() + timezone.timedelta(days=365)
+                                               )
+            contract.save()
 
         else:
             wrongmsg=""
