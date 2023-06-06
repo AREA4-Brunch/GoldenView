@@ -50,13 +50,13 @@ def get_cleaned_data(
             response['errors'].append('Invalid ticker form data.')
 
         try:  # process contract
-            request_data["contract"] = int(request.POST.get("contract", None))
+            request_data["contract"] = request.POST.get("contract", None)
         except Exception as e:
             is_valid = False
             response['errors'].append('Invalid contract form data.')
 
         if not is_valid:
-            raise InvalidBuySellRequestFormException('Form is not valid')
+            raise InvalidBuySellRequestFormException('Form is not valid: parse')
 
     def validate_data():
         is_valid = True
@@ -67,7 +67,8 @@ def get_cleaned_data(
             response['errors'].append('Invalid quantity, it is negative.')
 
         # validate the range
-        if request_data['min'] > request_data['max']:
+        if request_data['min'] > request_data['max'] or request_data['max'] <= 0\
+        or request_data['min'] <= 0:
             is_valid = False
             response['errors'].append('Invalid range, max < min.')
 
@@ -83,6 +84,7 @@ def get_cleaned_data(
         # valite if the contract exists in the database
         # and the user who sent is the accepted broker in the contract
         if request_data['contract'] is not None:
+            request_data['contract'] = int(request_data['contract'])
             try:
                 contract = BrokerBasicUserContract.objects.get(
                     idcontract=request_data['contract'],

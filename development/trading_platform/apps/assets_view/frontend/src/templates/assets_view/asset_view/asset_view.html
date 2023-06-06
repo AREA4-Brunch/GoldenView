@@ -93,19 +93,19 @@
                     <input type="text" id="amount" readonly>
                 </p>
                  <div class="range-inputs">
-                     <input type="number" id="min-price" name="min-price" min="0" step="0.01" class="range-input">
-                     <input type="number" id="max-price" name="max-price" min="0" step="0.01" class="range-input">
+                     <input type="number" id="min-price" name="min-price" min="0" step="0.01" class="range-input" value="0">
+                     <input type="number" id="max-price" name="max-price" min="0" step="0.01" class="range-input" value="0">
                  </div>
                  <div id="slider-range"></div>
             </form>
 
             <div class="buttons">
                 <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
-                <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
+                <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity" value="0">
                 <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
             </div>
             <div class="buttons">
-                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)">
+                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)" value="0">
             </div>
         
 

@@ -1,3 +1,8 @@
+<!-- 
+    Jovana Bjelica 2020/0349
+ -->
+
+
 {% extends 'common/base.html' %}
 
 {% load static %}
@@ -62,12 +67,18 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     <table id="table" class="table table-striped">
-                        <tr>
+                        <!-- <tr style="display: None;">
                             <td colspan="10" style="font-weight: 800">
                                 <input placeholder="Search transactions" id="searchbar" type="text" name="" id="">
                             </td>
-                        </tr>
-                        
+                        </tr> -->
+<!-- 
+                        <tr>
+                            <td colspan="10" style="font-weight: 800">
+                                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)" value="0">
+                            </td>
+                        </tr> -->
+
                         <tr id="bold">
                             <td>Name</td>
                             <td></td>
@@ -75,25 +86,32 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>Quantaty</td>
+                            <td>Quantity</td>
                             <td>Value</td>
                             <td>Buy/Sell</td>
                         </tr>
 
-                        {% for transaction in transactions %}
-                            
-                            <tr id="columns">
-                                <td><!----></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><!----></td>
-                                <td><!----></td>
-                                <td><!----></td>
-                            </tr>
-                        {% endfor %}
+                        {% if transactions %}
+                            {% for transaction in transactions %}
+                                <tr id="columns">
+                                    {% if transaction.is_active %}
+                                        <td style="color: rgb(23, 239, 23)">
+                                            {{ transaction.ticker }}
+                                        </td>
+                                    {% else %}
+                                        <td>{{ transaction.ticker }}</td>
+                                    {% endif %}
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ transaction.quantity }}</td>
+                                    <td>{{ transaction.value }}</td>
+                                    <td>{{ transaction.type }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                     </table>
                 </form>
                 <br>

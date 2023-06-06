@@ -1,5 +1,6 @@
 # Aleksandar Radenkovic 2020/0272
-from apps.asset_management.models import ActiveTradeRequest, \
+
+from apps.asset_management.models import SalesRequest, PurchaseRequest, \
                                          CarriedOutTradeRequest
 from apps.user_management.models import Trader
 
@@ -14,19 +15,21 @@ def fetch_all_users_trade_requests(
     iduser = trader.idtrader.iduser
 
     # fetch all active requests by given trader:
-    active_trade_requests = ActiveTradeRequest.objects.filter(
-        iduser=iduser
+    active_purchase_trade_requests = PurchaseRequest.objects.filter(
+        idpurchaserequest__iduser=iduser,
+    ).order_by(
+        'idpurchaserequest'
     )
-    # active_trade_requests = [req.to_dict() for req in active_trade_requests]
+
+    active_sales_trade_requests = SalesRequest.objects.filter(
+        idsalesrequest__iduser=iduser,
+    ).order_by(
+        'idsalesrequest'
+    )
 
     # fetch all carried out requests by the user:
     carried_out_requests = CarriedOutTradeRequest.objects(
         id_user=iduser
     )
-    # carried_out_requests = [req.to_json() for req in carried_out_requests]
 
-    return (active_trade_requests, carried_out_requests)
-
-
-
-
+    return (active_purchase_trade_requests, active_sales_trade_requests, carried_out_requests)

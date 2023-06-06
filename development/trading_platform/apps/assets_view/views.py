@@ -95,7 +95,7 @@ def buy_asset(request: HttpRequest):
         status = 200
 
     except asset_view_backend.InvalidBuySellRequestFormException as e:
-        status = 500
+        status = 200
         logging.error(f'InvalidBuySellRequestFormException error: {e}')
 
     except Exception as e:
