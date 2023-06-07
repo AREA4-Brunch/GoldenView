@@ -59,7 +59,7 @@ class Command(BaseCommand):
         cmd = ''
         for env_var_name in config_data:
             env_var_val = config_data[env_var_name]
-            if env_var_val.strip() == '': continue;
+            # if env_var_val.strip() == '': continue;
             # quotes = '"' if ' ' in env_var_val or env_var_val.strip() == '' else ''
             quotes = '"'
             cmd += f'{"set" if is_windows else ""} {quotes}{env_var_name}={env_var_val}{quotes}'

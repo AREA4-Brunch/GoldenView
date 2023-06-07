@@ -21,4 +21,5 @@ development/trading_platform/trading_platform/__pycache__/**
 # Company secrets:
 
 
-# development/databases/trading_platform/db_config/db_connection.ini
+development/databases/trading_platform/db_config/db_connection.ini
+development/databases/trading_history/db_config/db_connection.ini
