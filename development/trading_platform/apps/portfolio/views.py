@@ -56,6 +56,6 @@ def portfolio(request: HttpRequest):
     finally:
         return render(
             request=request,
-            template_name="portfolio/footer/portfolio_page.html",
+            template_name="portfolio/portfolio_page/portfolio_page.html",
             context=context
         )
