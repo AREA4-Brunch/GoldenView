@@ -64,13 +64,13 @@ def get_cleaned_data(
         # validate the quantity:
         if request_data['quantity'] <= 0:
             is_valid = False
-            response['errors'].append('Invalid quantity, it is negative.')
+            response['errors'].append('Invalid quantity, it is not positive.')
 
         # validate the range
         if request_data['min'] > request_data['max'] or request_data['max'] <= 0\
         or request_data['min'] <= 0:
             is_valid = False
-            response['errors'].append('Invalid range, max < min.')
+            response['errors'].append('Invalid min-max range.')
 
         # valite if the ticker exists in the database
         try:
@@ -100,13 +100,14 @@ def get_cleaned_data(
                 logging.error('Failed to find the contract requested.')
 
         if not is_valid:
-            raise InvalidBuySellRequestFormException('Form is not valid')
+            raise InvalidBuySellRequestFormException('Form is not valid: validation')
 
 
     parse_data()
     validate_data()
 
     return request_data
+
 
 # requet to send or buy an asset
 def send_buy_sell_request(

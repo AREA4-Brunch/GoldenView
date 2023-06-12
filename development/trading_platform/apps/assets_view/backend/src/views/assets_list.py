@@ -3,10 +3,15 @@ import logging
 import requests
 from django.http import HttpRequest
 
+from apps.asset_management.models import Asset
+
+
 # function for getting asset data from the Alpha Vantage API, limited to 5 because of API
 def get_assets(request: HttpRequest):
     try:
-        symbols = ["MSFT", "AAPL", "AMZN", "NKE", "TSLA"]
+        # symbols = ["MSFT", "AAPL", "AMZN", "NKE", "TSLA"]
+        symbols = [asset.tickersymbol for asset in Asset.objects.all()]
+
         prices = []
         if symbols:
             url = "https://www.alphavantage.co/query"

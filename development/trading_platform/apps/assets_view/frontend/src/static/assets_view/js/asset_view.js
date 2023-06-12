@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     $ = django.jQuery;
     initTradingViewWidget();
     initSlider();
+    initQuantityField();
+    initContractIdField();
 });
 
 
@@ -55,8 +57,8 @@ function initSlider() {
         $("#slider-range").slider({
             range: true,
             min: 0,
-            max: 5000,
-            values: [1500, 3000],
+            max: 1000,
+            values: [0, 0],
             slide: function (event, ui) {
                 $("#amount").val("$" + ui.values[0].toFixed(2) + " - $" + ui.values[1].toFixed(2));
                 $("#min-price").val(ui.values[0].toFixed(2));
@@ -76,10 +78,10 @@ function initSlider() {
         });
 
         $("#max-price").on("input", function() {
-           if (parseFloat(($("#max-price").val())) >= parseFloat($("#min-price").val())) {
+            if (parseFloat(($("#max-price").val())) >= parseFloat($("#min-price").val())) {
                 $("#slider-range").slider("values", [parseFloat($("#min-price").val()), parseFloat($("#max-price").val())]);
                 $("#amount").val("$" + parseFloat(($("#min-price").val())).toFixed(2) + " - $" + parseFloat($("#max-price").val()).toFixed(2));
-           }
+            }
         });
     });
 }
@@ -146,7 +148,10 @@ function submitForm(endpoint) {
     };
 
     if (contract) {
-        form_data['contract'] = parseInt(contract, 10);
+        const contract_id = parseInt(contract, 10);
+        if (contract_id > 0) {
+            form_data['contract'] = contract_id;
+        }
     }
 
     $.ajax({
@@ -167,14 +172,41 @@ function submitForm(endpoint) {
         },
         success: function(response) {
             // handle the response from the backend
-            console.log(`Success`);
+            // console.log(`Success`);
             console.log(response);
+
+            let err_msg = '';
+            for (let error of response.errors) {
+                err_msg += error;
+            }
+            if (err_msg.length > 0) {
+                alert(`Failed to submit the request: ${err_msg}`);
+            } else {
+                alert(`Success: ${response.success_msg}`);
+            }
         },
         error: function(xhr, status, error) {
             // if 404 then user is not in group `can_trade`
             // handle any errors
             console.log(`Error`);
             console.log(error);
+            alert(`It seems an error ocurred: ${error}`);
         }
+    });
+}
+
+
+function initQuantityField() {
+    // prevent user from entering anything but integer
+    $('#quantity').on('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    });
+}
+
+
+function initContractIdField() {
+    // prevent user from entering anything but integer
+    $('#contract').on('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
     });
 }

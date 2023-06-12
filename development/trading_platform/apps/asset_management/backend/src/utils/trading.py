@@ -90,7 +90,7 @@ def create_buy_sell_request(
 
 
 # TODO: uncomment to use tasks queue
-# @background(schedule=0, queue='match_requests')
+@background(schedule=0, queue='match_requests')
 def match_traders_request(
     is_purchase_request: bool,
     request_id: BigIntegerField
@@ -175,7 +175,7 @@ def match_traders_request(
 
 
 # TODO: uncomment to use tasks queue
-# @background(schedule=2, queue='match_requests')
+@background(schedule=2, queue='match_requests')
 def process_all_active_requests():
     """
         Failsafe to be called in case any match_traders_request
@@ -226,7 +226,7 @@ def process_all_active_requests():
 
     except Exception as e:
         logging.exception('process_all_active_requests failed. Launching another one..')
-        # process_all_active_requests.now()
+        process_all_active_requests.now()
 
 
 def enqueue_func(func):

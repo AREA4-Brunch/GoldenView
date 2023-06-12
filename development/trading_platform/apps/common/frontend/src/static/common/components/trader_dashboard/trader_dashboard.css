@@ -1,4 +1,6 @@
 /* Andrej Dujovic 2020/0306 */
+
+
 .left-nav-bar {
     display: flex;
     flex-direction: column;
@@ -6,21 +8,28 @@
     align-items: center;
     background: #FFFFFF;
     box-shadow: -1px 9px 16px rgba(0, 0, 0, 0.25);
+    max-width: 350px;
 }
 
 .navbar-vertical {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 5vh;
 }
 
 .nav-item-vertical {
     display: flex;
     align-items: center;
+    border: 4px solid transparent;
+    padding: 4px;
 }
 
 .nav-item-active {
-    background: #AF9A70;
+    background: #d1ae7d;
+    border: 4px solid #d1ae7d;
     border-radius: 12px;
+}
+
+.nav-item-active .nav-link:hover {
+    color: whitesmoke;
 }

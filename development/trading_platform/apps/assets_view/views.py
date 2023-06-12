@@ -18,6 +18,7 @@ from apps.asset_management.backend.src.utils.asset_predictions import fetch_asse
 
 # Create your views here.
 
+
 #sends assets
 @login_required(login_url='login')
 @if_trader_accept_terms_required()
@@ -33,6 +34,7 @@ def assets_list(request):
         context=context
     )
 
+
 # sends symbol for the trading view
 @login_required(login_url='login')
 @if_trader_accept_terms_required()
@@ -44,7 +46,7 @@ def asset_view(request, symbol: str):
 
     try:
         preds = fetch_asset_values_predictions(symbol)
-        context['preds'] = f'start_day: {preds.start_day}, values in USD: {preds.pred_vals}'
+        context['preds'] = f'Daily predicted values in USD starting from {preds.start_day}: {preds.pred_vals}'
 
     except Exception as e:
         logging.exception(f'Failed to fetch the predictions for {symbol}')
@@ -54,6 +56,7 @@ def asset_view(request, symbol: str):
         template_name='assets_view/asset_view/asset_view.html',
         context=context
     )
+
 
 # request to buy asset
 @require_POST
@@ -96,17 +99,21 @@ def buy_asset(request: HttpRequest):
 
     except asset_view_backend.InvalidBuySellRequestFormException as e:
         status = 200
-        logging.error(f'InvalidBuySellRequestFormException error: {e}')
+        err_msg = "\n".join(response["errors"])
+        logging.error('InvalidBuySellRequestFormException error(s):'
+                    + f'{err_msg}')
 
     except Exception as e:
         status = 500
         response['errors'].append(f'Internal: {e}')
         # ajax request so do not set the internal_error
         # request.session['internal_error'] = str(e)
-        logging.exception(f'Internal error: {e}')
+        err_msg = "\n".join(response["errors"])
+        logging.exception(f'Internal error(s): {err_msg}')
 
     finally:
         return JsonResponse(response, status=status)
+
 
 # request to sell asset
 @login_required(login_url='login')
@@ -147,15 +154,18 @@ def sell_asset(request: HttpRequest):
         status = 200
 
     except asset_view_backend.InvalidBuySellRequestFormException as e:
-        status = 500
-        logging.error(f'InvalidBuySellRequestFormException error: {e}')
+        status = 200
+        err_msg = "\n".join(response["errors"])
+        logging.error('InvalidBuySellRequestFormException error(s):'
+                    + f'{err_msg}')
 
     except Exception as e:
         status = 500
         response['errors'].append(f'Internal: {e}')
         # ajax request so do not set the internal_error
         # request.session['internal_error'] = str(e)
-        logging.exception(f'Internal error: {e}')
+        err_msg = "\n".join(response["errors"])
+        logging.exception(f'Internal error(s): {err_msg}')
 
     finally:
         return JsonResponse(response, status=status)

@@ -1,5 +1,6 @@
 <!-- 
     Jovana Bjelica 2020/0349
+    Aleksandar Radenkovic 2020/0272
  -->
 
 
@@ -12,6 +13,7 @@
     <!-- Included Components CSS -->
     <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
     <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/trader_dashboard/trader_dashboard.css' %}">
 
     <!-- This Page's CSS -->
     <link rel="stylesheet" href="{% static 'portfolio/css/portfolio.css' %}">
@@ -30,90 +32,113 @@
 
 
 {% block content %}
-<div id="login_page-content">
+<div id="portfolio_page-content">
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 left-nav-bar">
-                <ul class="nav navbar-vertical">
-                    <li class="nav-item nav-item-vertical nav-item-active">
-                        <img src="{% static 'common/images/portfolio.png' %}" alt="">
-                        <a class="nav-link nav-link-vertical" href="#">Portfolio</a>
-                    </li>
-                    <li class="nav-item nav-item-vertical">
-                        <img src="{% static 'assets_view/images/assetsview.png' %}" alt="">
-                        <form action="{% url 'administrator_dashboard_request' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="row"><a class="nav-link nav-link-vertical" href="">Real time view</a></div>
-                        </form>
-                    </li>
-                    <li class="nav-item nav-item-vertical">
-                        <img src="{% static 'common/images/logout.png' %}" alt="">
-                        <form action="{% url 'adminlogout' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="row"><a class="nav-link nav-link-vertical" href="">Asset lists</a></div>
-                        </form>
-                    </li>
-                    <li class="nav-item nav-item-vertical">
-                        <img src="{% static 'common/images/logout.png' %}" alt="">
-                        <form action="{% url 'adminlogout' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="row"><a class="nav-link nav-link-vertical" href="adminlogout">Logout</a></div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-9">
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <table id="table" class="table table-striped">
+        <div id="content-row" class="row">
+
+            {% include 'common/components/trader_dashboard/trader_dashboard.html' %}
+
+            <div class="col col-sm-10">
+                <!-- <form action="" method="POST"> -->
+                    <!-- {% csrf_token %} -->
+                    <table id="trade-requests" class="table table-striped" data-csrf-token="{{ csrf_token }}">
                         <!-- <tr style="display: None;">
                             <td colspan="10" style="font-weight: 800">
                                 <input placeholder="Search transactions" id="searchbar" type="text" name="" id="">
                             </td>
                         </tr> -->
-<!-- 
-                        <tr>
-                            <td colspan="10" style="font-weight: 800">
-                                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)" value="0">
-                            </td>
-                        </tr> -->
 
-                        <tr id="bold">
-                            <td>Name</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Quantity</td>
-                            <td>Value</td>
-                            <td>Buy/Sell</td>
-                        </tr>
+                        <thead>
+                            <tr id="bold">
+                                <td>Name</td>
+                                <td class="active-trade-request">Active</td>
+                                <td>Contract ID</td>
+                                <td>Min Unit Price</td>
+                                <td>Max Unit Price</td>
+                                <td>Quantity</td>
+                                <td>Value<br/>[USD]</td>
+                                <td>Type</td>
+                            </tr>
+                        </thead>
 
                         {% if transactions %}
                             {% for transaction in transactions %}
-                                <tr id="columns">
+                                <tr class="trade-request"
+                                    data-trade-request-id="{{ transaction.id }}"
+                                    data-request-type="{{ transaction.type }}"
+                                    data-modify-url="{% url 'modify_active_trade_request' %}"
+                                >
                                     {% if transaction.is_active %}
-                                        <td style="color: rgb(23, 239, 23)">
+                                        <td class="text-center active-trade-request">
                                             {{ transaction.ticker }}
                                         </td>
                                     {% else %}
                                         <td>{{ transaction.ticker }}</td>
                                     {% endif %}
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ transaction.quantity }}</td>
-                                    <td>{{ transaction.value }}</td>
+
+                                    <td>
+                                        {% if transaction.is_active %}
+                                            <button type="button" class="btn btn-outline-danger cancel-request"
+                                             data-url="{% url 'cancel_active_trade_request' %}"
+                                            >
+                                                Cancel
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.idcontract %}
+                                            {{ transaction.idcontract }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.min %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control modify-lower-bound"
+                                                       placeholder="min"
+                                                       min="0" step="0.01" value="{{ transaction.min | floatformat:2  }}"
+                                                >
+                                                <span class="input-group-text">US $</span>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.max %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control modify-upper-bound"
+                                                    placeholder="max"
+                                                    min="0" step="0.01" value="{{ transaction.max | floatformat:2  }}"
+                                                >
+                                                <span class="input-group-text">US $</span>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.quantity_requested is not None %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control"
+                                                    value="{{ transaction.quantity_acquired }}"
+                                                    readonly
+                                                >
+
+                                                <span class="input-group-text"> / </span>
+
+                                                <input type="number" class="form-control modify-quantity-requested"
+                                                    placeholder="quantity"
+                                                    min="0" step="1" value="{{ transaction.quantity_requested }}"
+                                                >
+                                            </div>
+                                        {% else %}
+                                            {{ transaction.quantity_acquired }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ transaction.value | floatformat:2 }}</td>
                                     <td>{{ transaction.type }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
                     </table>
-                </form>
+                <!-- </form> -->
                 <br>
                 <br>
                 <br>
@@ -139,6 +164,10 @@
 {% block included_js %}
 
     <!-- This Page's JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
+    <script src="{% static 'admin/js/jquery.init.js' %}"></script>
+
     <script src="{% static 'portfolio/js/portfolio.js' %}"></script>
 
 {% endblock %}

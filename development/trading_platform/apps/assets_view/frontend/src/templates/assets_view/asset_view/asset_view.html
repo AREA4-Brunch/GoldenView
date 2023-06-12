@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
 
 <!-- This Page's CSS -->
-<link rel="stylesheet" href="{% static 'assets_view/components/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'common/components/trader_dashboard/trader_dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'assets_view/css/asset_view.css' %}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
@@ -31,7 +31,7 @@
 {% block content %}
 <div id="asset_view-content" data-asset-ticker="{{ symbol }}">
     <div class="row">
-        {% include 'assets_view/components/dashboard/dashboard.html' %}
+        {% include 'common/components/trader_dashboard/trader_dashboard.html' %}
 
         <div class="col-md-9">
             <!-- TradingView Widget BEGIN -->
@@ -41,50 +41,6 @@
                     <div id="tradingview_3edba"></div>
                 </div>
             </div>
-
-            <!-- TradingView Widget END -->
-            <!--
-
-            <form id="buy-sell-form" action="{% url 'page_404' %}" method="post">
-                {{ csrf }}
-                <div class="buttons">
-                    <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
-                    <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
-                    <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
-                </div>
-
-                <input type="number" name="startRange" placeholder="Start Range">
-                <input type="number" name="endRange" placeholder="End Range">
-                <input type="range" name="sliderRange" min="0" max="100" step="1">
-            </form>
-
-            <form id="buy-sell-form" action="{% url 'page_404' %}" method="post">
-                {{ csrf }}
-                <div class="buttons">
-                    <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
-                    <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity">
-                    <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
-                </div>
-                <p class="price-range">
-                    <label for="amount">Price range:</label>
-                    <input type="text" id="amount" readonly>
-                </p>
-                <div id="slider-range"></div>
-            </form> -->
-            <!-- <div class="container mt-5">
-                <div class="row">
-                  <div class="col-md-8">
-                    <input type="range" id="rangeSlider" name="rangeSlider" />
-                  </div>
-                  <div class="col-md-2">
-                    <input type="number" class="form-control" id="startRange" placeholder="Start Range" min="0" max="100">
-                  </div>
-                  <div class="col-md-2">
-                    <input type="number" class="form-control" id="endRange" placeholder="End Range" min="0" max="100">
-                  </div>
-                </div>
-            </div>
-             -->
 
              <form id="buy-sell-form" action="{% url 'page_404' %}" method="post" data-csrf-token="{{ csrf_token }}">
                 {% csrf_token %}
@@ -105,37 +61,39 @@
                 <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
             </div>
             <div class="buttons">
-                <input type="number" min="1" id="contract" class="quantity" placeholder="Contract ID(Optional)" value="0">
+                <span>Contract ID (Optional)</span>
             </div>
-        
+            <div class="buttons">
+                <input type="number" min="1" id="contract" class="quantity" value="0">
+            </div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button id="modal-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Stock predictions
             </button>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% if preds %}
+                                {{ preds }}
+                            {% else %}
+                                We do not have the predictions for this asset at this time.
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                    {% if preds %}
-                        {{ preds }}
-                    {% else %}
-                        We do not have the predictions for this asset at this time.
-                    {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
                 </div>
             </div>
-        
+
             <br>
             <br>
             <br>
@@ -153,9 +111,8 @@
 {% block included_js %}
 
 <!-- This Page's JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
 <!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
 <script src="{% static 'admin/js/jquery.init.js' %}"></script>
 

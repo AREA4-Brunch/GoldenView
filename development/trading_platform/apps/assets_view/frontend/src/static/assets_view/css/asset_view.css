@@ -102,3 +102,8 @@
 .row {
     margin-right: 0;
 }
+
+#modal-button {
+    background-color: #AF9A70;
+    border-color: #AF9A70;
+}
