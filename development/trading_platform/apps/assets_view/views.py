@@ -116,6 +116,7 @@ def buy_asset(request: HttpRequest):
 
 
 # request to sell asset
+@require_POST
 @login_required(login_url='login')
 @user_passes_test(can_user_trade)
 @if_trader_accept_terms_required()
