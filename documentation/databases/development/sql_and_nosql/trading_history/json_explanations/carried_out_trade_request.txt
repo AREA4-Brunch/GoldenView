@@ -1,6 +1,6 @@
 {
-    <!-- from the SQL db - ActiveTradeRequest table -->
-    "_id": 5,
+    <!-- [primary key] from the SQL db - ActiveTradeRequest table -->
+    "id_trade_request": 5,
 
     <!-- whether the request for purchasing or selling an asset and
          was tranferred from table in SQL db - PurchaseRequest table
@@ -27,7 +27,7 @@
     <!-- [Optional] contract it was binded by -->
     "contract": {
         <!-- in SQL db - BrokerBasicUserContract table - IdContract -->
-        "_id": 1,
+        "id": 1,
 
         <!-- time (ISODate) at which the request was rendered complete/carried out
              and broker's fee was charged
