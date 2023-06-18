@@ -42,26 +42,34 @@ Assets List
                 <h5>Status</h5>
             </div>
         </div>
-        {% for asset in asset_prices %}
+        {% if asset_prices %}
+            {% for asset in asset_prices %}
+                <div class="row">
+                    <div class="col-md-10">
+                        <button onclick="goToRealTimeView('{{ asset.symbol }}')">
+                            <h5>{{ asset.symbol }}</h5>
+                            <span>${{ asset.price }}</span>
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button onclick="goToRealTimeView('{{ asset.symbol }}')">
+                            {% if asset.up %}
+                                <div class="status-up">Increase</div>
+                            {% else %}
+                                <div class="status-down">Decrease</div>
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
             <div class="row">
-                <div class="col-md-10">
-                    <button onclick="goToRealTimeView('{{ asset.symbol }}')">
-                        <h5>{{ asset.symbol }}</h5>
-                        <span>${{ asset.price }}</span>
-                    </button>
+                <div class="col-md-12">
+                    <h5>No assets with such name found</h5>
                 </div>
-                <div class="col-md-2">
-                    <button onclick="goToRealTimeView('{{ asset.symbol }}')">
-                        {% if asset.up %}
-                            <div class="status-up">Increase</div>
-                        {% else %}
-                            <div class="status-down">Decrease</div>
-                        {% endif %}
-                    </button>
-                </div>
-            </div>
-            <hr>
-        {% endfor %}
+            </div> 
+        {% endif %}
         <br>
         <br>
         <br>
