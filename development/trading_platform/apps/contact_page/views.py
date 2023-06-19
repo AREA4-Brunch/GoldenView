@@ -1,8 +1,9 @@
 # Jovana Bjelica 2020/0349
-from datetime import date
+# from datetime import date
 import logging
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from ..website.models import SupportRequest
 
@@ -40,7 +41,7 @@ def form_contact_page(request: HttpRequest):
             emailform = form.cleaned_data['email']
             messageform = form.cleaned_data['message']
             # print(nameform, emailform, date.today(), messageform)
-            supportrequest = SupportRequest(name=nameform, email=emailform, time=date.today(), msg=messageform)
+            supportrequest = SupportRequest(name=nameform, email=emailform, time=timezone.now(), msg=messageform)
             supportrequest.save()
         else:
             #TODO: eventualno da se ulepsa tekst sa nepravilno unetim poljima

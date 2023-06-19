@@ -152,28 +152,38 @@ DATABASES = {
         }
     },
 
-    'trading_history': {   # trading_history nosql db - mongodb
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': os.environ.get("DB_TRADING_HISTORY_NAME", "").strip(),
-        'USER': os.environ.get("DB_TRADING_HISTORY_USERNAME", "").strip(),
-        'PASSWORD': os.environ.get("DB_TRADING_HISTORY_PASSWORD", "").strip(),
-        'HOST': os.environ.get("DB_TRADING_HISTORY_HOST", "").strip(),
-        'PORT': int(os.environ.get("DB_TRADING_HISTORY_PORT", "27017").strip()),
-    }
+    # 'trading_history': {   # trading_history nosql db - mongodb
+    #     'ENGINE': 'django_mongodb_engine',
+    #     'NAME': os.environ.get("DB_TRADING_HISTORY_NAME", "").strip(),
+    #     'USER': os.environ.get("DB_TRADING_HISTORY_USERNAME", "").strip(),
+    #     'PASSWORD': os.environ.get("DB_TRADING_HISTORY_PASSWORD", "").strip(),
+    #     'HOST': os.environ.get("DB_TRADING_HISTORY_HOST", "").strip(),
+    #     'PORT': int(os.environ.get("DB_TRADING_HISTORY_PORT", "27017").strip()),
+    # }
 
 }
 
-
 # Connect to MongoDB based on set config that it expects
+# connect(
+#     db=DATABASES['trading_history']['NAME'],
+#     host=DATABASES['trading_history']['HOST'],
+#     port=DATABASES['trading_history']['PORT'],
+#     username=DATABASES['trading_history']['USER'],
+#     password=DATABASES['trading_history']['PASSWORD'],
+#     # authentication_source=DATABASES['trading_history']['AUTH_SOURCE'],
+#     # authentication_mechanism=DATABASES['mongotrading_historyAUTH_MECHANISM']
+# )
+
 connect(
-    db=DATABASES['trading_history']['NAME'],
-    host=DATABASES['trading_history']['HOST'],
-    port=DATABASES['trading_history']['PORT'],
-    username=DATABASES['trading_history']['USER'],
-    password=DATABASES['trading_history']['PASSWORD'],
+    db=os.environ.get("DB_TRADING_HISTORY_NAME", "").strip(),
+    host=os.environ.get("DB_TRADING_HISTORY_HOST", "").strip(),
+    port=int(os.environ.get("DB_TRADING_HISTORY_PORT", "27017").strip()),
+    username=os.environ.get("DB_TRADING_HISTORY_USERNAME", "").strip(),
+    password=os.environ.get("DB_TRADING_HISTORY_PASSWORD", "").strip(),
     # authentication_source=DATABASES['trading_history']['AUTH_SOURCE'],
     # authentication_mechanism=DATABASES['mongotrading_historyAUTH_MECHANISM']
 )
+
 
 
 # Password validation
