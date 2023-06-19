@@ -14,7 +14,7 @@ def rendering(request, form, errold, errnew):
     return render(
         request,
         'password_reset.html',
-        {"form": form,"errold":errold,"errnew":errnew}
+        {"form": form, "errold": errold, "errnew": errnew}
     )
 # request for reset of password
 @login_required(login_url='login')
@@ -38,8 +38,8 @@ def password_reset_form(request: HttpRequest):
         if(form.is_valid()):
             old = form.cleaned_data['old']
             new = form.cleaned_data['new']
-            print(old,new)
-            print(request.user.username)
+            #print(old,new)
+            #print(request.user.username)
             user = User.objects.get(username=request.user.username)
 
             if(check_password(old, user.password)==False):
