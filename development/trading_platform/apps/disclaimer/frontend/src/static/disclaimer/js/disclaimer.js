@@ -2,7 +2,7 @@
 let scroll = document.getElementById("scroll");
 let content = document.getElementById("content");
 let box = document.getElementById("check");
-let button = document.getElementById("button"); 
+let button = document.getElementById("buttonContinue");
 
 function omoguciCheckBox() {
     box.disabled = false;
