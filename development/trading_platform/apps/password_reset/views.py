@@ -43,7 +43,11 @@ def password_reset_form(request: HttpRequest):
             user = User.objects.get(username=request.user.username)
 
             if(check_password(old, user.password)==False):
-                return rendering(request, form,"Enter your old password","")
+                return rendering(request, form, "Enter your old password", "")
+            if (old == new):
+                errmsg = ""
+                errmsg += "New password is the same as old one"
+                return rendering(request, form, "", errmsg.split("\n"))
 
             #TODO: add restrictions for making new password
             special_characters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{{}|~"
@@ -75,8 +79,8 @@ def password_reset_form(request: HttpRequest):
         else:
             wrongold=""
             wrongnew=""
-            if(form.data['old']==""): wrongold="you can't leave this field empty"
-            if(form.data['new']==""): wrongnew="you can't leave this field empty"
+            if(form.data['old']==""): wrongold="You can't leave this field empty"
+            if(form.data['new']==""): wrongnew="You can't leave this field empty"
 
             return rendering(request, form, wrongold,wrongnew.split("\n"))
         pass

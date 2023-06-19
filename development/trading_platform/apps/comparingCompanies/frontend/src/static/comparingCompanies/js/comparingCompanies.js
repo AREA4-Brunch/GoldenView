@@ -14,6 +14,20 @@ function initButtonCompare() {
         const company1 = document.getElementById('company1-input').value;
         const company2 = document.getElementById('company2-input').value;
 
+        if (company1 === "") {
+            company1_banner.parentElement.children[1].style.color = "red";
+            company1_banner.parentElement.children[1].textContent = "You need to input both companies";
+            company1_banner.parentElement.children[1].style.visibility = "visible";
+        }
+        if (company2 === "") {
+            company2_banner.parentElement.children[1].style.color = "red";
+            company2_banner.parentElement.children[1].textContent = "You need to input both companies";
+            company2_banner.parentElement.children[1].style.visibility = "visible";
+        }
+        if (company1 === "" || company2 === "") {
+            return;
+        }
+
         const better_company = getBetterCompany(
             company1,
             company2,
@@ -27,8 +41,10 @@ function initButtonCompare() {
             company1_banner.style.color = "#A2E3C4";
             company2_banner.style.color = "#F49393";
 
+            company1_banner.parentElement.children[1].style.color = "#A2E3C4";
             company1_banner.parentElement.children[1].textContent
                 = "(more favorable)";
+            company2_banner.parentElement.children[1].style.color = "#F49393";
             company2_banner.parentElement.children[1].textContent
                 = "(less favorable)";
 
@@ -36,17 +52,21 @@ function initButtonCompare() {
             company1_banner.style.color = "#F49393";
             company2_banner.style.color = "#A2E3C4";
 
+            company1_banner.parentElement.children[1].style.color = "#F49393";
             company1_banner.parentElement.children[1].textContent
                 = "(less favorable)";
+            company2_banner.parentElement.children[1].style.color = "#A2E3C4";
             company2_banner.parentElement.children[1].textContent
                 = "(more favorable)";
 
         } else {  // they are equally good
             company1_banner.style.color = "#f3d529";
             company2_banner.style.color = "#f3d529";
-            
+
+            company1_banner.parentElement.children[1].style.color = "#f3d529";
             company1_banner.parentElement.children[1].textContent
                 = "(equally favorable)";
+            company2_banner.parentElement.children[1].style.color = "#f3d529";
             company2_banner.parentElement.children[1].textContent
                 = "(equally favorable)";
         }
