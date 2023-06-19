@@ -39,6 +39,10 @@
                 </div>
                 <div style="color: gray;">
                     Send contract to Basic User: <label name="username" id="message">{{user.username}}</label>
+                    {% if success_msg %}
+                        <br/>
+                        <span style="color: #A2E3C4;">{{ success_msg }}</span>
+                    {% endif %}
                 </div>
                 
                     <table>

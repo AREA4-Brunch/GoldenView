@@ -49,7 +49,7 @@ def broker_dashboard(request: HttpRequest):
         return redirect('home')
     
     form = BrokerDashboardForm()
-    print(form)
+    # print(form)
     return rendering1(request, createContext1(),form)
 
 # form/table of the broker dashboard
@@ -71,7 +71,7 @@ def broker_dashboard_form(request: HttpRequest):
             return broker_dashboard_send_request(request,user)
             
         else:
-            print("else")
+            # print("else")
             return broker_dashboard(request)
 
 
@@ -84,11 +84,13 @@ def broker_dashboard_form(request: HttpRequest):
 ######################################################################################
 
 # render request for broker
-def rendering2(request, user, form, errmsg,errfee):
+def rendering2(request, user, form, errmsg,errfee, success_msg=None):
     return render(
         request,
         'broker_dashboard_send_request.html',
-        {"user": user, "form": form,"errmsg":errmsg,"errfee":errfee}
+        {"user": user, "form": form,"errmsg":errmsg,"errfee":errfee,
+         "success_msg": success_msg
+         }
     )
 
 # form for the broker dashboard request sent
@@ -128,12 +130,12 @@ def broker_dashboard_send_request_form(request: HttpRequest):
             textfile.save()
             brokercontract = BrokerBasicUserContractFile(filepath = textfile, contractcontent = messageform)
             brokercontract.save()
-            print(cast_to_basic(user))
-            print(cast_to_broker(request.user))
-            print(brokercontract)
-            print(timezone.now())
-            print(feeform)
-            print(timezone.now() + timezone.timedelta(days=365))
+            # print(cast_to_basic(user))
+            # print(cast_to_broker(request.user))
+            # print(brokercontract)
+            # print(timezone.now())
+            # print(feeform)
+            # print(timezone.now() + timezone.timedelta(days=365))
             contract = BrokerBasicUserContract(idbasicuser=cast_to_basic(user),
                                                idbroker=cast_to_broker(request.user),
                                                contractfilepath=brokercontract,
@@ -154,12 +156,16 @@ def broker_dashboard_send_request_form(request: HttpRequest):
 
 
     except Exception as e:
-        print("error")
+        # print("error")
         request.session['internal_err'] = str(e)
         logging.error(f'Internal error: {e}')
         return broker_dashboard(request)
 
-    return broker_dashboard(request)
+    return rendering2(
+        request, user ,form, wrongmsg, wrongfee,
+        success_msg="Request has been successfuly sent. Sit tight until the user responds."
+    )
+    # return broker_dashboard(request)
 
 #################################################################
 
