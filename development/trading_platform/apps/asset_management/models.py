@@ -26,8 +26,9 @@ class Asset(models.Model):
 # raise index over idasset ??
 class MakeBeliefOwns(models.Model):
     idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
-    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
-    quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
+    # idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', null=False, blank=False)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    quantity = models.IntegerField(db_column='Quantity', default=0)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.asset_management'
