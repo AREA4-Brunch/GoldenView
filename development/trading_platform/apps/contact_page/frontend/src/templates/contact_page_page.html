@@ -41,6 +41,10 @@
                 </div>
                 <div class="">
                     You can reach us anytime via <span><a href="mailto:contact@goldenview.com" style="color:rgb(175,154,112)">contact@goldenview.com</a></span>
+                    {% if success_msg %}
+                        <br/>
+                        <span style="color: #A2E3C4;">{{ success_msg }}</span>
+                    {% endif %}
                 </div>
                 <form action="{% url 'form_contact_page' %}" method="POST">
                     {% csrf_token %}

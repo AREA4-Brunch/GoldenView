@@ -9,11 +9,14 @@ from ..website.models import SupportRequest
 from ..contact_page.backend.src.views.forms import ContactSupportForm
 
 # render page
-def rendering(request, form, name, email, msg):
+def rendering(request, form, name, email, msg, success_msg=None):
     return render(
         request,
         'contact_page_page.html',
-        {"form": form,"errname":name,"erremail":email,"errmsg":msg}
+        {
+            "form": form,"errname":name,"erremail":email,"errmsg":msg,
+            "success_msg": success_msg
+        }
     )
 
 # request for the page
@@ -36,7 +39,7 @@ def form_contact_page(request: HttpRequest):
             nameform = form.cleaned_data['name']
             emailform = form.cleaned_data['email']
             messageform = form.cleaned_data['message']
-            print(nameform, emailform, date.today(), messageform)
+            # print(nameform, emailform, date.today(), messageform)
             supportrequest = SupportRequest(name=nameform, email=emailform, time=date.today(), msg=messageform)
             supportrequest.save()
         else:
@@ -49,11 +52,16 @@ def form_contact_page(request: HttpRequest):
             if(form.data['message']==""): wrongmsg="you can't leave this field empty"
 
             return rendering(request, form, wrongname,wrongemail,wrongmsg)
-        pass
 
     except Exception as e:
         request.session['internal_err'] = str(e)
         logging.error(f'Internal error: {e}')
         return redirect('contact_page_page')
 
-    return redirect('home')
+    # return redirect('home')
+    form = ContactSupportForm()
+    return rendering(
+        request,
+        form, "", "", "",
+        success_msg='Message successfuly sent to support. We will get back to you.'
+    )
