@@ -526,14 +526,14 @@ def exchange_money_for_asset(
     )
 
     seller_asset_funds = MakeBeliefOwns.objects.select_for_update().get(
-        idpaymentmethod=seller.idselectedfundstrasnfermethod_id,
+        idpaymentmethod=seller.idselectedfundstrasnfermethod,
         idasset=asset
     )
 
     # check if seller has enough asset:
     if seller_asset_funds.quantity < quantity:
         logging.error(f'Insufficient asset quantity by {seller.idtrader.iduser}')
-        raise Exception('Insufficient asset quantity')
+        raise InsufficentFunds('Insufficient asset quantity')
 
     buyer_funds = FundsTransferMethod.objects.select_for_update().get(
         idpaymentmethod=buyer.idselectedfundstrasnfermethod_id
@@ -542,11 +542,11 @@ def exchange_money_for_asset(
     # check if buyer has enough money:
     if buyer_funds.makebeliefbalance < total_price:
         logging.error(f'Insufficient funds by {buyer.idtrader.iduser}')
-        raise Exception('Insufficient funds')
+        raise InsufficentFunds('Insufficient funds')
 
     try:
         buyer_asset_funds = MakeBeliefOwns.objects.select_for_update().get(
-            idpaymentmethod=buyer.idselectedfundstrasnfermethod_id,
+            idpaymentmethod=buyer.idselectedfundstrasnfermethod,
             idasset=asset
         )
 

@@ -19,6 +19,7 @@ from apps.asset_management.backend.src.utils import portfolio as portfolio_core
 from .backend.src.views import portfolio_page, modify_trade_request
 from .backend.src.utils import cleaning_data
 
+from apps.asset_management.backend.src.utils.trading import match_traders_request
 
 
 # Create your views here.
@@ -168,6 +169,14 @@ def modify_active_trade_request(request: HttpRequest):
                 new_unitpricelowerbound=request_data["lowerbound"],
                 new_unitpriceupperbound=request_data["upperbound"]
             )
+
+        try:
+            match_traders_request(
+                is_purchase_request=request_data["is_purchase_request"],
+                request_id=request_data["trade_request"].pk
+            )
+        except Exception as e:
+            logging.exception('Failed to start match traders request task after successful reqeust update.')
 
         # successfully created request
         status = 200

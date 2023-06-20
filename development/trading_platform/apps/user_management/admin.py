@@ -1,7 +1,6 @@
 # Aleksandar Radenkovic 2020/0272
 from django.contrib import admin
 
-from ..asset_management.models import MakeBeliefOwns
 
 # Register your models here.
 

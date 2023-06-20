@@ -26,12 +26,12 @@ function initTradingViewWidget() {
     let symbol = document.getElementById('asset_view-content').dataset.assetTicker;
     // console.log(`Caught asset ticker: ${symbol}`);
 
-    if (symbol === null) {
-        symbol = "NASDAQ:AAPL";
-    }
-    else {
-        symbol = "NASDAQ:" + symbol;
-    }
+    // if (symbol === null) {
+    //     symbol = "NASDAQ:AAPL";
+    // }
+    // else {
+    //     symbol = "NASDAQ:" + symbol;
+    // }
 
     new TradingView.widget(
         {

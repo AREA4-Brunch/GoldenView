@@ -25,8 +25,8 @@ class Asset(models.Model):
 
 # raise index over idasset ??
 class MakeBeliefOwns(models.Model):
-    idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
-    # idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', null=False, blank=False)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    # idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    idpaymentmethod = models.ForeignKey('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', null=False, blank=False)
     idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
     quantity = models.IntegerField(db_column='Quantity', default=0)  # Field name made lowercase.
 
@@ -35,7 +35,11 @@ class MakeBeliefOwns(models.Model):
         app_label = 'asset_management'
         managed = True
         db_table = 'makebeliefowns'
-        unique_together = (('idpaymentmethod', 'idasset'),)
+        # unique_together = (('idpaymentmethod', 'idasset'),)
+        constraints = [
+            models.UniqueConstraint(fields=['idpaymentmethod', 'idasset'],
+                                    name='composite_primary_key')
+        ]
 
 
 # move unitpricelowerbound and unitpriceupperbound

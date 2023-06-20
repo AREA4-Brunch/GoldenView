@@ -49,7 +49,7 @@ def asset_view(request, symbol: str):
         context['preds'] = f'Daily predicted values in USD starting from {preds.start_day}: {preds.pred_vals}'
 
     except Exception as e:
-        logging.exception(f'Failed to fetch the predictions for {symbol}')
+        logging.error(f'Failed to fetch the predictions for {symbol}')
 
     return render(
         request=request,
