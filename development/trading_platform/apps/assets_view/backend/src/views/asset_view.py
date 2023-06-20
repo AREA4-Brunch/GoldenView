@@ -109,7 +109,7 @@ def get_cleaned_data(
     return request_data
 
 
-# requet to send or buy an asset
+# request to send or buy an asset
 def send_buy_sell_request(
     is_purchase_request: bool,
     request_data: dict
