@@ -27,8 +27,10 @@ box.onchange = function(){
 scroll.onscroll = function(){
     var total = scroll.scrollTop + scroll.clientHeight;
 
+    console.log(`scroll.scrollTop: ${scroll.scrollTop}\nscroll.clientHeight: ${scroll.clientHeight}`);
+
     //alert(contet.clientHeight)
-    if(total >= 570){
+    if(total >= scroll.scrollHeight - 20){
         omoguciCheckBox();
     } 
 }
