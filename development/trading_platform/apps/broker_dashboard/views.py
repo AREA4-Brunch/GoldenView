@@ -162,7 +162,7 @@ def broker_dashboard_send_request_form(request: HttpRequest):
         return broker_dashboard(request)
 
     return rendering2(
-        request, user ,form, wrongmsg, wrongfee,
+        request, user ,form, '', '',
         success_msg="Request has been successfuly sent. Sit tight until the user responds."
     )
     # return broker_dashboard(request)

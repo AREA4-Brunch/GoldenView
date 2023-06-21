@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from apps.administrator_dashboard.backend.src.view.form import AdministratorDashboardForm, AdministratorDashboardRequestForm
-from apps.user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker
+from apps.user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker, cast_to_administrator
 
 from apps.file_management.models import ApprovalReportFile, BrokerRequestFile, TextFile
 from apps.user_management.models import Broker, Trader, User
@@ -42,9 +42,15 @@ def createContext1():
 #render admin dashboard
 @login_required(login_url='login')
 def administrator_dashboard(request: HttpRequest):
-    if request.user.is_staff == 0:
+    # if request.user.is_staff == 0:
+    #     return redirect('home')
+
+    # if reqeust.user is not Administrator object then
+    # it has no access to this feature
+    # if not hasattr(request.user, 'idadministrator'):
+    if cast_to_administrator(request.user) is None:
         return redirect('home')
-    
+
     form = AdministratorDashboardForm()
 
     return rendering1(request, createContext1(),form)
@@ -105,9 +111,15 @@ def createContext2():
 # admin request form/tablee
 @login_required(login_url='login')
 def administrator_dashboard_request(request: HttpRequest):
-    if request.user.is_staff == 0:
+    # if request.user.is_staff == 0:
+    #     return redirect('home')
+
+    # if reqeust.user is not Administrator object then
+    # it has no access to this feature
+    # if not hasattr(request.user, 'idadministrator'):
+    if cast_to_administrator(request.user) is None:
         return redirect('home')
-    
+
     form = AdministratorDashboardRequestForm()
 
     return rendering2(request, createContext2(),form)

@@ -34,7 +34,10 @@ def create_basic_user(email, username, password, birthday, gender, country):
             )
 
             # add the user to the group of authorized to trade
-            group = Group.objects.get(name='can_trade')
+            # TODO: change `get_or_create` into `get` and add to
+            # README.md that the group has to be created manually
+            # when running the project for first time
+            group = Group.objects.get_or_create(name='can_trade')
             user.groups.add(group)
             user.save()
     

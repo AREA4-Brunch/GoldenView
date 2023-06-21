@@ -1,4 +1,4 @@
-from apps.user_management.models import BasicUser, User, Trader, Broker
+from apps.user_management.models import BasicUser, User, Trader, Broker, Administrator
 
 
 def cast_to_trader(user: User):
@@ -28,4 +28,15 @@ def cast_to_basic(user: User):
     for basicuser in BasicUser.objects.all():
         if user==basicuser.idbasicuser.idtrader:
             return basicuser
+    return None
+
+
+def cast_to_administrator(user: User):
+    if not getattr(user, 'administrator', False):
+        return None
+
+    administrator = user.administrator
+    if administrator and isinstance(administrator, Administrator):
+        return administrator
+
     return None
