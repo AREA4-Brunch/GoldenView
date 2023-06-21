@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from django.test import Client, TestCase
 from apps.user_management.models import User, Trader, Country
-from . import views
+from apps.disclaimer import views
 
 
 class Tests(TestCase):

@@ -9,7 +9,7 @@ from apps.broker_management.models import BrokerBasicUserContract
 from ..user_dashboard.backend.src.view.form import UserDasboardRequestForm, UserDashboardForm
 
 from ..administrator_dashboard.backend.src.view.form import AdministratorDashboardForm, AdministratorDashboardRequestForm
-from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker
+from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker, cast_to_basic
 
 from ..file_management.models import ApprovalReportFile, BrokerBasicUserContractFile, BrokerRequestFile, TextFile
 from ..user_management.models import Broker, Trader, User
@@ -29,9 +29,10 @@ def rendering1(request, contracts, form):
 # request for user dashboard
 @login_required(login_url='login')
 def user_dashboard(request: HttpRequest):
-    if cast_to_broker(request.user) is not None:
+    if cast_to_basic(request.user) is None \
+    or request.user.is_staff:
         return redirect('home')
-    
+
     form = UserDashboardForm()
 
     pushedcontracts = []
