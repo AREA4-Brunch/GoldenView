@@ -35,10 +35,10 @@
                 <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
                     {% csrf_token %}
                 <div class="">
-                    <h2>Contact form</h2>
+                    <h2>Contract form</h2>
                 </div>
                 <div style="color: gray;">
-                    Send contract to Basic User: <label name="username" id="message">{{user.username}}</label>
+                    Send contract to Basic User: <label name="username" id="message">{{dst_user.username}}</label>
                     {% if success_msg %}
                         <br/>
                         <span style="color: #A2E3C4;">{{ success_msg }}</span>
@@ -78,11 +78,11 @@
                             <td>
                                 <br>
                                 <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                                    <button name="{{user.username}}" type="submit" id="button" class="buttonEn">Send contract</button>
+                                    <button name="{{dst_user.username}}" type="submit" id="button" class="buttonEn">Send contract</button>
                                 </form>
                                     <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred">Cancel</button>
+                                    <button name="{{dst_user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred">Cancel</button>
                                 </div>
                             </td>
                         </tr>

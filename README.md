@@ -7,7 +7,7 @@ Done by team Terminal.
 # Project Structure
 <br>
 <pre>
-project_Terminal/
+GoldenView/
 |
 │   .gitattributes
 │   .gitignore
@@ -124,21 +124,13 @@ project_Terminal/
 ├───documentation
 │   │   environment-setup.md
 │   │
-│   ├───__to_submit
-│   │   ├───development (FR of other team's project)
-│   │   └───sent (officially submitted via email)
-│   │
 │   ├───features_specs (main project file and specs of use case scenarios)
-│   │
-│   ├───formal_review (of GoldenView, done by other team)
 │   │
 │   ├───databases (logical - models)
 │   │   ├───development (prototypes, editor files, etc)
 │   │   └───output (db models being used in the implementation)
 │   │
 │   ├───uml_diagrams ( the good stuff ;) )
-│   │
-│   ├───api (documentation of endpoints)
 │   │
 │   └───ideas (final stuff from WhatsApp that is agreed upon)
 │           design.docx
@@ -153,6 +145,7 @@ project_Terminal/
     ├───e2e (end to end, from user perspective)
     │
     └───frontend
+        ├───ui
         └───unit
 
 </pre>
@@ -171,7 +164,7 @@ project_Terminal/
 
 ### Working on a new feature or bug fix
 
-1. Pull the latest changes from the `master` branch: `git pull origin master`.
+1. Pull the latest changes from the `master` branch: `git pull --rebase origin master`.
 2. Work on the `master` branch and make frequent commits.
 3. When you're ready to submit your changes for review, push your branch to the remote repository using Gerrit: `git push origin HEAD:refs/for/master`.
 4. Open Gerrit in your web browser and navigate to your change request:<br/>https://crete.etf.bg.ac.rs/dashboard/self

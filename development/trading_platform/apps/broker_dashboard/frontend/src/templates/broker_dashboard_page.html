@@ -62,11 +62,11 @@
                             <td id="trash"></td>
                         </tr>
 
-                        {% for user, userType in users %}
+                        {% for user_, userType in users %}
                             
                             <tr id="columns">
-                                <td style="color: gray;">@{{user.username}}</td>
-                                {% if user.is_active %}
+                                <td style="color: gray;">@{{user_.username}}</td>
+                                {% if user_.is_active %}
                                     <td style="color: lightgreen">Active</td>
                                 {% else %}
                                     <td style="color: indianred">Inactive</td>
@@ -75,10 +75,10 @@
                                     {{userType}}
                                 </td>
                                 <td>
-                                    {{user.email}}
+                                    {{user_.email}}
                                 </td>
                                 <td>
-                                    <button name={{user.username}} type="submit" style="color: #AF9A70">Send contract</button>
+                                    <button name={{user_.username}} type="submit" style="color: #AF9A70">Send contract</button>
                                 </td>
                             </tr>
                         {% endfor %}

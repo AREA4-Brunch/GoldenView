@@ -82,7 +82,7 @@ def user_dashboard_form(request: HttpRequest):
 
     except Exception as e:
         request.session['internal_err'] = str(e)
-        logging.error(f'Internal error: {e}')
+        logging.exception(f'Internal error: {e}')
         return user_dashboard(request)
 
 
@@ -134,7 +134,7 @@ def user_dashboard_send_request_accept_form(request: HttpRequest):
     except Exception as e:
         print("error")
         request.session['internal_err'] = str(e)
-        logging.error(f'Internal error: {e}')
+        logging.exception(f'Internal error: {e}')
         return user_dashboard(request)
 
     return user_dashboard(request)
@@ -167,19 +167,18 @@ def user_dashboard_send_request_decline_form(request: HttpRequest):
 
 
     except Exception as e:
-        print("error")
         request.session['internal_err'] = str(e)
-        logging.error(f'Internal error: {e}')
-        return user_dashboard(request)
+        logging.exception(f'Internal error: {e}')
+        # return user_dashboard(request)
+        return redirect('user_dashboard_page')
 
-    return user_dashboard(request)
+    # return user_dashboard(request)
+    return redirect('user_dashboard_page')
+
 
 # function for canceling the request
 def user_dashboard_send_request_cancel_form(request: HttpRequest):
-    return user_dashboard(request)
+    # return user_dashboard(request)
+    return redirect('user_dashboard_page')
 
 #################################################################
-
-# logout for the user
-def adminlogout(request: HttpRequest):
-    return redirect('logout')

@@ -88,7 +88,7 @@ def rendering2(request, user, form, errmsg,errfee, success_msg=None):
     return render(
         request,
         'broker_dashboard_send_request.html',
-        {"user": user, "form": form,"errmsg":errmsg,"errfee":errfee,
+        {"dst_user": user, "form": form,"errmsg":errmsg,"errfee":errfee,
          "success_msg": success_msg
          }
     )
@@ -107,6 +107,7 @@ def broker_dashboard_send_request_form(request: HttpRequest):
         return redirect('page_404')
 
     try:
+        idcontract = None
         form = BrokerDasboardRequestForm(request.POST)
         user=""
         for i in User.objects.all():
@@ -146,6 +147,7 @@ def broker_dashboard_send_request_form(request: HttpRequest):
                                                expirationtime=timezone.now() + timezone.timedelta(days=365)
                                                )
             contract.save()
+            idcontract = contract.idcontract
 
         else:
             wrongmsg=""
@@ -164,6 +166,7 @@ def broker_dashboard_send_request_form(request: HttpRequest):
     return rendering2(
         request, user ,form, '', '',
         success_msg="Request has been successfuly sent. Sit tight until the user responds."
+                   + f'Contract ID: {idcontract}'
     )
     # return broker_dashboard(request)
 
