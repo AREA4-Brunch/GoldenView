@@ -1,7 +1,7 @@
 # Aleksandar Radenkovic 2020/0272 i Jovan Jovanovic 2020/0083
 from django.db import models
 
-from apps.asset_management.models import ActiveTradeRequest
+from apps.asset_management.models import PurchaseRequest, SalesRequest
 from apps.user_management.models import BasicUser, Broker
 from apps.file_management.models import BrokerBasicUserContractFile
 
@@ -31,14 +31,3 @@ class BrokerBasicUserContract(models.Model):
         app_label = 'broker_management'
         managed = True
         db_table = 'brokerbasicusercontract'
-
-# check if it is binded by contract
-class IsBindedByContract(models.Model):
-    # MUST BE CASCADE - as deleted active trade request get stored in nosql and this data with it
-    idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idcontract = models.ForeignKey(BrokerBasicUserContract, models.DO_NOTHING, db_column='IdContract')  # Field name made lowercase.
-
-    class Meta:
-        app_label = 'broker_management'
-        managed = True
-        db_table = 'isbindedbycontract'

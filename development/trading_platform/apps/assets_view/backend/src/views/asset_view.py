@@ -134,8 +134,8 @@ def send_buy_sell_request(
     try:
         # queue up the task that matches buy and sell request
         # as now the change in db happened:
-        match_traders_request(is_purchase_request=is_purchase_request,
-                              request_id=request.idtraderequest)
+        match_traders_request(is_purchase_request, request.pk)
+
     except Exception as e:
         # process_all_active_requests()
         # Internal error that user should not be notified about

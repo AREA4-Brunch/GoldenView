@@ -41,33 +41,20 @@ class MakeBeliefOwns(models.Model):
                                     name='composite_primary_key')
         ]
 
-
-# move unitpricelowerbound and unitpriceupperbound
-# into PurchaseRequest and SalesRequest so the indexes
-# could be raised over them for O(m+n) match all requests ??
+# raise an index over unitpricelowerbound, unitpriceupperbound ??
 # raise an index over idasset it for quicker search ??
-# model of the Active trade request in the database
-class ActiveTradeRequest(models.Model):
-    idtraderequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+# model of the purchase request in the database
+class PurchaseRequest(models.Model):
+    idpurchaserequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
     idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
     iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
     quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
     totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
     quantityrequired = models.IntegerField(db_column='QuantityRequired', null=False, blank=False)  # Field name made lowercase.
-    # unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
-    # unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
-
-    class Meta:
-        # app_label = 'apps.asset_management'
-        app_label = 'asset_management'
-        managed = True
-        db_table = 'activetraderequest'
-
-# model of the purchase request in the database
-class PurchaseRequest(models.Model):
-    idpurchaserequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
-    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
+    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    isboundbycontract = models.BooleanField(db_column='IsBoundByContract', default=False)
+    idcontract = models.ForeignKey('broker_management.BrokerBasicUserContract', models.DO_NOTHING, db_column='IdContract', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.asset_management'
@@ -75,11 +62,20 @@ class PurchaseRequest(models.Model):
         managed = True
         db_table = 'purchaserequest'
 
+# raise an index over unitpricelowerbound, unitpriceupperbound ??
+# raise an index over idasset it for quicker search ??
 # model of the sales request in the database
 class SalesRequest(models.Model):
-    idsalesrequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
-    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2, null=False, blank=False)  # Field name made lowercase.
+    idsalesrequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
+    quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
+    totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
+    quantityrequired = models.IntegerField(db_column='QuantityRequired', null=False, blank=False)  # Field name made lowercase.
+    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    isboundbycontract = models.BooleanField(db_column='IsBoundByContract', default=False)
+    idcontract = models.ForeignKey('broker_management.BrokerBasicUserContract', models.DO_NOTHING, db_column='IdContract', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.asset_management'
@@ -121,7 +117,7 @@ class AssetStats(Document):
     }
 
 # model of the carried out requests in the database
-class CarriedOutTradeRequest(Document):
+class CarriedOutPurchaseTradeRequest(Document):
     class Contract(EmbeddedDocument):
         id = fields.IntField(primary_key=True)
         time = fields.DateTimeField(required=True)
@@ -129,14 +125,32 @@ class CarriedOutTradeRequest(Document):
         fee_paid = fields.FloatField(precision=2)
 
     id_trade_request = fields.LongField(primary_key=True)
-    is_purchase = fields.BooleanField(required=True)
     id_user = fields.IntField(required=True)
     id_asset = fields.IntField(required=True)
     quantity = fields.IntField(required=True)
     total_price = fields.FloatField(precision=2, required=True)
-    contract = EmbeddedDocumentField('CarriedOutTradeRequest.Contract')
+    contract = EmbeddedDocumentField('CarriedOutPurchaseTradeRequest.Contract')
 
     meta = {
         # set the table name to match documentation
-        'collection': 'carried_out_trade_request'
+        'collection': 'carried_out_purchase_trade_request'
+    }
+
+class CarriedOutSalesTradeRequest(Document):
+    class Contract(EmbeddedDocument):
+        id = fields.IntField(primary_key=True)
+        time = fields.DateTimeField(required=True)
+        status = fields.StringField(required=True)
+        fee_paid = fields.FloatField(precision=2)
+
+    id_trade_request = fields.LongField(primary_key=True)
+    id_user = fields.IntField(required=True)
+    id_asset = fields.IntField(required=True)
+    quantity = fields.IntField(required=True)
+    total_price = fields.FloatField(precision=2, required=True)
+    contract = EmbeddedDocumentField('CarriedOutSalesTradeRequest.Contract')
+
+    meta = {
+        # set the table name to match documentation
+        'collection': 'carried_out_sales_trade_request'
     }

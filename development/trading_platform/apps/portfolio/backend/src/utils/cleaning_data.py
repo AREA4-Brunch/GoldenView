@@ -4,11 +4,11 @@
 
 import logging
 
+from typing import Union
 from django.http import HttpRequest
 
 from apps.user_management.models import Trader
-from apps.asset_management.models import ActiveTradeRequest
-from apps.broker_management.models import IsBindedByContract
+from apps.asset_management.models import PurchaseRequest, SalesRequest
 
 
 
@@ -19,27 +19,31 @@ class InvalidForm(Exception):
 
 def can_update(
     trader: Trader,
-    idtraderequest: int
-) -> ActiveTradeRequest:
+    idtraderequest: int,
+    is_purchase_request: bool
+) -> Union[PurchaseRequest, SalesRequest]:
     """
         Checks if given trader has access to update the
         active trade reqeust with given id and if true then
         returns active_trade_request else returns None.
     """
     # check if the trader owns the request
-    active_trade_request = ActiveTradeRequest.objects.get(
-        idtraderequest=idtraderequest
-    )
+    if is_purchase_request:
+        trade_request = PurchaseRequest.objects.get(
+            idpurchaserequest=idtraderequest
+        )
+    else:
+        trade_request = SalesRequest.objects.get(
+            idsalesrequest=idtraderequest
+        )
 
-    if active_trade_request.iduser == trader:
-        return active_trade_request
+    if trade_request.iduser == trader:
+        return trade_request
 
     # check if the user is the broker behind the request
-    if IsBindedByContract.objects.filter(
-        idtraderequest=active_trade_request,
-        idcontract__idbroker_id=trader.pk
-    ).exists():
-        return active_trade_request
+    if trade_request.isboundbycontract \
+    and trade_request.idcontract.idbroker_id == trader.pk:
+        return trade_request
 
     return None
 
@@ -84,7 +88,8 @@ def get_cleaned_data_from_trade_request_row(
         idtraderequest = request_data['trade_request']
         request_data['trade_request'] = can_update(
             request_data["trader"],
-            idtraderequest
+            idtraderequest,
+            request_data["is_purchase_request"]
         )
 
         if request_data['trade_request'] is None:

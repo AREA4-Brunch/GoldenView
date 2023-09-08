@@ -3,7 +3,7 @@
 """
 
 import logging
-
+from decimal import Decimal
 from django.http import HttpRequest
 
 from ..utils.cleaning_data import get_cleaned_data_from_trade_request_row
@@ -29,7 +29,7 @@ def get_cleaned_data(
         try:  # process lowerbound
             request_data["lowerbound"] = request.POST.get("lowerbound", None)
             if request_data["lowerbound"] is not None:
-                request_data["lowerbound"] = float(request_data["lowerbound"])
+                request_data["lowerbound"] = Decimal(request_data["lowerbound"])
         except Exception as e:
             is_valid = False
             response['errors'].append('Invalid lowerbound form data.')
@@ -37,7 +37,7 @@ def get_cleaned_data(
         try:  # process upperbound
             request_data["upperbound"] = request.POST.get("upperbound", None)
             if request_data["upperbound"] is not None:
-                request_data["upperbound"] = float(request_data["upperbound"])
+                request_data["upperbound"] = Decimal(request_data["upperbound"])
         except Exception as e:
             is_valid = False
             response['errors'].append('Invalid upperbound form data.')
