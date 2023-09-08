@@ -10,13 +10,13 @@ from decimal import Decimal
 
 from apps.user_management.models import Trader, Broker, FundsTransferMethod
 
-from apps.asset_management.models import Asset, ActiveTradeRequest, \
+from apps.asset_management.models import Asset, \
                                          PurchaseRequest, SalesRequest, \
                                          MakeBeliefOwns, AssetTransaction, \
-                                         CarriedOutTradeRequest
+                                         CarriedOutPurchaseTradeRequest, \
+                                         CarriedOutSalesTradeRequest
 
-from apps.broker_management.models import BrokerBasicUserContract, \
-                                          IsBindedByContract
+from apps.broker_management.models import BrokerBasicUserContract
 
 from background_task import background
 from background_task.models import Task
@@ -58,33 +58,19 @@ def create_buy_sell_request(
 
     # create the request in the database
     with transaction.atomic():
-        request = ActiveTradeRequest.objects.create(
+        request_class = PurchaseRequest if is_purchase_request \
+                      else SalesRequest
+        request = request_class.objects.create(
             idasset=asset,
             iduser=trader,
             quantityrequested=quantity,
             # totaltransactionsprice=0.,  # default
-            quantityrequired=quantity
+            quantityrequired=quantity,
+            unitpricelowerbound=price_lower_bound,
+            unitpriceupperbound=price_upper_bound,
+            isboundbycontract=contract is not None,
+            idcontract=contract
         )
-
-        if is_purchase_request:
-            PurchaseRequest.objects.create(
-                idpurchaserequest=request,
-                unitpricelowerbound=price_lower_bound,
-                unitpriceupperbound=price_upper_bound
-            )
-        else:
-            SalesRequest.objects.create(
-                idsalesrequest=request,
-                unitpricelowerbound=price_lower_bound,
-                unitpriceupperbound=price_upper_bound
-            )
-
-        # store if binded by contract, (only for active requests)
-        if contract is not None:
-            IsBindedByContract.objects.create(
-                idtraderequest=request,
-                idcontract=contract
-            )
 
         return request
 
@@ -95,6 +81,7 @@ def match_traders_request(
     is_purchase_request: bool,
     request_id: BigIntegerField
 ):
+    
     try:
         # if there are incomplete tasks process let
         # all active requests instead be processed
@@ -123,12 +110,16 @@ def match_traders_request(
             if request is None:  # request is no longer active
                 return;
 
+        logging.info(
+             f'Running match_traders_request for id={request.pk} is_purchase_request={is_purchase_request}'
+        )
+
         # find the requests that matched it in the opposite table
         # and sort by id so it would be fair FIFO matching
         if is_purchase_request:
             matching_requests = SalesRequest.objects.filter(
-                idsalesrequest__idasset=request.idpurchaserequest.idasset,
-                idsalesrequest__quantityrequested__gt=0,
+                idasset=request.idasset,
+                quantityrequested__gt=0,
                 unitpricelowerbound__lte=request.unitpriceupperbound,
                 unitpriceupperbound__gte=request.unitpricelowerbound
             ).order_by(
@@ -136,8 +127,8 @@ def match_traders_request(
             )
         else:  # is sales request
             matching_requests = PurchaseRequest.objects.filter(
-                idpurchaserequest__idasset=request.idsalesrequest.idasset,
-                idpurchaserequest__quantityrequested__gt=0,
+                idasset=request.idasset,
+                quantityrequested__gt=0,
                 unitpricelowerbound__lte=request.unitpriceupperbound,
                 unitpriceupperbound__gte=request.unitpricelowerbound
             ).order_by(
@@ -145,7 +136,7 @@ def match_traders_request(
             )
 
         if not matching_requests:
-            logging.info(f'No matching requests for {request_id}')
+            logging.info(f'No matching requests for {request.pk}')
             return
 
         # match with each request if possible
@@ -164,13 +155,13 @@ def match_traders_request(
                     break
 
             except Exception as e:
-                logging.exception(f'Single matching with request for {request_id} failed.')
+                logging.exception(f'Single matching with request for {request.pk} failed.')
 
     except Exception as e:
         # in case of failure enqueue task that matches all not just 1
         # active request
         logging.exception(f'Match traders requets failed for is_purchase_request={is_purchase_request}'
-                        + f', request_id={request_id}')
+                        + f', request_id={request.pk}')
         process_all_active_requests.now()
 
 
@@ -191,23 +182,24 @@ def process_all_active_requests():
         # and match them (if indexes over db then could iterate in O(m + n))
         if PurchaseRequest.objects.count() < SalesRequest.objects.count():
             requests = PurchaseRequest.objects.filter(
-                idpurchaserequest__quantityrequired__gt=0
+                quantityrequired__gt=0
             )
             # could order by lower bound unit price and create custom iteration
             for trade_request in requests:
-                match_traders_request(True, trade_request.idpurchaserequest.idtraderequest)
+                match_traders_request(True, trade_request.pk)
+
         else:
             requests = SalesRequest.objects.filter(
-                idsalesrequest__quantityrequired__gt=0
+                quantityrequired__gt=0
             )
             # could order by lower bound unit price and create custom iteration
             for trade_request in requests:
-                match_traders_request(False, trade_request.idsalesrequest.idtraderequest)
+                match_traders_request(False, trade_request.pk)
 
         # clean up the fulfilled purchase trade requests
         with transaction.atomic():
             requests = PurchaseRequest.objects.select_for_update().filter(
-                idpurchaserequest__quantityrequired=0
+                quantityrequired=0
             )
 
             for trade_request in requests:
@@ -216,7 +208,7 @@ def process_all_active_requests():
         # clean up the fulfilled sales trade requests
         with transaction.atomic():
             requests = SalesRequest.objects.select_for_update().filter(
-                idsalesrequest__quantityrequired=0
+                quantityrequired=0
             )
 
             for trade_request in requests:
@@ -291,23 +283,13 @@ def process_matching_requests(
         idsalesrequest=sales_request.idsalesrequest
     )
 
-    purchase_request_base = ActiveTradeRequest.objects.select_for_update().get(
-        idtraderequest=purchase_request.idpurchaserequest.idtraderequest
-    )
-
-    sales_request_base = ActiveTradeRequest.objects.select_for_update().get(
-        idtraderequest=sales_request.idsalesrequest.idtraderequest
-    )
-
     if not transact_between_matching_requests(
-        purchase_request_spec=purchase_request,
-        sales_request_spec=sales_request,
-        purchase_request=purchase_request_base,
-        sales_request=sales_request_base
+        purchase_request=purchase_request,
+        sales_request=sales_request,
     ):
         logging.info('transact_between_matching_requests returned false'
-                    + f' for purchase_request={purchase_request_base.idtraderequest}'
-                    + f', sales_request={sales_request_base.idtraderequest}')
+                    + f' for purchase_request={purchase_request.idpurchaserequest}'
+                    + f', sales_request={sales_request.idsalesrequest}')
         return were_requests_fulfilled
 
     logging.info('Successful match - transaction part.')
@@ -317,8 +299,7 @@ def process_matching_requests(
     # and finally remove active trade request from the db
     try:
         were_requests_fulfilled[0] = process_fulfilled_trade_request(
-            trade_request_spec=purchase_request,
-            trade_request=purchase_request_base
+            trade_request=purchase_request,
         )
 
     except Exception as e:
@@ -328,8 +309,7 @@ def process_matching_requests(
 
     try:
         were_requests_fulfilled[1] = process_fulfilled_trade_request(
-            trade_request_spec=sales_request,
-            trade_request=sales_request_base
+            trade_request=sales_request,
         )
 
     except Exception as e:
@@ -343,26 +323,12 @@ def process_matching_requests(
 
 @transaction.atomic
 def transact_between_matching_requests(
-    purchase_request_spec: PurchaseRequest,
-    sales_request_spec: SalesRequest,
-    purchase_request: ActiveTradeRequest=None,
-    sales_request: ActiveTradeRequest=None
+    purchase_request: PurchaseRequest,
+    sales_request: SalesRequest,
 ):
     """
         Assuming the given requests were acquired by select_for_update.
-        Assuming the given requests match based on idasset and lower and
-        upper unit price bounds.
     """
-    if purchase_request is None:
-        purchase_request = ActiveTradeRequest.objects.select_for_update().get(
-            idtraderequest=purchase_request_spec.idpurchaserequest.idtraderequest
-        )
-
-    if sales_request is None:
-        sales_request = ActiveTradeRequest.objects.select_for_update().get(
-            idtraderequest=sales_request_spec.idsalesrequest.idtraderequest
-        )
-
     # do not let the user buy from themself
     if purchase_request.iduser == sales_request.iduser:
         return False
@@ -374,8 +340,13 @@ def transact_between_matching_requests(
         return False
 
     # smallest unit price they both agree on
-    unit_price = max(purchase_request_spec.unitpricelowerbound,
-                     sales_request_spec.unitpricelowerbound)
+    unit_price = max(purchase_request.unitpricelowerbound,
+                     sales_request.unitpricelowerbound)
+
+    # check if lower and upper bound ranges do not intersect:
+    if purchase_request.unitpriceupperbound < unit_price \
+    or sales_request.unitpriceupperbound < unit_price:
+        return False
 
     logging.info( f'Starting transaction between matched requests, quantity={quantity}'
                 + f' unit_price={unit_price}')
@@ -393,13 +364,13 @@ def transact_between_matching_requests(
     create_trade_request_transaction(
         quantity=quantity,
         unit_price=unit_price,
-        id_purchase_request=purchase_request.idtraderequest
+        id_purchase_request=purchase_request.pk
     )
 
     create_trade_request_transaction(
         quantity=quantity,
         unit_price=unit_price,
-        id_sales_request=sales_request.idtraderequest
+        id_sales_request=sales_request.pk
     )
 
     # update the active requests:
@@ -411,43 +382,32 @@ def transact_between_matching_requests(
 
     purchase_request.save()
     sales_request.save()
-    # no changes were made on the specialization object nothing to save
 
     return True
 
 
 @transaction.atomic
 def process_fulfilled_trade_request(
-    trade_request_spec: Union[PurchaseRequest, SalesRequest],
-    trade_request: ActiveTradeRequest=None
+    trade_request: Union[PurchaseRequest, SalesRequest],
 ) -> bool:
     """
-        Assuming the given `request_spec` was acquired by select_for_update and is
-        specialization of ActiveTradeRequest.
+        Assuming the given `trade_request` was acquired by select_for_update.
         Checks if `quantityrequired` == 0 and if true handles it, therefore
         quantity acquired will equal the `quantityrequested`.
         Returns whether request was fulfilled and handled.
     """
-    if trade_request is None:
-        if isinstance(trade_request_spec, (PurchaseRequest)):
-            trade_request = ActiveTradeRequest.objects.select_for_update().get(
-                idtraderequest=trade_request_spec.idpurchaserequest.idtraderequest
-            )
-        elif isinstance(trade_request_spec, (SalesRequest)):
-            trade_request = ActiveTradeRequest.objects.select_for_update().get(
-                idtraderequest=trade_request_spec.idsalesrequest.idtraderequest
-            )
-        else:
-            raise Exception('Passed type of `trade_request_spec` is not supported.')
-
     if trade_request.quantityrequired > 0:
         return False
 
     # move the trade request from active in trading_platform
     # db into trading_history db
-    carried_out_trade_request = CarriedOutTradeRequest(
-        id_trade_request=trade_request.idtraderequest,
-        is_purchase=isinstance(trade_request_spec, (PurchaseRequest)),
+    carried_out_trade_class = (
+        CarriedOutPurchaseTradeRequest
+        if isinstance(trade_request, (PurchaseRequest))
+        else CarriedOutSalesTradeRequest
+    )
+    carried_out_trade_request = carried_out_trade_class(
+        id_trade_request=trade_request.pk,
         id_user=trade_request.iduser_id,
         id_asset=trade_request.idasset_id,
         quantity=trade_request.quantityrequested,
@@ -457,15 +417,9 @@ def process_fulfilled_trade_request(
     # handle the contract fee if any and remove the contract from
     # active trade requests - contracts relationship into trading_history
     # along with the rest of the request's data
-    contract_relationship = IsBindedByContract.objects.select_for_update().filter(
-        idtraderequest=trade_request.idtraderequest
-    )
-
-    if contract_relationship.exists():  # pay the broker fee
-        contract_relationship = contract_relationship.first()
-
+    if trade_request.isboundbycontract:  # pay the broker fee
         contract = BrokerBasicUserContract.objects.select_for_update().get(
-            idcontract=contract_relationship.idcontract_id
+            idcontract=trade_request.idcontract_id
         )
 
         (status, fee_paid) = pay_broker_fee(
@@ -474,7 +428,7 @@ def process_fulfilled_trade_request(
         )
 
         # store the contract data
-        carried_out_trade_request.contract = CarriedOutTradeRequest.Contract(
+        carried_out_trade_request.contract = carried_out_trade_class.Contract(
             id=contract.idcontract,
             time=timezone.now(),
             status=status
@@ -483,13 +437,8 @@ def process_fulfilled_trade_request(
         if status == 'OK':
             carried_out_trade_request.contract.fee_paid = fee_paid
 
-        contract_relationship.delete()
-
     # save the fulfilled trade request data
     carried_out_trade_request.save()
-
-    # remove from the active trade requests, and the specialized table
-    trade_request_spec.delete()
     trade_request.delete()
 
     return True
@@ -599,7 +548,7 @@ def create_trade_request_transaction(
 
 @transaction.atomic
 def pay_broker_fee(
-    trade_request: ActiveTradeRequest,
+    trade_request: Union[PurchaseRequest, SalesRequest],
     contract: BrokerBasicUserContract
 ):
     status = 'OK'

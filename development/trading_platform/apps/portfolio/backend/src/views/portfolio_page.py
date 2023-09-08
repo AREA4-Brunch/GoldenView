@@ -11,10 +11,10 @@ from django.http import HttpRequest
 from django.utils import timezone
 
 from apps.broker_management.models import BrokerBasicUserContract
-from apps.asset_management.models import ActiveTradeRequest, \
-                                         PurchaseRequest, \
+from apps.asset_management.models import PurchaseRequest, \
                                          SalesRequest, \
-                                         CarriedOutTradeRequest, \
+                                         CarriedOutPurchaseTradeRequest, \
+                                         CarriedOutSalesTradeRequest, \
                                          Asset
 from apps.asset_management.backend.src.utils import portfolio
 
@@ -88,42 +88,41 @@ def fetch_all_users_trade_requests(
     """
     ( active_purchase_trade_requests,
       active_sales_trade_requests,
-      carried_out_requests
+      carried_out_purchase_requests,
+      carried_out_sales_requests,
     ) = portfolio.fetch_users_trade_requests(
             trader=request_data['trader'],
-            filters=request_data['filters']
+            filters=request_data['filters'],
+            sorted=True,
         )
 
-    trade_requests = [convert_active_trade_req_to_displayable_data(req[0], req[1], True) for req in active_purchase_trade_requests] \
-                   + [convert_active_trade_req_to_displayable_data(req[0], req[1], False) for req in active_sales_trade_requests] \
-                   + [convert_carried_out_trade_req_to_displayable_data(req) for req in carried_out_requests]
+    trade_requests = [convert_active_trade_req_to_displayable_data(req[0], req[1]) for req in active_purchase_trade_requests] \
+                   + [convert_active_trade_req_to_displayable_data(req[0], req[1]) for req in active_sales_trade_requests] \
+                   + [convert_carried_out_trade_req_to_displayable_data(req) for req in carried_out_purchase_requests] \
+                   + [convert_carried_out_trade_req_to_displayable_data(req) for req in carried_out_sales_requests]
 
     # sort by desc id - time created desc => LIFO
     # logging.info(trade_requests)
-    trade_requests = sorted(trade_requests, key=lambda x: x['id'], reverse=True)
+    # trade_requests = sorted(trade_requests, key=lambda x: x['id'], reverse=True)
 
     context['transactions'] = trade_requests
 
 
 def convert_active_trade_req_to_displayable_data(
-    request_spec: Union[PurchaseRequest, SalesRequest],
+    request: Union[PurchaseRequest, SalesRequest],
     idcontract: int,  # None if it was not binded by contract
-    is_purchase_request: bool
 ):
     """
         Converts table data into django html template used data.
     """
+    is_purchase_request = isinstance(request, PurchaseRequest)
+
     data = {
         'is_active': True,
-        'id': request_spec.pk,
-        'min': request_spec.unitpricelowerbound,
-        'max': request_spec.unitpriceupperbound,
+        'id': request.pk,
+        'min': request.unitpricelowerbound,
+        'max': request.unitpriceupperbound,
     }
-
-    if is_purchase_request:
-        request: ActiveTradeRequest = request_spec.idpurchaserequest
-    else:
-        request: ActiveTradeRequest = request_spec.idsalesrequest
 
     try:
         asset = Asset.objects.get(idasset=request.idasset_id)
@@ -145,7 +144,8 @@ def convert_active_trade_req_to_displayable_data(
 
 
 def convert_carried_out_trade_req_to_displayable_data(
-    request: CarriedOutTradeRequest
+    request: Union[CarriedOutPurchaseTradeRequest,
+                   CarriedOutSalesTradeRequest]
 ):
     """
         Converts table data into django html template used data.
@@ -165,7 +165,9 @@ def convert_carried_out_trade_req_to_displayable_data(
 
     data['quantity_acquired'] = request.quantity
     data['value'] = request.total_price
-    data['type'] = 'BUY' if request.is_purchase else 'SELL'
+    data['type'] = 'BUY' \
+                 if isinstance(request, CarriedOutPurchaseTradeRequest) \
+                 else 'SELL'
     if request.contract is not None:
         data['idcontract'] = request.contract.id
 

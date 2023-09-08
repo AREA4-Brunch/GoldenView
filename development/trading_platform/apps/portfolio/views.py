@@ -101,7 +101,6 @@ def cancel_active_trade_request(request: HttpRequest):
         quantity_at_which_stopped, value_at_which_stopped \
             = portfolio_core.cancel_active_trade_request(
                 trade_request=request_data["trade_request"],
-                is_purchase_request=request_data["is_purchase_request"]
             )
 
         # successfully created request
@@ -164,17 +163,17 @@ def modify_active_trade_request(request: HttpRequest):
         upper_bound_at_which_stopped, did_fulfill \
             = portfolio_core.modify_active_trade_request(
                 trade_request=request_data["trade_request"],
-                is_purchase_request=request_data["is_purchase_request"],
                 new_quantityrequested=request_data["quantity"],
                 new_unitpricelowerbound=request_data["lowerbound"],
                 new_unitpriceupperbound=request_data["upperbound"]
             )
 
         try:
-            match_traders_request(
-                is_purchase_request=request_data["is_purchase_request"],
-                request_id=request_data["trade_request"].pk
-            )
+            if not did_fulfill:
+                match_traders_request(
+                    request_data['is_purchase_request'],
+                    request_data["trade_request"].pk,
+                )
         except Exception as e:
             logging.exception('Failed to start match traders request task after successful reqeust update.')
 

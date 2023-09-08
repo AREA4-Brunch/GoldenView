@@ -3,8 +3,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import BrokerBasicUserContract, IsBindedByContract
+from .models import BrokerBasicUserContract
 
 
 admin.site.register(BrokerBasicUserContract)
-admin.site.register(IsBindedByContract)

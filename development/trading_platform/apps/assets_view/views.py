@@ -83,9 +83,9 @@ def buy_asset(request: HttpRequest):
         request_data = asset_view_backend.get_cleaned_data(request, response)
         
         if request_data['contract'] is None:
-            request_data['trader'] = trader
+            request_data['trader']: Trader = trader
         else:
-            request_data['trader'] = request_data['contract'].idbasicuser.idbasicuser
+            request_data['trader']: Trader = request_data['contract'].idbasicuser.idbasicuser
 
         asset_view_backend.send_buy_sell_request(
             is_purchase_request=True,

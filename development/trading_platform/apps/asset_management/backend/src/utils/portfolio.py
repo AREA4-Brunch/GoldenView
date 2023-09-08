@@ -3,14 +3,14 @@
 import logging
 import mongoengine
 
+from typing import Union
 from decimal import Decimal
 
 from django.db.models import Q
 from django.db import transaction
-
 from apps.asset_management.models import SalesRequest, PurchaseRequest, \
-                                         CarriedOutTradeRequest, \
-                                         ActiveTradeRequest
+                                         CarriedOutPurchaseTradeRequest, \
+                                         CarriedOutSalesTradeRequest
 from apps.user_management.models import Trader
 from apps.broker_management.models import BrokerBasicUserContract
 
@@ -21,71 +21,67 @@ from apps.asset_management.backend.src.utils.trading import process_fulfilled_tr
 # function for getting all user trade requests
 def fetch_users_trade_requests(
     trader: Trader,
-    filters: dict[str]={}
+    filters={},
+    sorted=True
 ):
-    (active_purchase_trade_requests, active_sales_trade_requests, carried_out_requests) \
-        = fetch_all_users_trade_requests(trader)
+    (active_purchase_trade_requests,
+     active_sales_trade_requests,
+     carried_out_purchase_requests,
+     carried_out_sales_requests
+    ) = fetch_all_users_trade_requests(trader)
 
-    # apply filters here (not requested by documentation but for possible modif):
-    #     user_being_traded_for = filters['contract'].idbasicuser.idbasicuser
-    # if contract is not None:
-    #     return fetch_users_contract_binded_trade_requests(
-    #         trader=trader,
-    #         contract=contract
-    #     )
+    if sorted:
+        # sort by id/time descending
+        active_purchase_trade_requests = active_purchase_trade_requests.order_by('-idpurchaserequest')
+        active_sales_trade_requests = active_sales_trade_requests.order_by('-idsalesrequest')
+        carried_out_purchase_requests = carried_out_purchase_requests.order_by('-id_trade_request')
+        carried_out_sales_requests = carried_out_sales_requests.order_by('-id_trade_request')
 
-    return (active_purchase_trade_requests, active_sales_trade_requests, carried_out_requests)
+    # form list of tuples (purchase request, contract id / None)
+    def format_active_trade_requests(requests):
+        requests = [
+            (
+                request,
+                request.idcontract_id if request.isboundbycontract else None
+            )
+            for request in requests
+        ]
+        return requests
+
+    active_purchase_trade_requests \
+        = format_active_trade_requests(active_purchase_trade_requests)
+
+    active_sales_trade_requests \
+        = format_active_trade_requests(active_sales_trade_requests)
+
+    return (
+        active_purchase_trade_requests,
+        active_sales_trade_requests,
+        carried_out_purchase_requests,
+        carried_out_sales_requests,
+    )
 
 
 def fetch_all_users_trade_requests(
     trader: Trader
 ):
-    """
-        Returns 
-    """
     iduser = trader.idtrader.iduser
 
     # Fetch all active trade requests of the given user:
 
     active_purchase_trade_requests = PurchaseRequest.objects.filter(
         # requests where user was the trader or was represented by broker
-        Q(idpurchaserequest__iduser=iduser)
+        Q(iduser_id=iduser)
         # requests where user was somebody's broker
-      | Q(idpurchaserequest__isbindedbycontract__idcontract__idbroker_id=iduser)
-    ).prefetch_related(
-        'idpurchaserequest__idtraderequest__isbindedbycontract_set'
+      | Q( Q(isboundbycontract=True) & Q(idcontract__idbroker_id=iduser) )
     )
 
     active_sales_trade_requests = SalesRequest.objects.filter(
         # requests where user was the trader or was represented by broker
-        Q(idsalesrequest__iduser=iduser)
+        Q(iduser_id=iduser)
         # requests where user was somebody's broker
-      | Q(idsalesrequest__isbindedbycontract__idcontract__idbroker_id=iduser)
-    ).prefetch_related(
-        'idsalesrequest__idtraderequest__isbindedbycontract_set'
+      | Q( Q(isboundbycontract=True) & Q(idcontract__idbroker_id=iduser) )
     )
-
-    # form list of tuples (purchase request, contractr id / None)
-    active_purchase_trade_requests = [
-        (
-            request,
-            request.idpurchaserequest.isbindedbycontract.idcontract.idcontract if hasattr(
-                request.idpurchaserequest, 'isbindedbycontract'
-            ) else None
-        )
-        for request in active_purchase_trade_requests
-    ]
-
-    # form list of tuples (sales request, contractr id / None)
-    active_sales_trade_requests = [
-        (
-            request,
-            request.idsalesrequest.isbindedbycontract.idcontract.idcontract if hasattr(
-                request.idsalesrequest, 'isbindedbycontract'
-            ) else None
-        )
-        for request in active_sales_trade_requests
-    ]
 
     # Fetch all carried out requests of the given user:
     contracts_ids = BrokerBasicUserContract.objects.filter(
@@ -95,34 +91,41 @@ def fetch_all_users_trade_requests(
         flat=True
     )
 
-    carried_out_trade_requests = CarriedOutTradeRequest.objects.filter(
+    carried_out_purchase_requests = CarriedOutPurchaseTradeRequest.objects.filter(
         # requests where user was the trader or was represented by broker
         mongoengine.queryset.visitor.Q(id_user=iduser)
         # requests where user was somebody's broker
       | mongoengine.queryset.visitor.Q(contract__id__in=contracts_ids)
     )
 
-    return (active_purchase_trade_requests, active_sales_trade_requests, carried_out_trade_requests)
+    carried_out_sales_requests = CarriedOutSalesTradeRequest.objects.filter(
+        # requests where user was the trader or was represented by broker
+        mongoengine.queryset.visitor.Q(id_user=iduser)
+        # requests where user was somebody's broker
+      | mongoengine.queryset.visitor.Q(contract__id__in=contracts_ids)
+    )
+
+    return (
+        active_purchase_trade_requests,
+        active_sales_trade_requests,
+        carried_out_purchase_requests,
+        carried_out_sales_requests,
+    )
 
 
 def cancel_active_trade_request(
-    trade_request: ActiveTradeRequest,
-    is_purchase_request: bool
+    trade_request: Union[PurchaseRequest, SalesRequest]
 ):
     with transaction.atomic():
         # select for update specialization and base
-        if is_purchase_request:
-            trade_request_spec = PurchaseRequest.objects.select_for_update().get(
-                idpurchaserequest=trade_request
+        if isinstance(trade_request, PurchaseRequest):
+            trade_request = PurchaseRequest.objects.select_for_update().get(
+                idpurchaserequest=trade_request.pk
             )
         else:
-            trade_request_spec = SalesRequest.objects.select_for_update().get(
-                idsalesrequest=trade_request
+            trade_request = SalesRequest.objects.select_for_update().get(
+                idsalesrequest=trade_request.pk
             )
-
-        trade_request = ActiveTradeRequest.objects.select_for_update().get(
-            idtraderequest=trade_request.idtraderequest
-        )
 
         # cancel by simply rendering as fulfilled:
         trade_request.quantityrequested -= trade_request.quantityrequired
@@ -130,48 +133,41 @@ def cancel_active_trade_request(
         quantity_at_which_stopped = trade_request.quantityrequested
         value_at_which_stopped = trade_request.totaltransactionsprice
 
-        # no update to spec as nothing in it was changed
         trade_request.save()
 
         if not process_fulfilled_trade_request(
-            trade_request_spec=trade_request_spec,
-            trade_request=trade_request
+            trade_request=trade_request,
         ):
             raise Exception('Upon cancelation process_fulfilled_trade_request returned False !?')
 
-    logging.info('Successfuly cancelled active trade request: ')
+    logging.info('Successfuly cancelled active trade request.')
     return quantity_at_which_stopped, value_at_which_stopped
 
 
 def modify_active_trade_request(
-    trade_request: ActiveTradeRequest,
-    is_purchase_request: bool,
+    trade_request: Union[PurchaseRequest, SalesRequest],
     new_quantityrequested: int=None,
     new_unitpricelowerbound: Decimal=None,
     new_unitpriceupperbound: Decimal=None
 ):
     with transaction.atomic():
         # select for update specialization and base
-        if is_purchase_request:
-            trade_request_spec = PurchaseRequest.objects.select_for_update().get(
-                idpurchaserequest=trade_request
+        if isinstance(trade_request, PurchaseRequest):
+            trade_request = PurchaseRequest.objects.select_for_update().get(
+                idpurchaserequest=trade_request.pk
             )
         else:
-            trade_request_spec = SalesRequest.objects.select_for_update().get(
-                idsalesrequest=trade_request
+            trade_request = SalesRequest.objects.select_for_update().get(
+                idsalesrequest=trade_request.pk
             )
 
-        trade_request = ActiveTradeRequest.objects.select_for_update().get(
-            idtraderequest=trade_request.idtraderequest
-        )
-
         if new_unitpricelowerbound is not None:
-            trade_request_spec.unitpricelowerbound = new_unitpricelowerbound
+            trade_request.unitpricelowerbound = new_unitpricelowerbound
 
         if new_unitpriceupperbound is not None:
-            trade_request_spec.unitpriceupperbound = new_unitpriceupperbound
+            trade_request.unitpriceupperbound = new_unitpriceupperbound
 
-        if not (0 <= trade_request_spec.unitpricelowerbound <= trade_request_spec.unitpriceupperbound):
+        if not (0 <= trade_request.unitpricelowerbound <= trade_request.unitpriceupperbound):
             raise Exception('Failed check: 0 <= unitpricelowerbound <= unitpriceupperbound')
 
         if new_quantityrequested is not None:
@@ -184,18 +180,16 @@ def modify_active_trade_request(
         quantity_required_at_which_stopped = trade_request.quantityrequired
         quantity_requested_at_which_stopped = trade_request.quantityrequested
         value_at_which_stopped = trade_request.totaltransactionsprice
-        lower_bound_at_which_stopped = trade_request_spec.unitpricelowerbound
-        upper_bound_at_which_stopped = trade_request_spec.unitpriceupperbound
+        lower_bound_at_which_stopped = trade_request.unitpricelowerbound
+        upper_bound_at_which_stopped = trade_request.unitpriceupperbound
 
-        trade_request_spec.save()
         trade_request.save()
 
         did_fulfill = process_fulfilled_trade_request(
-            trade_request_spec=trade_request_spec,
-            trade_request=trade_request
+            trade_request=trade_request,
         )
 
-    logging.info('Successfuly cancelled active trade request: ')
+    logging.info('Successfuly modified active trade request')
     return quantity_required_at_which_stopped, quantity_requested_at_which_stopped, \
            value_at_which_stopped, lower_bound_at_which_stopped, \
            upper_bound_at_which_stopped, did_fulfill
