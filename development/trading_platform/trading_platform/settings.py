@@ -260,7 +260,7 @@ STATIC_ROOT = 'static_root/'
 
 STATICFILES_DIRS = [  # additional to ones in apps
     # Paths MUST use Unix-style forward slashes, even on Windows:
-    ('common', 'apps/common/frontend/src/static/common')
+    ('common', './apps/common/frontend/src/static/common')
 ]
 
 
