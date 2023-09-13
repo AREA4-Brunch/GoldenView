@@ -12,7 +12,7 @@ from ..administrator_dashboard.backend.src.view.form import AdministratorDashboa
 from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker, cast_to_basic
 
 from ..file_management.models import ApprovalReportFile, BrokerBasicUserContractFile, BrokerRequestFile, TextFile
-from ..user_management.models import Broker, Trader, User
+from ..user_management.models import User
 
 from django.utils import timezone
 

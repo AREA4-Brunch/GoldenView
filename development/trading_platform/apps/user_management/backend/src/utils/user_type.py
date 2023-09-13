@@ -1,4 +1,5 @@
-from apps.user_management.models import BasicUser, User, Trader, Broker, Administrator
+from apps.user_management.models import BasicUser, User, Trader, Administrator
+from apps.broker_management.models import Broker
 
 
 def cast_to_trader(user: User):

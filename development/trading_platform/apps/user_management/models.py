@@ -7,6 +7,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,\
 from datetime import datetime
 from django.utils import timezone
 
+
+
 # function for creatinf users and super users
 class UserManager(BaseUserManager):
     def create_user(self, username, password, email):
@@ -82,6 +84,7 @@ class Country(models.Model):
 
 class FundsTransferMethod(models.Model):
     idpaymentmethod = models.AutoField(db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase.
+    idtrader = models.ForeignKey('user_management.Trader', models.DO_NOTHING, db_column='IdUser', null=False, blank=False)
     accesskey = models.CharField(db_column='AccessKey', max_length=64)  # Field name made lowercase.
     makebeliefbalance = models.DecimalField(db_column='MakeBeliefBalance', max_digits=10, decimal_places=2, blank=True, default=0)  # Field name made lowercase.
 
@@ -93,12 +96,12 @@ class FundsTransferMethod(models.Model):
 
 
 class Trader(models.Model):
-    idtrader = models.OneToOneField('User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+    idtrader = models.OneToOneField('user_management.User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
     birthday = models.DateField(db_column='Birthday', blank=True)  # Field name made lowercase.
     sex = models.CharField(db_column='Sex', max_length=6, blank=True)  # Field name made lowercase.
     idcountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='IdCountry')  # Field name made lowercase.
     termsacceptancetime = models.DateTimeField(db_column='TermsAcceptanceTime', default=timezone.make_aware(datetime(1, 1, 1)))  # Field name made lowercase.
-    idselectedfundstrasnfermethod = models.ForeignKey(FundsTransferMethod, models.DO_NOTHING, db_column='IdSelectedFundsTrasnferMethod', blank=True, null=True)  # Field name made lowercase.
+    idselectedfundstransfermethod = models.ForeignKey('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdSelectedFundsTransferMethod', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.user_management'
@@ -108,7 +111,7 @@ class Trader(models.Model):
 
 
 class BasicUser(models.Model):
-    idbasicuser = models.OneToOneField('Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+    idbasicuser = models.OneToOneField('user_management.Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.user_management'
@@ -117,17 +120,8 @@ class BasicUser(models.Model):
         db_table = 'basicuser'
 
 
-class Broker(models.Model):
-    idbroker = models.OneToOneField('user_management.Trader', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
-
-    class Meta:
-        app_label = 'broker_management'
-        managed = True
-        db_table = 'broker'
-
-
 class Administrator(models.Model):
-    idadministrator = models.OneToOneField('User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+    idadministrator = models.OneToOneField('user_management.User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.user_management'

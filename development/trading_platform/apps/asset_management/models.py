@@ -22,31 +22,12 @@ class Asset(models.Model):
         managed = True
         db_table = 'asset'
 
-
-# raise index over idasset ??
-class MakeBeliefOwns(models.Model):
-    # idpaymentmethod = models.OneToOneField('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
-    idpaymentmethod = models.ForeignKey('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', null=False, blank=False)
-    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
-    quantity = models.IntegerField(db_column='Quantity', default=0)  # Field name made lowercase.
-
-    class Meta:
-        # app_label = 'apps.asset_management'
-        app_label = 'asset_management'
-        managed = True
-        db_table = 'makebeliefowns'
-        # unique_together = (('idpaymentmethod', 'idasset'),)
-        constraints = [
-            models.UniqueConstraint(fields=['idpaymentmethod', 'idasset'],
-                                    name='composite_primary_key')
-        ]
-
 # raise an index over unitpricelowerbound, unitpriceupperbound ??
 # raise an index over idasset it for quicker search ??
 # model of the purchase request in the database
 class PurchaseRequest(models.Model):
     idpurchaserequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    idasset = models.ForeignKey('asset_management.Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
     iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
     quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
     totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
@@ -67,7 +48,7 @@ class PurchaseRequest(models.Model):
 # model of the sales request in the database
 class SalesRequest(models.Model):
     idsalesrequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    idasset = models.ForeignKey('asset_management.Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
     iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
     quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
     totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.

@@ -162,7 +162,7 @@ CREATE TABLE [Trader]
 	[Sex]                varchar(6)  NULL ,
 	[IdCountry]          integer  NOT NULL ,
 	[TermsAcceptanceTime] datetime  NOT NULL ,
-	[IdSelectedFundsTrasnferMethod] integer  NULL 
+	[IdSelectedFundsTransferMethod] integer  NULL 
 )
 go
 
@@ -433,7 +433,7 @@ ALTER TABLE [Trader]
 go
 
 ALTER TABLE [Trader]
-	ADD CONSTRAINT [R_33] FOREIGN KEY ([IdSelectedFundsTrasnferMethod]) REFERENCES [FundsTransferMethod]([IdPaymentMethod])
+	ADD CONSTRAINT [R_33] FOREIGN KEY ([IdSelectedFundsTransferMethod]) REFERENCES [FundsTransferMethod]([IdPaymentMethod])
 		ON UPDATE CASCADE
 go
 

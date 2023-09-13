@@ -3,6 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from apps.file_management.models import ApprovalReportFile, BrokerRequestFile, TextFile
 from apps.user_management.models import *
+from apps.broker_management.models import *
 from apps.administrator_dashboard.views import *
 
 #create your tests here
