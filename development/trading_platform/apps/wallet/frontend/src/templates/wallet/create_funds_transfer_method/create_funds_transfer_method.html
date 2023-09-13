@@ -1,0 +1,77 @@
+<!-- Aleksandar Radenkovic 2020/0272 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'wallet/css/create_funds_transfer_method.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Wallet
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="create_funds_transfer_method-content">
+    <div class="container-fluid">
+        <div id="heading-container" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <p class="lead">Create new Funds Transfer Method</p>
+                <br/>
+            </div>
+        </div>
+
+        <div id="register" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <form action="{% url 'create_funds_transfer_method_form' %}" method="POST">
+                    {% csrf_token %}
+
+                    <!-- Access Key -->
+                    <div class="mb-3">
+                        <label for="access-key" class="form-label">Access Key</label>
+                        <input type="text" class="text-center form-control" id="access-key" name="access-key" placeholder="XXX-XXX-XXX-XXX">
+                    </div>
+
+                    <!-- Make Believe Balance -->
+                    <div class="mb-3">
+                        <label for="makebelief_balance" class="form-label">Current Make Believe Balance (USD)</label>
+                        <input type="number" min="0" class="text-center form-control" id="makebelief_balance" name="makebelief_balance" placeholder="0">
+                    </div>
+
+                    <div class="common-center-horizontally">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <!-- <script src="{% static 'wallet/js/create_funds_transfer_method.js' %}"></script> -->
+
+{% endblock %}

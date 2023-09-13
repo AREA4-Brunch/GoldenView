@@ -8,7 +8,8 @@ from apps.administrator_dashboard.backend.src.view.form import AdministratorDash
 from apps.user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker, cast_to_administrator
 
 from apps.file_management.models import ApprovalReportFile, BrokerRequestFile, TextFile
-from apps.user_management.models import Broker, Trader, User
+from apps.user_management.models import Trader, User
+from apps.broker_management.models import Broker
 
 # Create your views here.
 

@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'apps.user_dashboard.apps.UserDashboardConfig',
     'apps.portfolio.apps.PortfolioConfig',
     'apps.comparingCompanies.apps.comparingCompaniesConfig',
+    'apps.wallet.apps.WalletConfig',
 ]
 
 MIDDLEWARE = [

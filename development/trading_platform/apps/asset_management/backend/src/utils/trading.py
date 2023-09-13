@@ -8,13 +8,16 @@ from django.db import transaction
 from django.db.models import BigIntegerField
 from decimal import Decimal
 
-from apps.user_management.models import Trader, Broker, FundsTransferMethod
+from apps.user_management.models import Trader
+from apps.broker_management.models import Broker
+from apps.user_management.models import FundsTransferMethod
 
 from apps.asset_management.models import Asset, \
                                          PurchaseRequest, SalesRequest, \
-                                         MakeBeliefOwns, AssetTransaction, \
+                                         AssetTransaction, \
                                          CarriedOutPurchaseTradeRequest, \
                                          CarriedOutSalesTradeRequest
+from apps.wallet.models import MakeBeliefOwns
 
 from apps.broker_management.models import BrokerBasicUserContract
 
@@ -471,11 +474,11 @@ def exchange_money_for_asset(
     )
 
     seller_funds = FundsTransferMethod.objects.select_for_update().get(
-        idpaymentmethod=seller.idselectedfundstrasnfermethod_id
+        idpaymentmethod=seller.idselectedfundstransfermethod_id
     )
 
     seller_asset_funds = MakeBeliefOwns.objects.select_for_update().get(
-        idpaymentmethod=seller.idselectedfundstrasnfermethod,
+        idpaymentmethod=seller.idselectedfundstransfermethod,
         idasset=asset
     )
 
@@ -485,7 +488,7 @@ def exchange_money_for_asset(
         raise InsufficentFunds('Insufficient asset quantity')
 
     buyer_funds = FundsTransferMethod.objects.select_for_update().get(
-        idpaymentmethod=buyer.idselectedfundstrasnfermethod_id
+        idpaymentmethod=buyer.idselectedfundstransfermethod_id
     )
 
     # check if buyer has enough money:
@@ -495,14 +498,14 @@ def exchange_money_for_asset(
 
     try:
         buyer_asset_funds = MakeBeliefOwns.objects.select_for_update().get(
-            idpaymentmethod=buyer.idselectedfundstrasnfermethod,
+            idpaymentmethod=buyer.idselectedfundstransfermethod,
             idasset=asset
         )
 
     except MakeBeliefOwns.DoesNotExist as e:
         # user does not yet own this asset so create the relationship
         buyer_asset_funds = MakeBeliefOwns.objects.create(
-            idpaymentmethod=buyer.idselectedfundstrasnfermethod,
+            idpaymentmethod=buyer.idselectedfundstransfermethod,
             idasset=asset,
             quantity=0.
         )
@@ -593,11 +596,11 @@ def money_transaction(
         )
 
     src_funds = FundsTransferMethod.objects.select_for_update().get(
-        idpaymentmethod=src.idselectedfundstrasnfermethod_id
+        idpaymentmethod=src.idselectedfundstransfermethod_id
     )
 
     dst_funds = FundsTransferMethod.objects.select_for_update().get(
-        idpaymentmethod=dst.idselectedfundstrasnfermethod_id
+        idpaymentmethod=dst.idselectedfundstransfermethod_id
     )
 
     # check if src has enough money:

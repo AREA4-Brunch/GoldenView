@@ -17,7 +17,7 @@ class TextFile(models.Model):
 
 
 class BrokerRequestFile(models.Model):
-    filepath = models.OneToOneField('TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
+    filepath = models.OneToOneField('file_management.TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
     requestcontent = models.CharField(db_column='RequestContent', max_length=256, blank=True, null=True)  # Field name made lowercase.
 
     def __str__(self) -> str:
@@ -33,7 +33,7 @@ class BrokerRequestFile(models.Model):
 
 
 class ApprovalReportFile(models.Model):
-    filepath = models.OneToOneField('TextFile', models.CASCADE, db_column='FilePath', primary_key=True)  # Field name made lowercase.
+    filepath = models.OneToOneField('file_management.TextFile', models.CASCADE, db_column='FilePath', primary_key=True)  # Field name made lowercase.
     approvalcontent = models.CharField(db_column='ApprovalContent', max_length=256, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -43,7 +43,7 @@ class ApprovalReportFile(models.Model):
 
 
 class BrokerBasicUserContractFile(models.Model):
-    filepath = models.OneToOneField('TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
+    filepath = models.OneToOneField('file_management.TextFile', models.DO_NOTHING, db_column='FilePath', primary_key=True)  # Field name made lowercase.
     contractcontent = models.CharField(db_column='ContractContent', max_length=256, blank=True, null=True)  # Field name made lowercase.
 
     def __str__(self) -> str:

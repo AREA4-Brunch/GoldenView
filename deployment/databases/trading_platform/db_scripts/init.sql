@@ -1,626 +1,512 @@
--- -- ----------------------------------------------------------------------------
--- -- Schema trading_platform
--- -- ----------------------------------------------------------------------------
+-- Adminer 4.8.1 MySQL 8.1.0 dump
 
--- DROP SCHEMA IF EXISTS `trading_platform`;
-CREATE SCHEMA IF NOT EXISTS `trading_platform`;
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-USE trading_platform;
+SET NAMES utf8mb4;
 
+DROP DATABASE IF EXISTS `trading_platform`;
+CREATE DATABASE `trading_platform` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `trading_platform`;
 
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Sep 09, 2023 at 07:35 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-
---
--- Database: `trading_platform`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `administrator`
---
-
+DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE `administrator` (
-  `IdUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `administrator`
---
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdUser`),
+  CONSTRAINT `administrator_IdUser_7a34e409_fk_user_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `user` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `administrator` (`IdUser`) VALUES
 (1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `approvalreportfile`
---
-
+DROP TABLE IF EXISTS `approvalreportfile`;
 CREATE TABLE `approvalreportfile` (
   `FilePath` varchar(128) NOT NULL,
-  `ApprovalContent` varchar(256) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ApprovalContent` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`FilePath`),
+  CONSTRAINT `approvalreportfile_FilePath_90c9e51f_fk_textfile_FilePath` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `approvalreportfile`
---
 
--- --------------------------------------------------------
-
---
--- Table structure for table `asset`
---
-
+DROP TABLE IF EXISTS `asset`;
 CREATE TABLE `asset` (
-  `IdAsset` int(11) NOT NULL,
-  `TickerSymbol` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `asset`
---
+  `IdAsset` int NOT NULL AUTO_INCREMENT,
+  `TickerSymbol` varchar(16) NOT NULL,
+  PRIMARY KEY (`IdAsset`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `asset` (`IdAsset`, `TickerSymbol`) VALUES
-(1, 'TSLA'),
-(2, 'AAPL'),
-(3, 'BLK');
+(1,	'TSLA'),
+(2,	'AAPL'),
+(3,	'BLK');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_group`
---
-
+DROP TABLE IF EXISTS `auth_group`;
 CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `auth_group`
---
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `auth_group` (`id`, `name`) VALUES
-(1, 'can_trade');
+(1,	'can_trade');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_group_permissions`
---
-
+DROP TABLE IF EXISTS `auth_group_permissions`;
 CREATE TABLE `auth_group_permissions` (
-  `id` bigint(20) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `auth_permission`
---
-
+DROP TABLE IF EXISTS `auth_permission`;
 CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `auth_permission`
---
+  `content_type_id` int NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
-(1, 'Can add log entry', 1, 'add_logentry'),
-(2, 'Can change log entry', 1, 'change_logentry'),
-(3, 'Can delete log entry', 1, 'delete_logentry'),
-(4, 'Can view log entry', 1, 'view_logentry'),
-(5, 'Can add permission', 2, 'add_permission'),
-(6, 'Can change permission', 2, 'change_permission'),
-(7, 'Can delete permission', 2, 'delete_permission'),
-(8, 'Can view permission', 2, 'view_permission'),
-(9, 'Can add group', 3, 'add_group'),
-(10, 'Can change group', 3, 'change_group'),
-(11, 'Can delete group', 3, 'delete_group'),
-(12, 'Can view group', 3, 'view_group'),
-(13, 'Can add content type', 4, 'add_contenttype'),
-(14, 'Can change content type', 4, 'change_contenttype'),
-(15, 'Can delete content type', 4, 'delete_contenttype'),
-(16, 'Can view content type', 4, 'view_contenttype'),
-(17, 'Can add session', 5, 'add_session'),
-(18, 'Can change session', 5, 'change_session'),
-(19, 'Can delete session', 5, 'delete_session'),
-(20, 'Can view session', 5, 'view_session'),
-(21, 'Can add completed task', 6, 'add_completedtask'),
-(22, 'Can change completed task', 6, 'change_completedtask'),
-(23, 'Can delete completed task', 6, 'delete_completedtask'),
-(24, 'Can view completed task', 6, 'view_completedtask'),
-(25, 'Can add task', 7, 'add_task'),
-(26, 'Can change task', 7, 'change_task'),
-(27, 'Can delete task', 7, 'delete_task'),
-(28, 'Can view task', 7, 'view_task'),
-(29, 'Can add user', 8, 'add_user'),
-(30, 'Can change user', 8, 'change_user'),
-(31, 'Can delete user', 8, 'delete_user'),
-(32, 'Can view user', 8, 'view_user'),
-(33, 'Can add country', 9, 'add_country'),
-(34, 'Can change country', 9, 'change_country'),
-(35, 'Can delete country', 9, 'delete_country'),
-(36, 'Can view country', 9, 'view_country'),
-(37, 'Can add funds transfer method', 10, 'add_fundstransfermethod'),
-(38, 'Can change funds transfer method', 10, 'change_fundstransfermethod'),
-(39, 'Can delete funds transfer method', 10, 'delete_fundstransfermethod'),
-(40, 'Can view funds transfer method', 10, 'view_fundstransfermethod'),
-(41, 'Can add administrator', 11, 'add_administrator'),
-(42, 'Can change administrator', 11, 'change_administrator'),
-(43, 'Can delete administrator', 11, 'delete_administrator'),
-(44, 'Can view administrator', 11, 'view_administrator'),
-(45, 'Can add trader', 12, 'add_trader'),
-(46, 'Can change trader', 12, 'change_trader'),
-(47, 'Can delete trader', 12, 'delete_trader'),
-(48, 'Can view trader', 12, 'view_trader'),
-(49, 'Can add basic user', 13, 'add_basicuser'),
-(50, 'Can change basic user', 13, 'change_basicuser'),
-(51, 'Can delete basic user', 13, 'delete_basicuser'),
-(52, 'Can view basic user', 13, 'view_basicuser'),
-(53, 'Can add asset', 14, 'add_asset'),
-(54, 'Can change asset', 14, 'change_asset'),
-(55, 'Can delete asset', 14, 'delete_asset'),
-(56, 'Can view asset', 14, 'view_asset'),
-(57, 'Can add sales request', 15, 'add_salesrequest'),
-(58, 'Can change sales request', 15, 'change_salesrequest'),
-(59, 'Can delete sales request', 15, 'delete_salesrequest'),
-(60, 'Can view sales request', 15, 'view_salesrequest'),
-(61, 'Can add purchase request', 16, 'add_purchaserequest'),
-(62, 'Can change purchase request', 16, 'change_purchaserequest'),
-(63, 'Can delete purchase request', 16, 'delete_purchaserequest'),
-(64, 'Can view purchase request', 16, 'view_purchaserequest'),
-(65, 'Can add make belief owns', 17, 'add_makebeliefowns'),
-(66, 'Can change make belief owns', 17, 'change_makebeliefowns'),
-(67, 'Can delete make belief owns', 17, 'delete_makebeliefowns'),
-(68, 'Can view make belief owns', 17, 'view_makebeliefowns'),
-(69, 'Can add broker', 18, 'add_broker'),
-(70, 'Can change broker', 18, 'change_broker'),
-(71, 'Can delete broker', 18, 'delete_broker'),
-(72, 'Can view broker', 18, 'view_broker'),
-(73, 'Can add broker basic user contract', 19, 'add_brokerbasicusercontract'),
-(74, 'Can change broker basic user contract', 19, 'change_brokerbasicusercontract'),
-(75, 'Can delete broker basic user contract', 19, 'delete_brokerbasicusercontract'),
-(76, 'Can view broker basic user contract', 19, 'view_brokerbasicusercontract'),
-(77, 'Can add text file', 20, 'add_textfile'),
-(78, 'Can change text file', 20, 'change_textfile'),
-(79, 'Can delete text file', 20, 'delete_textfile'),
-(80, 'Can view text file', 20, 'view_textfile'),
-(81, 'Can add approval report file', 21, 'add_approvalreportfile'),
-(82, 'Can change approval report file', 21, 'change_approvalreportfile'),
-(83, 'Can delete approval report file', 21, 'delete_approvalreportfile'),
-(84, 'Can view approval report file', 21, 'view_approvalreportfile'),
-(85, 'Can add broker basic user contract file', 22, 'add_brokerbasicusercontractfile'),
-(86, 'Can change broker basic user contract file', 22, 'change_brokerbasicusercontractfile'),
-(87, 'Can delete broker basic user contract file', 22, 'delete_brokerbasicusercontractfile'),
-(88, 'Can view broker basic user contract file', 22, 'view_brokerbasicusercontractfile'),
-(89, 'Can add broker request file', 23, 'add_brokerrequestfile'),
-(90, 'Can change broker request file', 23, 'change_brokerrequestfile'),
-(91, 'Can delete broker request file', 23, 'delete_brokerrequestfile'),
-(92, 'Can view broker request file', 23, 'view_brokerrequestfile');
+(1,	'Can add permission',	1,	'add_permission'),
+(2,	'Can change permission',	1,	'change_permission'),
+(3,	'Can delete permission',	1,	'delete_permission'),
+(4,	'Can view permission',	1,	'view_permission'),
+(5,	'Can add group',	2,	'add_group'),
+(6,	'Can change group',	2,	'change_group'),
+(7,	'Can delete group',	2,	'delete_group'),
+(8,	'Can view group',	2,	'view_group'),
+(9,	'Can add content type',	3,	'add_contenttype'),
+(10,	'Can change content type',	3,	'change_contenttype'),
+(11,	'Can delete content type',	3,	'delete_contenttype'),
+(12,	'Can view content type',	3,	'view_contenttype'),
+(13,	'Can add user',	4,	'add_user'),
+(14,	'Can change user',	4,	'change_user'),
+(15,	'Can delete user',	4,	'delete_user'),
+(16,	'Can view user',	4,	'view_user'),
+(17,	'Can add country',	5,	'add_country'),
+(18,	'Can change country',	5,	'change_country'),
+(19,	'Can delete country',	5,	'delete_country'),
+(20,	'Can view country',	5,	'view_country'),
+(21,	'Can add funds transfer method',	6,	'add_fundstransfermethod'),
+(22,	'Can change funds transfer method',	6,	'change_fundstransfermethod'),
+(23,	'Can delete funds transfer method',	6,	'delete_fundstransfermethod'),
+(24,	'Can view funds transfer method',	6,	'view_fundstransfermethod'),
+(25,	'Can add administrator',	7,	'add_administrator'),
+(26,	'Can change administrator',	7,	'change_administrator'),
+(27,	'Can delete administrator',	7,	'delete_administrator'),
+(28,	'Can view administrator',	7,	'view_administrator'),
+(29,	'Can add trader',	8,	'add_trader'),
+(30,	'Can change trader',	8,	'change_trader'),
+(31,	'Can delete trader',	8,	'delete_trader'),
+(32,	'Can view trader',	8,	'view_trader'),
+(33,	'Can add basic user',	9,	'add_basicuser'),
+(34,	'Can change basic user',	9,	'change_basicuser'),
+(35,	'Can delete basic user',	9,	'delete_basicuser'),
+(36,	'Can view basic user',	9,	'view_basicuser'),
+(37,	'Can add asset',	10,	'add_asset'),
+(38,	'Can change asset',	10,	'change_asset'),
+(39,	'Can delete asset',	10,	'delete_asset'),
+(40,	'Can view asset',	10,	'view_asset'),
+(41,	'Can add sales request',	11,	'add_salesrequest'),
+(42,	'Can change sales request',	11,	'change_salesrequest'),
+(43,	'Can delete sales request',	11,	'delete_salesrequest'),
+(44,	'Can view sales request',	11,	'view_salesrequest'),
+(45,	'Can add purchase request',	12,	'add_purchaserequest'),
+(46,	'Can change purchase request',	12,	'change_purchaserequest'),
+(47,	'Can delete purchase request',	12,	'delete_purchaserequest'),
+(48,	'Can view purchase request',	12,	'view_purchaserequest'),
+(49,	'Can add broker',	13,	'add_broker'),
+(50,	'Can change broker',	13,	'change_broker'),
+(51,	'Can delete broker',	13,	'delete_broker'),
+(52,	'Can view broker',	13,	'view_broker'),
+(53,	'Can add broker basic user contract',	14,	'add_brokerbasicusercontract'),
+(54,	'Can change broker basic user contract',	14,	'change_brokerbasicusercontract'),
+(55,	'Can delete broker basic user contract',	14,	'delete_brokerbasicusercontract'),
+(56,	'Can view broker basic user contract',	14,	'view_brokerbasicusercontract'),
+(57,	'Can add text file',	15,	'add_textfile'),
+(58,	'Can change text file',	15,	'change_textfile'),
+(59,	'Can delete text file',	15,	'delete_textfile'),
+(60,	'Can view text file',	15,	'view_textfile'),
+(61,	'Can add approval report file',	16,	'add_approvalreportfile'),
+(62,	'Can change approval report file',	16,	'change_approvalreportfile'),
+(63,	'Can delete approval report file',	16,	'delete_approvalreportfile'),
+(64,	'Can view approval report file',	16,	'view_approvalreportfile'),
+(65,	'Can add broker basic user contract file',	17,	'add_brokerbasicusercontractfile'),
+(66,	'Can change broker basic user contract file',	17,	'change_brokerbasicusercontractfile'),
+(67,	'Can delete broker basic user contract file',	17,	'delete_brokerbasicusercontractfile'),
+(68,	'Can view broker basic user contract file',	17,	'view_brokerbasicusercontractfile'),
+(69,	'Can add broker request file',	18,	'add_brokerrequestfile'),
+(70,	'Can change broker request file',	18,	'change_brokerrequestfile'),
+(71,	'Can delete broker request file',	18,	'delete_brokerrequestfile'),
+(72,	'Can view broker request file',	18,	'view_brokerrequestfile'),
+(73,	'Can add make belief owns',	19,	'add_makebeliefowns'),
+(74,	'Can change make belief owns',	19,	'change_makebeliefowns'),
+(75,	'Can delete make belief owns',	19,	'delete_makebeliefowns'),
+(76,	'Can view make belief owns',	19,	'view_makebeliefowns'),
+(77,	'Can add log entry',	20,	'add_logentry'),
+(78,	'Can change log entry',	20,	'change_logentry'),
+(79,	'Can delete log entry',	20,	'delete_logentry'),
+(80,	'Can view log entry',	20,	'view_logentry'),
+(81,	'Can add session',	21,	'add_session'),
+(82,	'Can change session',	21,	'change_session'),
+(83,	'Can delete session',	21,	'delete_session'),
+(84,	'Can view session',	21,	'view_session'),
+(85,	'Can add completed task',	22,	'add_completedtask'),
+(86,	'Can change completed task',	22,	'change_completedtask'),
+(87,	'Can delete completed task',	22,	'delete_completedtask'),
+(88,	'Can view completed task',	22,	'view_completedtask'),
+(89,	'Can add task',	23,	'add_task'),
+(90,	'Can change task',	23,	'change_task'),
+(91,	'Can delete task',	23,	'delete_task'),
+(92,	'Can view task',	23,	'view_task');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `background_task`
---
-
+DROP TABLE IF EXISTS `background_task`;
 CREATE TABLE `background_task` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `task_name` varchar(190) NOT NULL,
   `task_params` longtext NOT NULL,
   `task_hash` varchar(40) NOT NULL,
   `verbose_name` varchar(255) DEFAULT NULL,
-  `priority` int(11) NOT NULL,
+  `priority` int NOT NULL,
   `run_at` datetime(6) NOT NULL,
-  `repeat` bigint(20) NOT NULL,
+  `repeat` bigint NOT NULL,
   `repeat_until` datetime(6) DEFAULT NULL,
   `queue` varchar(190) DEFAULT NULL,
-  `attempts` int(11) NOT NULL,
+  `attempts` int NOT NULL,
   `failed_at` datetime(6) DEFAULT NULL,
   `last_error` longtext NOT NULL,
   `locked_by` varchar(64) DEFAULT NULL,
   `locked_at` datetime(6) DEFAULT NULL,
-  `creator_object_id` int(10) UNSIGNED DEFAULT NULL CHECK (`creator_object_id` >= 0),
-  `creator_content_type_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `creator_object_id` int unsigned DEFAULT NULL,
+  `creator_content_type_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `background_task_creator_content_type_61cc9af3_fk_django_co` (`creator_content_type_id`),
+  KEY `background_task_task_name_4562d56a` (`task_name`),
+  KEY `background_task_task_hash_d8f233bd` (`task_hash`),
+  KEY `background_task_priority_88bdbce9` (`priority`),
+  KEY `background_task_run_at_7baca3aa` (`run_at`),
+  KEY `background_task_queue_1d5f3a40` (`queue`),
+  KEY `background_task_attempts_a9ade23d` (`attempts`),
+  KEY `background_task_failed_at_b81bba14` (`failed_at`),
+  KEY `background_task_locked_by_db7779e3` (`locked_by`),
+  KEY `background_task_locked_at_0fb0f225` (`locked_at`),
+  CONSTRAINT `background_task_creator_content_type_61cc9af3_fk_django_co` FOREIGN KEY (`creator_content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `background_task_chk_1` CHECK ((`creator_object_id` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `background_task_completedtask`
---
-
+DROP TABLE IF EXISTS `background_task_completedtask`;
 CREATE TABLE `background_task_completedtask` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `task_name` varchar(190) NOT NULL,
   `task_params` longtext NOT NULL,
   `task_hash` varchar(40) NOT NULL,
   `verbose_name` varchar(255) DEFAULT NULL,
-  `priority` int(11) NOT NULL,
+  `priority` int NOT NULL,
   `run_at` datetime(6) NOT NULL,
-  `repeat` bigint(20) NOT NULL,
+  `repeat` bigint NOT NULL,
   `repeat_until` datetime(6) DEFAULT NULL,
   `queue` varchar(190) DEFAULT NULL,
-  `attempts` int(11) NOT NULL,
+  `attempts` int NOT NULL,
   `failed_at` datetime(6) DEFAULT NULL,
   `last_error` longtext NOT NULL,
   `locked_by` varchar(64) DEFAULT NULL,
   `locked_at` datetime(6) DEFAULT NULL,
-  `creator_object_id` int(10) UNSIGNED DEFAULT NULL CHECK (`creator_object_id` >= 0),
-  `creator_content_type_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `creator_object_id` int unsigned DEFAULT NULL,
+  `creator_content_type_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `background_task_comp_creator_content_type_21d6a741_fk_django_co` (`creator_content_type_id`),
+  KEY `background_task_completedtask_task_name_388dabc2` (`task_name`),
+  KEY `background_task_completedtask_task_hash_91187576` (`task_hash`),
+  KEY `background_task_completedtask_priority_9080692e` (`priority`),
+  KEY `background_task_completedtask_run_at_77c80f34` (`run_at`),
+  KEY `background_task_completedtask_queue_61fb0415` (`queue`),
+  KEY `background_task_completedtask_attempts_772a6783` (`attempts`),
+  KEY `background_task_completedtask_failed_at_3de56618` (`failed_at`),
+  KEY `background_task_completedtask_locked_by_edc8a213` (`locked_by`),
+  KEY `background_task_completedtask_locked_at_29c62708` (`locked_at`),
+  CONSTRAINT `background_task_comp_creator_content_type_21d6a741_fk_django_co` FOREIGN KEY (`creator_content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `background_task_completedtask_chk_1` CHECK ((`creator_object_id` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `basicuser`
---
-
+DROP TABLE IF EXISTS `basicuser`;
 CREATE TABLE `basicuser` (
-  `IdUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `basicuser`
---
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdUser`),
+  CONSTRAINT `basicuser_IdUser_2e4cd913_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `broker`
---
-
+DROP TABLE IF EXISTS `broker`;
 CREATE TABLE `broker` (
-  `IdUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `broker`
---
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdUser`),
+  CONSTRAINT `broker_IdUser_48814eee_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `brokerbasicusercontract`
---
-
+DROP TABLE IF EXISTS `brokerbasicusercontract`;
 CREATE TABLE `brokerbasicusercontract` (
-  `IdContract` int(11) NOT NULL,
+  `IdContract` int NOT NULL AUTO_INCREMENT,
   `CreationTime` datetime(6) NOT NULL,
   `ResponseTime` datetime(6) DEFAULT NULL,
-  `WasAccepted` int(11) NOT NULL,
+  `WasAccepted` int NOT NULL,
   `FeePercentage` double NOT NULL,
   `ExpirationTime` datetime(6) NOT NULL,
   `ContractFilePath` varchar(128) NOT NULL,
-  `IdBasicUser` int(11) NOT NULL,
-  `IdBroker` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `IdBasicUser` int NOT NULL,
+  `IdBroker` int NOT NULL,
+  PRIMARY KEY (`IdContract`),
+  KEY `brokerbasicusercontr_ContractFilePath_982775ae_fk_brokerbas` (`ContractFilePath`),
+  KEY `brokerbasicusercontract_IdBasicUser_566f9645_fk_basicuser_IdUser` (`IdBasicUser`),
+  KEY `brokerbasicusercontract_IdBroker_063e2e83_fk_broker_IdUser` (`IdBroker`),
+  CONSTRAINT `brokerbasicusercontr_ContractFilePath_982775ae_fk_brokerbas` FOREIGN KEY (`ContractFilePath`) REFERENCES `brokerbasicusercontractfile` (`FilePath`),
+  CONSTRAINT `brokerbasicusercontract_IdBasicUser_566f9645_fk_basicuser_IdUser` FOREIGN KEY (`IdBasicUser`) REFERENCES `basicuser` (`IdUser`),
+  CONSTRAINT `brokerbasicusercontract_IdBroker_063e2e83_fk_broker_IdUser` FOREIGN KEY (`IdBroker`) REFERENCES `broker` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `brokerbasicusercontract`
---
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `brokerbasicusercontractfile`
---
-
+DROP TABLE IF EXISTS `brokerbasicusercontractfile`;
 CREATE TABLE `brokerbasicusercontractfile` (
   `FilePath` varchar(128) NOT NULL,
-  `ContractContent` varchar(256) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `brokerbasicusercontractfile`
---
+  `ContractContent` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`FilePath`),
+  CONSTRAINT `brokerbasicusercontr_FilePath_e8ebd9fb_fk_textfile_` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `brokerrequestfile`
---
-
+DROP TABLE IF EXISTS `brokerrequestfile`;
 CREATE TABLE `brokerrequestfile` (
   `FilePath` varchar(128) NOT NULL,
-  `RequestContent` varchar(256) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `RequestContent` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`FilePath`),
+  CONSTRAINT `brokerrequestfile_FilePath_c5c6c01f_fk_textfile_FilePath` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `country`
---
-
+DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country` (
-  `IdCountry` int(11) NOT NULL,
-  `Name` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `country`
---
+  `IdCountry` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(32) NOT NULL,
+  PRIMARY KEY (`IdCountry`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `country` (`IdCountry`, `Name`) VALUES
-(1, 'us'),
-(2, 'ca'),
-(3, 'mx'),
-(4, 'rs'),
-(5, 'ru'),
-(6, 'hr'),
-(7, 'me');
+(1,	'us'),
+(2,	'ca'),
+(3,	'mx'),
+(4,	'rs'),
+(5,	'ru'),
+(6,	'hr'),
+(7,	'me');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `django_admin_log`
---
-
+DROP TABLE IF EXISTS `django_admin_log`;
 CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `action_time` datetime(6) NOT NULL,
-  `object_id` longtext DEFAULT NULL,
+  `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
-  `action_flag` smallint(5) UNSIGNED NOT NULL CHECK (`action_flag` >= 0),
+  `action_flag` smallint unsigned NOT NULL,
   `change_message` longtext NOT NULL,
-  `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `content_type_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_user_IdUser` (`user_id`),
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`),
+  CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `django_admin_log`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `django_content_type`
---
-
+DROP TABLE IF EXISTS `django_content_type`;
 CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `django_content_type`
---
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
-(1, 'admin', 'logentry'),
-(14, 'asset_management', 'asset'),
-(17, 'asset_management', 'makebeliefowns'),
-(16, 'asset_management', 'purchaserequest'),
-(15, 'asset_management', 'salesrequest'),
-(3, 'auth', 'group'),
-(2, 'auth', 'permission'),
-(6, 'background_task', 'completedtask'),
-(7, 'background_task', 'task'),
-(18, 'broker_management', 'broker'),
-(19, 'broker_management', 'brokerbasicusercontract'),
-(4, 'contenttypes', 'contenttype'),
-(21, 'file_management', 'approvalreportfile'),
-(22, 'file_management', 'brokerbasicusercontractfile'),
-(23, 'file_management', 'brokerrequestfile'),
-(20, 'file_management', 'textfile'),
-(5, 'sessions', 'session'),
-(11, 'user_management', 'administrator'),
-(13, 'user_management', 'basicuser'),
-(9, 'user_management', 'country'),
-(10, 'user_management', 'fundstransfermethod'),
-(12, 'user_management', 'trader'),
-(8, 'user_management', 'user');
+(20,	'admin',	'logentry'),
+(10,	'asset_management',	'asset'),
+(12,	'asset_management',	'purchaserequest'),
+(11,	'asset_management',	'salesrequest'),
+(2,	'auth',	'group'),
+(1,	'auth',	'permission'),
+(22,	'background_task',	'completedtask'),
+(23,	'background_task',	'task'),
+(13,	'broker_management',	'broker'),
+(14,	'broker_management',	'brokerbasicusercontract'),
+(3,	'contenttypes',	'contenttype'),
+(16,	'file_management',	'approvalreportfile'),
+(17,	'file_management',	'brokerbasicusercontractfile'),
+(18,	'file_management',	'brokerrequestfile'),
+(15,	'file_management',	'textfile'),
+(21,	'sessions',	'session'),
+(7,	'user_management',	'administrator'),
+(9,	'user_management',	'basicuser'),
+(5,	'user_management',	'country'),
+(6,	'user_management',	'fundstransfermethod'),
+(8,	'user_management',	'trader'),
+(4,	'user_management',	'user'),
+(19,	'wallet',	'makebeliefowns');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `django_migrations`
---
-
+DROP TABLE IF EXISTS `django_migrations`;
 CREATE TABLE `django_migrations` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `django_migrations`
---
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2023-09-08 18:03:59.606059'),
-(2, 'contenttypes', '0002_remove_content_type_name', '2023-09-08 18:03:59.673020'),
-(3, 'auth', '0001_initial', '2023-09-08 18:03:59.968900'),
-(4, 'auth', '0002_alter_permission_name_max_length', '2023-09-08 18:04:00.019896'),
-(5, 'auth', '0003_alter_user_email_max_length', '2023-09-08 18:04:00.040897'),
-(6, 'auth', '0004_alter_user_username_opts', '2023-09-08 18:04:00.056897'),
-(7, 'auth', '0005_alter_user_last_login_null', '2023-09-08 18:04:00.068909'),
-(8, 'auth', '0006_require_contenttypes_0002', '2023-09-08 18:04:00.074896'),
-(9, 'auth', '0007_alter_validators_add_error_messages', '2023-09-08 18:04:00.087899'),
-(10, 'auth', '0008_alter_user_username_max_length', '2023-09-08 18:04:00.097894'),
-(11, 'auth', '0009_alter_user_last_name_max_length', '2023-09-08 18:04:00.113896'),
-(12, 'auth', '0010_alter_group_name_max_length', '2023-09-08 18:04:00.142898'),
-(13, 'auth', '0011_update_proxy_permissions', '2023-09-08 18:04:00.162900'),
-(14, 'auth', '0012_alter_user_first_name_max_length', '2023-09-08 18:04:00.175905'),
-(15, 'user_management', '0001_initial', '2023-09-08 18:04:00.930308'),
-(16, 'admin', '0001_initial', '2023-09-08 18:04:01.098330'),
-(17, 'admin', '0002_logentry_remove_auto_add', '2023-09-08 18:04:01.108203'),
-(18, 'admin', '0003_logentry_add_action_flag_choices', '2023-09-08 18:04:01.122204'),
-(19, 'file_management', '0001_initial', '2023-09-08 18:04:01.369649'),
-(20, 'broker_management', '0001_initial', '2023-09-08 18:04:01.626690'),
-(21, 'asset_management', '0001_initial', '2023-09-08 18:04:02.366864'),
-(22, 'background_task', '0001_initial', '2023-09-08 18:04:02.793865'),
-(23, 'background_task', '0002_auto_20170927_1109', '2023-09-08 18:04:02.821865'),
-(24, 'background_task', '0003_auto_20210410_1529', '2023-09-08 18:04:03.097867'),
-(25, 'background_task', '0004_auto_20220202_1721', '2023-09-08 18:04:03.253862'),
-(26, 'sessions', '0001_initial', '2023-09-08 18:04:03.295863');
+(1,	'contenttypes',	'0001_initial',	'2023-09-13 12:04:39.852807'),
+(2,	'contenttypes',	'0002_remove_content_type_name',	'2023-09-13 12:04:40.191668'),
+(3,	'auth',	'0001_initial',	'2023-09-13 12:04:41.519673'),
+(4,	'auth',	'0002_alter_permission_name_max_length',	'2023-09-13 12:04:41.887809'),
+(5,	'auth',	'0003_alter_user_email_max_length',	'2023-09-13 12:04:41.939819'),
+(6,	'auth',	'0004_alter_user_username_opts',	'2023-09-13 12:04:41.989823'),
+(7,	'auth',	'0005_alter_user_last_login_null',	'2023-09-13 12:04:42.066266'),
+(8,	'auth',	'0006_require_contenttypes_0002',	'2023-09-13 12:04:42.110095'),
+(9,	'auth',	'0007_alter_validators_add_error_messages',	'2023-09-13 12:04:42.211815'),
+(10,	'auth',	'0008_alter_user_username_max_length',	'2023-09-13 12:04:42.302141'),
+(11,	'auth',	'0009_alter_user_last_name_max_length',	'2023-09-13 12:04:42.392972'),
+(12,	'auth',	'0010_alter_group_name_max_length',	'2023-09-13 12:04:42.515255'),
+(13,	'auth',	'0011_update_proxy_permissions',	'2023-09-13 12:04:42.573518'),
+(14,	'auth',	'0012_alter_user_first_name_max_length',	'2023-09-13 12:04:42.637385'),
+(15,	'user_management',	'0001_initial',	'2023-09-13 12:04:46.174611'),
+(16,	'user_management',	'0002_alter_trader_idselectedfundstransfermethod',	'2023-09-13 12:04:46.939818'),
+(17,	'file_management',	'0001_initial',	'2023-09-13 12:05:12.419290'),
+(18,	'broker_management',	'0001_initial',	'2023-09-13 12:05:13.711334'),
+(19,	'asset_management',	'0001_initial',	'2023-09-13 12:05:15.694754'),
+(20,	'wallet',	'0001_initial',	'2023-09-13 12:05:16.462000'),
+(21,	'admin',	'0001_initial',	'2023-09-13 12:06:52.923750'),
+(22,	'admin',	'0002_logentry_remove_auto_add',	'2023-09-13 12:06:52.974206'),
+(23,	'admin',	'0003_logentry_add_action_flag_choices',	'2023-09-13 12:06:53.082501'),
+(24,	'background_task',	'0001_initial',	'2023-09-13 12:06:55.679084'),
+(25,	'background_task',	'0002_auto_20170927_1109',	'2023-09-13 12:06:55.809008'),
+(26,	'background_task',	'0003_auto_20210410_1529',	'2023-09-13 12:06:56.735994'),
+(27,	'background_task',	'0004_auto_20220202_1721',	'2023-09-13 12:06:57.722045'),
+(28,	'sessions',	'0001_initial',	'2023-09-13 12:06:57.974054');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `django_session`
---
-
+DROP TABLE IF EXISTS `django_session`;
 CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `django_session`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `fundstransfermethod`
---
-
+DROP TABLE IF EXISTS `fundstransfermethod`;
 CREATE TABLE `fundstransfermethod` (
-  `IdPaymentMethod` int(11) NOT NULL,
+  `IdPaymentMethod` int NOT NULL AUTO_INCREMENT,
   `AccessKey` varchar(64) NOT NULL,
-  `MakeBeliefBalance` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `MakeBeliefBalance` decimal(10,2) NOT NULL,
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdPaymentMethod`),
+  KEY `fundstransfermethod_IdUser_ac94b0d6_fk_trader_IdUser` (`IdUser`),
+  CONSTRAINT `fundstransfermethod_IdUser_ac94b0d6_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `fundstransfermethod`
---
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `makebeliefowns`
---
-
+DROP TABLE IF EXISTS `makebeliefowns`;
 CREATE TABLE `makebeliefowns` (
-  `id` bigint(20) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `IdAsset` int(11) NOT NULL,
-  `IdPaymentMethod` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `Quantity` int NOT NULL,
+  `IdAsset` int NOT NULL,
+  `IdPaymentMethod` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `composite_primary_key` (`IdPaymentMethod`,`IdAsset`),
+  KEY `makebeliefowns_IdAsset_d11eb163_fk_asset_IdAsset` (`IdAsset`),
+  CONSTRAINT `makebeliefowns_IdAsset_d11eb163_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
+  CONSTRAINT `makebeliefowns_IdPaymentMethod_ac7a91da_fk_fundstran` FOREIGN KEY (`IdPaymentMethod`) REFERENCES `fundstransfermethod` (`IdPaymentMethod`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `makebeliefowns`
---
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchaserequest`
---
-
+DROP TABLE IF EXISTS `purchaserequest`;
 CREATE TABLE `purchaserequest` (
-  `IdTradeRequest` bigint(20) NOT NULL,
-  `QuantityRequested` int(11) NOT NULL,
+  `IdTradeRequest` bigint NOT NULL AUTO_INCREMENT,
+  `QuantityRequested` int NOT NULL,
   `TotalTransactionsPrice` decimal(10,2) NOT NULL,
-  `QuantityRequired` int(11) NOT NULL,
-  `UnitPriceLowerBound` decimal(10,2) NOT NULL,
-  `UnitPriceUpperBound` decimal(10,2) NOT NULL,
+  `QuantityRequired` int NOT NULL,
+  `UnitPriceLowerBound` decimal(10,4) NOT NULL,
+  `UnitPriceUpperBound` decimal(10,4) NOT NULL,
   `IsBoundByContract` tinyint(1) NOT NULL,
-  `IdAsset` int(11) NOT NULL,
-  `IdContract` int(11) DEFAULT NULL,
-  `IdUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `IdAsset` int NOT NULL,
+  `IdContract` int DEFAULT NULL,
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdTradeRequest`),
+  KEY `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` (`IdAsset`),
+  KEY `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` (`IdContract`),
+  KEY `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` (`IdUser`),
+  CONSTRAINT `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
+  CONSTRAINT `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
+  CONSTRAINT `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `salesrequest`
---
-
+DROP TABLE IF EXISTS `salesrequest`;
 CREATE TABLE `salesrequest` (
-  `IdTradeRequest` bigint(20) NOT NULL,
-  `QuantityRequested` int(11) NOT NULL,
+  `IdTradeRequest` bigint NOT NULL AUTO_INCREMENT,
+  `QuantityRequested` int NOT NULL,
   `TotalTransactionsPrice` decimal(10,2) NOT NULL,
-  `QuantityRequired` int(11) NOT NULL,
-  `UnitPriceLowerBound` decimal(10,2) NOT NULL,
-  `UnitPriceUpperBound` decimal(10,2) NOT NULL,
+  `QuantityRequired` int NOT NULL,
+  `UnitPriceLowerBound` decimal(10,4) NOT NULL,
+  `UnitPriceUpperBound` decimal(10,4) NOT NULL,
   `IsBoundByContract` tinyint(1) NOT NULL,
-  `IdAsset` int(11) NOT NULL,
-  `IdContract` int(11) DEFAULT NULL,
-  `IdUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `IdAsset` int NOT NULL,
+  `IdContract` int DEFAULT NULL,
+  `IdUser` int NOT NULL,
+  PRIMARY KEY (`IdTradeRequest`),
+  KEY `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` (`IdAsset`),
+  KEY `salesrequest_IdContract_783fa5c8_fk_brokerbas` (`IdContract`),
+  KEY `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` (`IdUser`),
+  CONSTRAINT `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
+  CONSTRAINT `salesrequest_IdContract_783fa5c8_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
+  CONSTRAINT `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `textfile`
---
-
+DROP TABLE IF EXISTS `textfile`;
 CREATE TABLE `textfile` (
-  `FilePath` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `textfile`
---
+  `FilePath` varchar(128) NOT NULL,
+  PRIMARY KEY (`FilePath`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `trader`
---
-
+DROP TABLE IF EXISTS `trader`;
 CREATE TABLE `trader` (
-  `IdUser` int(11) NOT NULL,
+  `IdUser` int NOT NULL,
   `Birthday` date NOT NULL,
   `Sex` varchar(6) NOT NULL,
   `TermsAcceptanceTime` datetime(6) NOT NULL,
-  `IdCountry` int(11) NOT NULL,
-  `IdSelectedFundsTrasnferMethod` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `IdCountry` int NOT NULL,
+  `IdSelectedFundsTransferMethod` int NOT NULL,
+  PRIMARY KEY (`IdUser`),
+  KEY `trader_IdCountry_2add0814_fk_country_IdCountry` (`IdCountry`),
+  KEY `trader_IdSelectedFundsTrans_0e5d7148_fk_fundstran` (`IdSelectedFundsTransferMethod`),
+  CONSTRAINT `trader_IdCountry_2add0814_fk_country_IdCountry` FOREIGN KEY (`IdCountry`) REFERENCES `country` (`IdCountry`),
+  CONSTRAINT `trader_IdSelectedFundsTrans_0e5d7148_fk_fundstran` FOREIGN KEY (`IdSelectedFundsTransferMethod`) REFERENCES `fundstransfermethod` (`IdPaymentMethod`),
+  CONSTRAINT `trader_IdUser_ffd77317_fk_user_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `user` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `trader`
---
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
@@ -629,500 +515,42 @@ CREATE TABLE `user` (
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `date_joined` datetime(6) NOT NULL,
-  `IdUser` int(11) NOT NULL,
+  `IdUser` int NOT NULL AUTO_INCREMENT,
   `Username` varchar(32) NOT NULL,
   `Password` varchar(128) NOT NULL,
-  `Email` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
+  `Email` varchar(64) NOT NULL,
+  PRIMARY KEY (`IdUser`),
+  UNIQUE KEY `Username` (`Username`),
+  UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `user` (`last_login`, `is_superuser`, `first_name`, `last_name`, `is_staff`, `is_active`, `date_joined`, `IdUser`, `Username`, `Password`, `Email`) VALUES
-('2023-09-08 18:48:34.305357', 1, '', '', 1, 1, '2023-09-08 18:09:10.482783', 1, 'admin', 'pbkdf2_sha256$600000$6cpSEYYUPZsZtyyRj3g0FA$ZcN2bpt8p65oI/vCClh//lNf7ef2+t1edyEuJvbjX3A=', 'admin');
+('2023-09-13 12:09:35.973920',	1,	'',	'',	1,	1,	'2023-09-13 12:09:16.821282',	1,	'admin',	'pbkdf2_sha256$600000$eKe2PQKV8yOhPW6K7yewX4$+LdSiX/+gg3iHdAqZ9Oiao6VgGpYi++5Lr4WhVvnIxo=',	'admin');
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_groups`
---
-
+DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE `user_groups` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_groups_user_id_group_id_40beef00_uniq` (`user_id`,`group_id`),
+  KEY `user_groups_group_id_b76f8aba_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `user_groups_group_id_b76f8aba_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `user_groups_user_id_abaea130_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `user_groups`
---
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_user_permissions`
---
-
+DROP TABLE IF EXISTS `user_user_permissions`;
 CREATE TABLE `user_user_permissions` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `administrator`
---
-ALTER TABLE `administrator`
-  ADD PRIMARY KEY (`IdUser`);
-
---
--- Indexes for table `approvalreportfile`
---
-ALTER TABLE `approvalreportfile`
-  ADD PRIMARY KEY (`FilePath`);
-
---
--- Indexes for table `asset`
---
-ALTER TABLE `asset`
-  ADD PRIMARY KEY (`IdAsset`);
-
---
--- Indexes for table `auth_group`
---
-ALTER TABLE `auth_group`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
-
---
--- Indexes for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
-
---
--- Indexes for table `background_task`
---
-ALTER TABLE `background_task`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `background_task_creator_content_type_61cc9af3_fk_django_co` (`creator_content_type_id`),
-  ADD KEY `background_task_task_name_4562d56a` (`task_name`),
-  ADD KEY `background_task_task_hash_d8f233bd` (`task_hash`),
-  ADD KEY `background_task_priority_88bdbce9` (`priority`),
-  ADD KEY `background_task_run_at_7baca3aa` (`run_at`),
-  ADD KEY `background_task_queue_1d5f3a40` (`queue`),
-  ADD KEY `background_task_attempts_a9ade23d` (`attempts`),
-  ADD KEY `background_task_failed_at_b81bba14` (`failed_at`),
-  ADD KEY `background_task_locked_by_db7779e3` (`locked_by`),
-  ADD KEY `background_task_locked_at_0fb0f225` (`locked_at`);
-
---
--- Indexes for table `background_task_completedtask`
---
-ALTER TABLE `background_task_completedtask`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `background_task_comp_creator_content_type_21d6a741_fk_django_co` (`creator_content_type_id`),
-  ADD KEY `background_task_completedtask_task_name_388dabc2` (`task_name`),
-  ADD KEY `background_task_completedtask_task_hash_91187576` (`task_hash`),
-  ADD KEY `background_task_completedtask_priority_9080692e` (`priority`),
-  ADD KEY `background_task_completedtask_run_at_77c80f34` (`run_at`),
-  ADD KEY `background_task_completedtask_queue_61fb0415` (`queue`),
-  ADD KEY `background_task_completedtask_attempts_772a6783` (`attempts`),
-  ADD KEY `background_task_completedtask_failed_at_3de56618` (`failed_at`),
-  ADD KEY `background_task_completedtask_locked_by_edc8a213` (`locked_by`),
-  ADD KEY `background_task_completedtask_locked_at_29c62708` (`locked_at`);
-
---
--- Indexes for table `basicuser`
---
-ALTER TABLE `basicuser`
-  ADD PRIMARY KEY (`IdUser`);
-
---
--- Indexes for table `broker`
---
-ALTER TABLE `broker`
-  ADD PRIMARY KEY (`IdUser`);
-
---
--- Indexes for table `brokerbasicusercontract`
---
-ALTER TABLE `brokerbasicusercontract`
-  ADD PRIMARY KEY (`IdContract`),
-  ADD KEY `brokerbasicusercontr_ContractFilePath_982775ae_fk_brokerbas` (`ContractFilePath`),
-  ADD KEY `brokerbasicusercontract_IdBasicUser_566f9645_fk_basicuser_IdUser` (`IdBasicUser`),
-  ADD KEY `brokerbasicusercontract_IdBroker_063e2e83_fk_broker_IdUser` (`IdBroker`);
-
---
--- Indexes for table `brokerbasicusercontractfile`
---
-ALTER TABLE `brokerbasicusercontractfile`
-  ADD PRIMARY KEY (`FilePath`);
-
---
--- Indexes for table `brokerrequestfile`
---
-ALTER TABLE `brokerrequestfile`
-  ADD PRIMARY KEY (`FilePath`);
-
---
--- Indexes for table `country`
---
-ALTER TABLE `country`
-  ADD PRIMARY KEY (`IdCountry`);
-
---
--- Indexes for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  ADD KEY `django_admin_log_user_id_c564eba6_fk_user_IdUser` (`user_id`);
-
---
--- Indexes for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
-
---
--- Indexes for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `django_session`
---
-ALTER TABLE `django_session`
-  ADD PRIMARY KEY (`session_key`),
-  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
-
---
--- Indexes for table `fundstransfermethod`
---
-ALTER TABLE `fundstransfermethod`
-  ADD PRIMARY KEY (`IdPaymentMethod`);
-
---
--- Indexes for table `makebeliefowns`
---
-ALTER TABLE `makebeliefowns`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `composite_primary_key` (`IdPaymentMethod`,`IdAsset`),
-  ADD KEY `makebeliefowns_IdAsset_d11eb163_fk_asset_IdAsset` (`IdAsset`);
-
---
--- Indexes for table `purchaserequest`
---
-ALTER TABLE `purchaserequest`
-  ADD PRIMARY KEY (`IdTradeRequest`),
-  ADD KEY `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` (`IdAsset`),
-  ADD KEY `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` (`IdContract`),
-  ADD KEY `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` (`IdUser`);
-
---
--- Indexes for table `salesrequest`
---
-ALTER TABLE `salesrequest`
-  ADD PRIMARY KEY (`IdTradeRequest`),
-  ADD KEY `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` (`IdAsset`),
-  ADD KEY `salesrequest_IdContract_783fa5c8_fk_brokerbas` (`IdContract`),
-  ADD KEY `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` (`IdUser`);
-
---
--- Indexes for table `textfile`
---
-ALTER TABLE `textfile`
-  ADD PRIMARY KEY (`FilePath`);
-
---
--- Indexes for table `trader`
---
-ALTER TABLE `trader`
-  ADD PRIMARY KEY (`IdUser`),
-  ADD KEY `trader_IdCountry_2add0814_fk_country_IdCountry` (`IdCountry`),
-  ADD KEY `trader_IdSelectedFundsTrasn_ffdbf40a_fk_fundstran` (`IdSelectedFundsTrasnferMethod`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`IdUser`),
-  ADD UNIQUE KEY `Username` (`Username`),
-  ADD UNIQUE KEY `Email` (`Email`);
-
---
--- Indexes for table `user_groups`
---
-ALTER TABLE `user_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_groups_user_id_group_id_40beef00_uniq` (`user_id`,`group_id`),
-  ADD KEY `user_groups_group_id_b76f8aba_fk_auth_group_id` (`group_id`);
-
---
--- Indexes for table `user_user_permissions`
---
-ALTER TABLE `user_user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_user_permissions_user_id_permission_id_7dc6e2e0_uniq` (`user_id`,`permission_id`),
-  ADD KEY `user_user_permission_permission_id_9deb68a3_fk_auth_perm` (`permission_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `asset`
---
-ALTER TABLE `asset`
-  MODIFY `IdAsset` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `auth_group`
---
-ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
-
---
--- AUTO_INCREMENT for table `background_task`
---
-ALTER TABLE `background_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1832;
-
---
--- AUTO_INCREMENT for table `background_task_completedtask`
---
-ALTER TABLE `background_task_completedtask`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1827;
-
---
--- AUTO_INCREMENT for table `brokerbasicusercontract`
---
-ALTER TABLE `brokerbasicusercontract`
-  MODIFY `IdContract` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `country`
---
-ALTER TABLE `country`
-  MODIFY `IdCountry` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
-
---
--- AUTO_INCREMENT for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `fundstransfermethod`
---
-ALTER TABLE `fundstransfermethod`
-  MODIFY `IdPaymentMethod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `makebeliefowns`
---
-ALTER TABLE `makebeliefowns`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `purchaserequest`
---
-ALTER TABLE `purchaserequest`
-  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `salesrequest`
---
-ALTER TABLE `salesrequest`
-  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `user_groups`
---
-ALTER TABLE `user_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `user_user_permissions`
---
-ALTER TABLE `user_user_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `administrator`
---
-ALTER TABLE `administrator`
-  ADD CONSTRAINT `administrator_IdUser_7a34e409_fk_user_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `user` (`IdUser`);
-
---
--- Constraints for table `approvalreportfile`
---
-ALTER TABLE `approvalreportfile`
-  ADD CONSTRAINT `approvalreportfile_FilePath_90c9e51f_fk_textfile_FilePath` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`);
-
---
--- Constraints for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
-
---
--- Constraints for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `background_task`
---
-ALTER TABLE `background_task`
-  ADD CONSTRAINT `background_task_creator_content_type_61cc9af3_fk_django_co` FOREIGN KEY (`creator_content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `background_task_completedtask`
---
-ALTER TABLE `background_task_completedtask`
-  ADD CONSTRAINT `background_task_comp_creator_content_type_21d6a741_fk_django_co` FOREIGN KEY (`creator_content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `basicuser`
---
-ALTER TABLE `basicuser`
-  ADD CONSTRAINT `basicuser_IdUser_2e4cd913_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`);
-
---
--- Constraints for table `broker`
---
-ALTER TABLE `broker`
-  ADD CONSTRAINT `broker_IdUser_48814eee_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`);
-
---
--- Constraints for table `brokerbasicusercontract`
---
-ALTER TABLE `brokerbasicusercontract`
-  ADD CONSTRAINT `brokerbasicusercontr_ContractFilePath_982775ae_fk_brokerbas` FOREIGN KEY (`ContractFilePath`) REFERENCES `brokerbasicusercontractfile` (`FilePath`),
-  ADD CONSTRAINT `brokerbasicusercontract_IdBasicUser_566f9645_fk_basicuser_IdUser` FOREIGN KEY (`IdBasicUser`) REFERENCES `basicuser` (`IdUser`),
-  ADD CONSTRAINT `brokerbasicusercontract_IdBroker_063e2e83_fk_broker_IdUser` FOREIGN KEY (`IdBroker`) REFERENCES `broker` (`IdUser`);
-
---
--- Constraints for table `brokerbasicusercontractfile`
---
-ALTER TABLE `brokerbasicusercontractfile`
-  ADD CONSTRAINT `brokerbasicusercontr_FilePath_e8ebd9fb_fk_textfile_` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`);
-
---
--- Constraints for table `brokerrequestfile`
---
-ALTER TABLE `brokerrequestfile`
-  ADD CONSTRAINT `brokerrequestfile_FilePath_c5c6c01f_fk_textfile_FilePath` FOREIGN KEY (`FilePath`) REFERENCES `textfile` (`FilePath`);
-
---
--- Constraints for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`);
-
---
--- Constraints for table `makebeliefowns`
---
-ALTER TABLE `makebeliefowns`
-  ADD CONSTRAINT `makebeliefowns_IdAsset_d11eb163_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
-  ADD CONSTRAINT `makebeliefowns_IdPaymentMethod_ac7a91da_fk_fundstran` FOREIGN KEY (`IdPaymentMethod`) REFERENCES `fundstransfermethod` (`IdPaymentMethod`);
-
---
--- Constraints for table `purchaserequest`
---
-ALTER TABLE `purchaserequest`
-  ADD CONSTRAINT `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
-  ADD CONSTRAINT `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
-  ADD CONSTRAINT `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`);
-
---
--- Constraints for table `salesrequest`
---
-ALTER TABLE `salesrequest`
-  ADD CONSTRAINT `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
-  ADD CONSTRAINT `salesrequest_IdContract_783fa5c8_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
-  ADD CONSTRAINT `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`);
-
---
--- Constraints for table `trader`
---
-ALTER TABLE `trader`
-  ADD CONSTRAINT `trader_IdCountry_2add0814_fk_country_IdCountry` FOREIGN KEY (`IdCountry`) REFERENCES `country` (`IdCountry`),
-  ADD CONSTRAINT `trader_IdSelectedFundsTrasn_ffdbf40a_fk_fundstran` FOREIGN KEY (`IdSelectedFundsTrasnferMethod`) REFERENCES `fundstransfermethod` (`IdPaymentMethod`),
-  ADD CONSTRAINT `trader_IdUser_ffd77317_fk_user_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `user` (`IdUser`);
-
---
--- Constraints for table `user_groups`
---
-ALTER TABLE `user_groups`
-  ADD CONSTRAINT `user_groups_group_id_b76f8aba_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `user_groups_user_id_abaea130_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`);
-
---
--- Constraints for table `user_user_permissions`
---
-ALTER TABLE `user_user_permissions`
-  ADD CONSTRAINT `user_user_permission_permission_id_9deb68a3_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `user_user_permissions_user_id_ed4a47ea_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_user_permissions_user_id_permission_id_7dc6e2e0_uniq` (`user_id`,`permission_id`),
+  KEY `user_user_permission_permission_id_9deb68a3_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `user_user_permission_permission_id_9deb68a3_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `user_user_permissions_user_id_ed4a47ea_fk_user_IdUser` FOREIGN KEY (`user_id`) REFERENCES `user` (`IdUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- 2023-09-13 12:14:10

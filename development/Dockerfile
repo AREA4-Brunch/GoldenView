@@ -32,4 +32,7 @@ RUN echo '' > ./trading_platform/logs/exec_logs/logs.log
 
 WORKDIR /usr/app/trading_platform
 
-ENTRYPOINT [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+RUN chmod +x ./deployment/entrypoints/migrate_run.sh
+
+# ENTRYPOINT [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+ENTRYPOINT [ "./deployment/entrypoints/migrate_run.sh" ]

@@ -145,7 +145,7 @@ class Trader(models.Model):
     sex = models.CharField(db_column='Sex', max_length=6, blank=True)  # Field name made lowercase.
     idcountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='IdCountry')  # Field name made lowercase.
     termsacceptancetime = models.DateTimeField(db_column='TermsAcceptanceTime', default=timezone.make_aware(datetime(1, 1, 1)))  # Field name made lowercase.
-    idselectedfundstrasnfermethod = models.ForeignKey(FundsTransferMethod, models.DO_NOTHING, db_column='IdSelectedFundsTrasnferMethod', blank=True, null=True)  # Field name made lowercase.
+    idselectedfundstransfermethod = models.ForeignKey(FundsTransferMethod, models.DO_NOTHING, db_column='IdSelectedFundsTransferMethod', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.user_management'
