@@ -24,9 +24,5 @@ development/trading_platform/trading_platform/__pycache__/**
 development/databases/trading_platform/db_config/db_connection.ini
 development/databases/trading_history/db_config/db_connection.ini
 
-
-# ========================
-# DB Data
-
-
-development/databases/trading_history/mongodb_data
+# development/databases/trading_platform/passwords.md
+# development/databases/trading_platform/passwords.md

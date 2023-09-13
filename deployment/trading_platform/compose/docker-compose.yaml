@@ -1,0 +1,93 @@
+version: '3.8'
+
+
+networks:
+  trading-platform-db-net:
+  trading-history-db-net:
+  trading-platform-sys-net:
+
+
+services:
+
+  trading-platform-db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=etf
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 80s
+    ports:
+      - 3307:3306
+    networks:
+      - trading-platform-db-net
+    volumes:
+      # init the db from .sql file
+      - ../../databases/trading_platform/db_scripts/init.sql:/docker-entrypoint-initdb.d/1.sql
+      - trading-platform-db-data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
+    networks:
+      - trading-platform-db-net
+
+  trading-history-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    # healthcheck:
+    #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+    #   interval: 10s
+    #   timeout: 10s
+    #   retries: 30
+    #   start_period: 30s
+    ports:
+      - 27018:27017
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=etf
+    volumes:
+      - trading-history-db-data:/data/db
+    networks:
+      - trading-history-db-net
+
+  trading-platform-sys:
+    build:
+      context: ../../../development
+      dockerfile: ./Dockerfile
+    ports:
+      - 8001:8000
+    environment:
+      # trading_history db
+      - DB_TRADING_HISTORY_NAME=trading_history
+      - DB_TRADING_HISTORY_HOST=trading-hisotry-db
+      - DB_TRADING_HISTORY_PORT=27017
+      - DB_TRADING_HISTORY_USERNAME=root
+      - DB_TRADING_HISTORY_PASSWORD=etf
+      # trading_platform db
+      - DB_TRADING_PLATFORM_NAME=trading_platform
+      - DB_TRADING_PLATFORM_USER=root
+      - DB_TRADING_PLATFORM_PASSWORD=etf
+      - DB_TRADING_PLATFORM_HOST=trading-platform-db
+      - DB_TRADING_PLATFORM_PORT=3306
+    volumes:
+      - type: volume
+        source: trading-platform-sys-logs
+        target: /usr/app/trading_platform/logs/
+    depends_on:
+      trading-platform-db:
+        condition: service_healthy
+      trading-history-db:
+        condition: service_started
+    networks:
+      - trading-platform-sys-net
+      - trading-platform-db-net
+      - trading-history-db-net
+
+
+volumes:
+  trading-platform-db-data:
+  trading-history-db-data:
+  trading-platform-sys-logs:

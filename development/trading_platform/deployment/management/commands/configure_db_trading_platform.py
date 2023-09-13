@@ -28,11 +28,11 @@ class Command(BaseCommand):
         parser.add_argument(
             '-tdcs', '--td-config-src',  # trading_platform config source
             type=str,
-            help='Path to folder representing db cofig, must contain db_connection.ini.'
+            help='Path to .ini file representing db cofig.'
         )
 
     def handle(self, *args, **options):
-        cmd = self.do_work()
+        cmd = self.do_work(*args, **options)
 
         if options.get('do_log_cmd', True):
             self.stdout.write(self.style.SUCCESS('Copy paste the following instruction into the shell/cmd window in which you will run the `python manage.py runserver` command.\n'))

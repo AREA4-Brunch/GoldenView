@@ -1,0 +1,16 @@
+
+# ========================
+# DB Data
+
+
+!databases/trading_platform/data/.gitkeep
+!databases/trading_history/data/.gitkeep
+databases/trading_platform/data
+databases/trading_history/data
+
+
+# ========================
+# Logs
+
+!trading_platform/logs/exec_logs/.gitkeep
+trading_platform/logs/**/*.log

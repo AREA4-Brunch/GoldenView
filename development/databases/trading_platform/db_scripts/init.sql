@@ -1,17 +1,9 @@
--- -- ----------------------------------------------------------------------------
--- -- Schema trading_platform
--- -- ----------------------------------------------------------------------------
--- DROP SCHEMA IF EXISTS `trading_platform` ;
--- CREATE SCHEMA IF NOT EXISTS `trading_platform` ;
-
-
--- -- Rest is generated from Django code
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2023 at 08:26 PM
+-- Generation Time: Sep 09, 2023 at 07:35 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,6 +31,13 @@ CREATE TABLE `administrator` (
   `IdUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `administrator`
+--
+
+INSERT INTO `administrator` (`IdUser`) VALUES
+(1);
+
 -- --------------------------------------------------------
 
 --
@@ -50,6 +49,10 @@ CREATE TABLE `approvalreportfile` (
   `ApprovalContent` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `approvalreportfile`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +63,15 @@ CREATE TABLE `asset` (
   `IdAsset` int(11) NOT NULL,
   `TickerSymbol` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `asset`
+--
+
+INSERT INTO `asset` (`IdAsset`, `TickerSymbol`) VALUES
+(1, 'TSLA'),
+(2, 'AAPL'),
+(3, 'BLK');
 
 -- --------------------------------------------------------
 
@@ -254,6 +266,7 @@ CREATE TABLE `background_task_completedtask` (
   `creator_content_type_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 -- --------------------------------------------------------
 
 --
@@ -264,6 +277,11 @@ CREATE TABLE `basicuser` (
   `IdUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `basicuser`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -273,6 +291,11 @@ CREATE TABLE `basicuser` (
 CREATE TABLE `broker` (
   `IdUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `broker`
+--
+
 
 -- --------------------------------------------------------
 
@@ -292,6 +315,11 @@ CREATE TABLE `brokerbasicusercontract` (
   `IdBroker` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `brokerbasicusercontract`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -302,6 +330,11 @@ CREATE TABLE `brokerbasicusercontractfile` (
   `FilePath` varchar(128) NOT NULL,
   `ContractContent` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `brokerbasicusercontractfile`
+--
+
 
 -- --------------------------------------------------------
 
@@ -359,15 +392,6 @@ CREATE TABLE `django_admin_log` (
 -- Dumping data for table `django_admin_log`
 --
 
-INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
-(1, '2023-09-08 18:15:51.022497', '1', 'Country object (1)', 1, '[{\"added\": {}}]', 9, 1),
-(2, '2023-09-08 18:17:44.076325', '2', 'Country object (2)', 1, '[{\"added\": {}}]', 9, 1),
-(3, '2023-09-08 18:17:49.256097', '3', 'Country object (3)', 1, '[{\"added\": {}}]', 9, 1),
-(4, '2023-09-08 18:17:56.807120', '4', 'Country object (4)', 1, '[{\"added\": {}}]', 9, 1),
-(5, '2023-09-08 18:18:01.584236', '5', 'Country object (5)', 1, '[{\"added\": {}}]', 9, 1),
-(6, '2023-09-08 18:18:07.671972', '6', 'Country object (6)', 1, '[{\"added\": {}}]', 9, 1),
-(7, '2023-09-08 18:18:12.090680', '7', 'Country object (7)', 1, '[{\"added\": {}}]', 9, 1),
-(8, '2023-09-08 18:20:16.847220', '1', 'can_trade', 1, '[{\"added\": {}}]', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -471,9 +495,6 @@ CREATE TABLE `django_session` (
 -- Dumping data for table `django_session`
 --
 
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('au17sdcsd2jn08h1g27gg1jbxpi6dakp', '.eJxVjMEOwiAQRP-FsyFQkKUevfsNZNkFqRpISnsy_rtt0oNmbvPezFsEXJcS1p7mMLG4CC1Ov11Eeqa6A35gvTdJrS7zFOWuyIN2eWucXtfD_Tso2Mu2Buu0ZYXE5IfBEQOZTAaVSwCDM97mMZM-kzfjFrQ2Q1SQNRuGmEfx-QLflTfi:1qefxC:VzSrQr9TCrkz3v5RltyMP_rm0OA2ug6XfgoZM62fgno', '2023-09-22 18:11:38.692885'),
-('ryxmg8w5j826tv9dteb8goj5k0k2t8s3', 'e30:1qeg4p:HDDdza40Pce50mQ6C0tiQYRcyvRiz4Re4e6jUtr2WIo', '2023-09-22 18:19:31.653317');
 
 -- --------------------------------------------------------
 
@@ -487,6 +508,11 @@ CREATE TABLE `fundstransfermethod` (
   `MakeBeliefBalance` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `fundstransfermethod`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -499,6 +525,11 @@ CREATE TABLE `makebeliefowns` (
   `IdAsset` int(11) NOT NULL,
   `IdPaymentMethod` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `makebeliefowns`
+--
+
 
 -- --------------------------------------------------------
 
@@ -548,6 +579,11 @@ CREATE TABLE `textfile` (
   `FilePath` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `textfile`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -562,6 +598,11 @@ CREATE TABLE `trader` (
   `IdCountry` int(11) NOT NULL,
   `IdSelectedFundsTrasnferMethod` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `trader`
+--
+
 
 -- --------------------------------------------------------
 
@@ -588,7 +629,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`last_login`, `is_superuser`, `first_name`, `last_name`, `is_staff`, `is_active`, `date_joined`, `IdUser`, `Username`, `Password`, `Email`) VALUES
-('2023-09-08 18:11:38.688926', 1, '', '', 1, 1, '2023-09-08 18:09:10.482783', 1, 'admin', 'pbkdf2_sha256$600000$6cpSEYYUPZsZtyyRj3g0FA$ZcN2bpt8p65oI/vCClh//lNf7ef2+t1edyEuJvbjX3A=', 'admin');
+('2023-09-08 18:48:34.305357', 1, '', '', 1, 1, '2023-09-08 18:09:10.482783', 1, 'admin', 'pbkdf2_sha256$600000$6cpSEYYUPZsZtyyRj3g0FA$ZcN2bpt8p65oI/vCClh//lNf7ef2+t1edyEuJvbjX3A=', 'admin'),
+
 
 -- --------------------------------------------------------
 
@@ -601,6 +643,11 @@ CREATE TABLE `user_groups` (
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_groups`
+--
+
 
 -- --------------------------------------------------------
 
@@ -835,7 +882,7 @@ ALTER TABLE `user_user_permissions`
 -- AUTO_INCREMENT for table `asset`
 --
 ALTER TABLE `asset`
-  MODIFY `IdAsset` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdAsset` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `auth_group`
@@ -859,19 +906,19 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT for table `background_task`
 --
 ALTER TABLE `background_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1832;
 
 --
 -- AUTO_INCREMENT for table `background_task_completedtask`
 --
 ALTER TABLE `background_task_completedtask`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1827;
 
 --
 -- AUTO_INCREMENT for table `brokerbasicusercontract`
 --
 ALTER TABLE `brokerbasicusercontract`
-  MODIFY `IdContract` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdContract` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -883,7 +930,7 @@ ALTER TABLE `country`
 -- AUTO_INCREMENT for table `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `django_content_type`
@@ -901,37 +948,37 @@ ALTER TABLE `django_migrations`
 -- AUTO_INCREMENT for table `fundstransfermethod`
 --
 ALTER TABLE `fundstransfermethod`
-  MODIFY `IdPaymentMethod` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPaymentMethod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `makebeliefowns`
 --
 ALTER TABLE `makebeliefowns`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchaserequest`
 --
 ALTER TABLE `purchaserequest`
-  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `salesrequest`
 --
 ALTER TABLE `salesrequest`
-  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdTradeRequest` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
 ALTER TABLE `user_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_user_permissions`
