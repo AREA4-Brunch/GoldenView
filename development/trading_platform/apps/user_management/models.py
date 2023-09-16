@@ -84,7 +84,7 @@ class Country(models.Model):
 
 class FundsTransferMethod(models.Model):
     idpaymentmethod = models.AutoField(db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase.
-    idtrader = models.ForeignKey('user_management.Trader', models.DO_NOTHING, db_column='IdUser', null=False, blank=False)
+    idtrader = models.ForeignKey('user_management.Trader', models.DO_NOTHING, db_column='IdTrader', null=False, blank=False)
     accesskey = models.CharField(db_column='AccessKey', max_length=64)  # Field name made lowercase.
     makebeliefbalance = models.DecimalField(db_column='MakeBeliefBalance', max_digits=10, decimal_places=2, blank=True, default=0)  # Field name made lowercase.
 

@@ -1,8 +1,8 @@
 FROM python:3.10
 
 
-RUN mkdir -p /usr/app
-WORKDIR /usr/app
+RUN mkdir -p /app
+WORKDIR /app
 
 COPY ./requirements.txt ./requirements.txt
 # RUN pip install --upgrade pip
@@ -16,7 +16,7 @@ COPY ./trading_platform/manage.py ./trading_platform/manage.py
 
 # create file for logs inside logs/ which should be a mounted folder
 RUN mkdir -p ./trading_platform/logs/exec_logs
-RUN echo '' > ./trading_platform/logs/exec_logs/logs.log
+RUN echo '' >> ./trading_platform/logs/exec_logs/logs.log
 
 # ENV DB_TRADING_HISTORY_NAME=trading_history
 # ENV DB_TRADING_HISTORY_HOST=DB_TRADING_HISTORY_HOST
@@ -30,9 +30,11 @@ RUN echo '' > ./trading_platform/logs/exec_logs/logs.log
 # ENV DB_TRADING_PLATFORM_HOST=127.0.0.1
 # ENV DB_TRADING_PLATFORM_PORT=3306
 
-WORKDIR /usr/app/trading_platform
+# entrypoint
+COPY ./trading_platform/deployment/entrypoints/migrate_run.sh /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
 
-RUN chmod +x ./deployment/entrypoints/migrate_run.sh
+WORKDIR /app/trading_platform
+ENV PYTHONPATH .
 
-# ENTRYPOINT [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
-ENTRYPOINT [ "./deployment/entrypoints/migrate_run.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]

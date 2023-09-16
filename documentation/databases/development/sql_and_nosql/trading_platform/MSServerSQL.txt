@@ -104,7 +104,7 @@ CREATE TABLE [HasRole]
 )
 go
 
-CREATE TABLE [IsBindedByContract]
+CREATE TABLE [IsBoundByContract]
 ( 
 	[IdTradeRequest]     int  NOT NULL ,
 	[IdContract]         integer  NOT NULL 
@@ -235,8 +235,8 @@ ALTER TABLE [HasRole]
 	ADD CONSTRAINT [XPKHasRole] PRIMARY KEY  CLUSTERED ([IdGroup] ASC,[IdRole] ASC)
 go
 
-ALTER TABLE [IsBindedByContract]
-	ADD CONSTRAINT [XPKIsBindedByContract] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
+ALTER TABLE [IsBoundByContract]
+	ADD CONSTRAINT [XPKIsBoundByContract] PRIMARY KEY  CLUSTERED ([IdTradeRequest] ASC)
 go
 
 ALTER TABLE [MakeBeliefOwns]
@@ -379,12 +379,12 @@ ALTER TABLE [HasRole]
 go
 
 
-ALTER TABLE [IsBindedByContract]
+ALTER TABLE [IsBoundByContract]
 	ADD CONSTRAINT [R_53] FOREIGN KEY ([IdTradeRequest]) REFERENCES [ActiveTradeRequest]([IdTradeRequest])
 		ON UPDATE CASCADE
 go
 
-ALTER TABLE [IsBindedByContract]
+ALTER TABLE [IsBoundByContract]
 	ADD CONSTRAINT [R_54] FOREIGN KEY ([IdContract]) REFERENCES [BrokerBasicUserContract]([IdContract])
 		ON UPDATE CASCADE
 go

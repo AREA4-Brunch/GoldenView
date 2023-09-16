@@ -430,13 +430,13 @@ CREATE TABLE `fundstransfermethod` (
   `IdPaymentMethod` int NOT NULL AUTO_INCREMENT,
   `AccessKey` varchar(64) NOT NULL,
   `MakeBeliefBalance` decimal(10,2) NOT NULL,
-  `IdUser` int NOT NULL,
+  `IdTrader` int NOT NULL,
   PRIMARY KEY (`IdPaymentMethod`),
-  KEY `fundstransfermethod_IdUser_ac94b0d6_fk_trader_IdUser` (`IdUser`),
-  CONSTRAINT `fundstransfermethod_IdUser_ac94b0d6_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
+  KEY `fundstransfermethod_IdTrader_ac94b0d6_fk_trader_IdUser` (`IdTrader`),
+  CONSTRAINT `fundstransfermethod_IdTrader_ac94b0d6_fk_trader_IdUser` FOREIGN KEY (`IdTrader`) REFERENCES `trader` (`IdUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `fundstransfermethod` (`IdPaymentMethod`, `AccessKey`, `MakeBeliefBalance`, `IdUser`) VALUES
+INSERT INTO `fundstransfermethod` (`IdPaymentMethod`, `AccessKey`, `MakeBeliefBalance`, `IdTrader`) VALUES
 (1,	'Jim Morrison Funds uid:3',	10000.00,	3),
 (2,	'Alex Funds uid:4',	1000000.00,	4),
 (3,	'AlexBroker Funds uid:5',	0.00,	5);
@@ -474,6 +474,8 @@ CREATE TABLE `purchaserequest` (
   KEY `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` (`IdAsset`),
   KEY `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` (`IdContract`),
   KEY `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` (`IdUser`),
+  KEY `unitpricelowerbound_RangeQuery` (`UnitPriceLowerBound`) USING BTREE,
+  KEY `unitpriceupperbound_RangeQuery` (`UnitPriceUpperBound`) USING BTREE,
   CONSTRAINT `purchaserequest_IdAsset_3d9839a8_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
   CONSTRAINT `purchaserequest_IdContract_fd61f4c0_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
   CONSTRAINT `purchaserequest_IdUser_c116d49e_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
@@ -496,6 +498,8 @@ CREATE TABLE `salesrequest` (
   KEY `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` (`IdAsset`),
   KEY `salesrequest_IdContract_783fa5c8_fk_brokerbas` (`IdContract`),
   KEY `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` (`IdUser`),
+  KEY `unitpricelowerbound_RangeQuery` (`UnitPriceLowerBound`) USING BTREE,
+  KEY `unitpriceupperbound_RangeQuery` (`UnitPriceUpperBound`) USING BTREE,
   CONSTRAINT `salesrequest_IdAsset_e0311b11_fk_asset_IdAsset` FOREIGN KEY (`IdAsset`) REFERENCES `asset` (`IdAsset`),
   CONSTRAINT `salesrequest_IdContract_783fa5c8_fk_brokerbas` FOREIGN KEY (`IdContract`) REFERENCES `brokerbasicusercontract` (`IdContract`),
   CONSTRAINT `salesrequest_IdUser_4f6b9d42_fk_trader_IdUser` FOREIGN KEY (`IdUser`) REFERENCES `trader` (`IdUser`)
