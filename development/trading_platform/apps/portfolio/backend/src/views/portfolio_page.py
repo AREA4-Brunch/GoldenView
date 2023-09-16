@@ -110,7 +110,7 @@ def fetch_all_users_trade_requests(
 
 def convert_active_trade_req_to_displayable_data(
     request: Union[PurchaseRequest, SalesRequest],
-    idcontract: int,  # None if it was not binded by contract
+    idcontract: int,  # None if it was not bound by contract
 ):
     """
         Converts table data into django html template used data.

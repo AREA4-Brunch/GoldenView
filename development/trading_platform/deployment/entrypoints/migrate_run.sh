@@ -1,21 +1,33 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-python manage.py makemigrations user_management
-python manage.py migrate user_management
+set -e
 
-python manage.py makemigrations wallet
-python manage.py migrate wallet
 
-python manage.py makemigrations asset_management
-python manage.py migrate asset_management
+RUN_MANAGE_PY='python manage.py'
 
-python manage.py makemigrations file_management
-python manage.py migrate file_management
 
-python manage.py makemigrations broker_management
-python manage.py migrate broker_management
-    
-python manage.py makemigrations
-python manage.py migrate
+# $RUN_MANAGE_PY makemigrations user_management
+# $RUN_MANAGE_PY migrate user_management
 
-python manage.py runserver 0.0.0.0:8000
+
+# $RUN_MANAGE_PY makemigrations wallet
+# $RUN_MANAGE_PY migrate wallet
+
+
+# $RUN_MANAGE_PY makemigrations asset_management
+# $RUN_MANAGE_PY migrate asset_management
+
+
+# $RUN_MANAGE_PY makemigrations file_management
+# $RUN_MANAGE_PY migrate file_management
+
+
+# $RUN_MANAGE_PY makemigrations broker_management
+# $RUN_MANAGE_PY migrate broker_management
+
+
+$RUN_MANAGE_PY makemigrations --no-input
+$RUN_MANAGE_PY migrate --no-input
+
+
+$RUN_MANAGE_PY runserver 0.0.0.0:8000

@@ -14,7 +14,7 @@ from mongoengine import fields, Document, EmbeddedDocument, EmbeddedDocumentFiel
 # model of the Asset in the database
 class Asset(models.Model):
     idasset = models.AutoField(db_column='IdAsset', primary_key=True)  # Field name made lowercase.
-    tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16)  # Field name made lowercase.
+    tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16, unique=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.asset_management'

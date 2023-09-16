@@ -23,30 +23,4 @@ BrokerRequest
 
 BrokerBasicUserContractFile
 BrokerBasicUserContract
-IsBindedByContract
-
-
-
-// Apps names:
-
-
-asset_management
-    Asset
-
-
-
-user_management
-    FundsTransferMethod
-    MakeBeliefOwns
-
-    Country
-
-    User
-    Administrator
-    Trader
-    Broker
-    BasicUser
-
-password_change
-    PasswordChangeRequest
-
+IsBoundByContract

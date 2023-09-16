@@ -13,10 +13,10 @@ from django.db import models
 # asset_management app:
 
 
-
+# model of the Asset in the database
 class Asset(models.Model):
     idasset = models.AutoField(db_column='IdAsset', primary_key=True)  # Field name made lowercase.
-    tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16)  # Field name made lowercase.
+    tickersymbol = models.CharField(db_column='TickerSymbol', max_length=16, unique=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.asset_management'
@@ -32,6 +32,7 @@ class Asset(models.Model):
 
 class FundsTransferMethod(models.Model):
     idpaymentmethod = models.AutoField(db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase.
+    idtrader = models.ForeignKey('user_management.Trader', models.DO_NOTHING, db_column='IdTrader', null=False, blank=False)
     accesskey = models.CharField(db_column='AccessKey', max_length=64)  # Field name made lowercase.
     makebeliefbalance = models.DecimalField(db_column='MakeBeliefBalance', max_digits=10, decimal_places=2, blank=True, default=0)  # Field name made lowercase.
 
@@ -42,17 +43,23 @@ class FundsTransferMethod(models.Model):
         db_table = 'fundstransfermethod'
 
 
+# raise index over idasset ??
 class MakeBeliefOwns(models.Model):
-    idpaymentmethod = models.OneToOneField(FundsTransferMethod, models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
-    idasset = models.ForeignKey(Asset, models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
-    quantity = models.IntegerField(db_column='Quantity')  # Field name made lowercase.
+    # idpaymentmethod = models.OneToOneField('wallet.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', primary_key=True)  # Field name made lowercase. The composite primary key (IdPaymentMethod, IdAsset) found, that is not supported. The first column is selected.
+    idpaymentmethod = models.ForeignKey('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdPaymentMethod', null=False, blank=False)
+    idasset = models.ForeignKey('asset_management.Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    quantity = models.IntegerField(db_column='Quantity', default=0)  # Field name made lowercase.
 
     class Meta:
-        # app_label = 'apps.user_management'
-        app_label = 'user_management'
+        # app_label = 'apps.wallet'
+        app_label = 'wallet'
         managed = True
         db_table = 'makebeliefowns'
-        unique_together = (('idpaymentmethod', 'idasset'),)
+        # unique_together = (('idpaymentmethod', 'idasset'),)
+        constraints = [
+            models.UniqueConstraint(fields=['idpaymentmethod', 'idasset'],
+                                    name='composite_primary_key')
+        ]
 
 
 class Country(models.Model):
@@ -140,12 +147,12 @@ class Administrator(models.Model):
 from datetime import datetime
 from django.utils import timezone
 class Trader(models.Model):
-    idtrader = models.OneToOneField('User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
+    idtrader = models.OneToOneField('user_management.User', models.CASCADE, db_column='IdUser', primary_key=True)  # Field name made lowercase.
     birthday = models.DateField(db_column='Birthday', blank=True)  # Field name made lowercase.
     sex = models.CharField(db_column='Sex', max_length=6, blank=True)  # Field name made lowercase.
     idcountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='IdCountry')  # Field name made lowercase.
     termsacceptancetime = models.DateTimeField(db_column='TermsAcceptanceTime', default=timezone.make_aware(datetime(1, 1, 1)))  # Field name made lowercase.
-    idselectedfundstransfermethod = models.ForeignKey(FundsTransferMethod, models.DO_NOTHING, db_column='IdSelectedFundsTransferMethod', blank=True, null=True)  # Field name made lowercase.
+    idselectedfundstransfermethod = models.ForeignKey('user_management.FundsTransferMethod', models.DO_NOTHING, db_column='IdSelectedFundsTransferMethod', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
         # app_label = 'apps.user_management'
@@ -200,33 +207,76 @@ class PasswordChangeRequest(models.Model):
 
 # MUST BE CHANGED idtraderequest TO HAVE AUTO_INCREMENT and TO USE BIGINT - 64bits
 # SET DEFAULT VALUE FOR `totaltransactionsprice`
-class ActiveTradeRequest(models.Model):
-    idtraderequest = models.BigIntegerField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idasset = models.ForeignKey('Asset', models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
-    iduser = models.ForeignKey('Trader', models.DO_NOTHING, db_column='IdUser')  # Field name made lowercase.
-    quantityrequested = models.IntegerField(db_column='QuantityRequested')  # Field name made lowercase.
-    totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    quantityrequired = models.IntegerField(db_column='QuantityRequired')  # Field name made lowercase.
-    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2)  # Field name made lowercase.
-    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2)  # Field name made lowercase.
+# class ActiveTradeRequest(models.Model):
+#     idtraderequest = models.BigIntegerField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+#     idasset = models.ForeignKey('Asset', models.DO_NOTHING, db_column='IdAsset')  # Field name made lowercase.
+#     iduser = models.ForeignKey('Trader', models.DO_NOTHING, db_column='IdUser')  # Field name made lowercase.
+#     quantityrequested = models.IntegerField(db_column='QuantityRequested')  # Field name made lowercase.
+#     totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2)  # Field name made lowercase.
+#     quantityrequired = models.IntegerField(db_column='QuantityRequired')  # Field name made lowercase.
+#     unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=2)  # Field name made lowercase.
+#     unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=2)  # Field name made lowercase.
 
-    class Meta:
-        managed = True
-        db_table = 'activetraderequest'
+#     class Meta:
+#         managed = True
+#         db_table = 'activetraderequest'
 
 
+# class PurchaseRequest(models.Model):
+#     idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = True
+#         db_table = 'purchaserequest'
+
+
+# class SalesRequest(models.Model):
+#     idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = True
+#         db_table = 'salesrequest'
+
+
+# raise an index over unitpricelowerbound, unitpriceupperbound ??
+# raise an index over idasset it for quicker search ??
+# model of the purchase request in the database
 class PurchaseRequest(models.Model):
-    idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idpurchaserequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idasset = models.ForeignKey('asset_management.Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
+    quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
+    totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
+    quantityrequired = models.IntegerField(db_column='QuantityRequired', null=False, blank=False)  # Field name made lowercase.
+    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    isboundbycontract = models.BooleanField(db_column='IsBoundByContract', default=False)
+    idcontract = models.ForeignKey('broker_management.BrokerBasicUserContract', models.DO_NOTHING, db_column='IdContract', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
         managed = True
         db_table = 'purchaserequest'
 
-
+# raise an index over unitpricelowerbound, unitpriceupperbound ??
+# raise an index over idasset it for quicker search ??
+# model of the sales request in the database
 class SalesRequest(models.Model):
-    idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idsalesrequest = models.BigAutoField(db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+    idasset = models.ForeignKey('asset_management.Asset', models.DO_NOTHING, db_column='IdAsset', null=False, blank=False)  # Field name made lowercase.
+    iduser = models.ForeignKey('user_management.Trader', models.CASCADE, db_column='IdUser', null=False, blank=False)  # Field name made lowercase.
+    quantityrequested = models.IntegerField(db_column='QuantityRequested', null=False, blank=False)  # Field name made lowercase.
+    totaltransactionsprice = models.DecimalField(db_column='TotalTransactionsPrice', max_digits=10, decimal_places=2, null=False, default=0.)  # Field name made lowercase.
+    quantityrequired = models.IntegerField(db_column='QuantityRequired', null=False, blank=False)  # Field name made lowercase.
+    unitpricelowerbound = models.DecimalField(db_column='UnitPriceLowerBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    unitpriceupperbound = models.DecimalField(db_column='UnitPriceUpperBound', max_digits=10, decimal_places=4, null=False, blank=False)  # Field name made lowercase.
+    isboundbycontract = models.BooleanField(db_column='IsBoundByContract', default=False)
+    idcontract = models.ForeignKey('broker_management.BrokerBasicUserContract', models.DO_NOTHING, db_column='IdContract', null=True, blank=True)  # Field name made lowercase.
 
     class Meta:
+        # app_label = 'apps.asset_management'
+        app_label = 'asset_management'
         managed = True
         db_table = 'salesrequest'
 
@@ -310,11 +360,11 @@ class BrokerBasicUserContract(models.Model):
         db_table = 'brokerbasicusercontract'
 
 
-class IsBindedByContract(models.Model):
-    # MUST BE CASCADE - as deleted active trade request get stored in nosql and this data with it
-    idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
-    idcontract = models.ForeignKey(BrokerBasicUserContract, models.DO_NOTHING, db_column='IdContract')  # Field name made lowercase.
+# class IsBoundByContract(models.Model):
+#     # MUST BE CASCADE - as deleted active trade request get stored in nosql and this data with it
+#     idtraderequest = models.OneToOneField(ActiveTradeRequest, models.CASCADE, db_column='IdTradeRequest', primary_key=True)  # Field name made lowercase.
+#     idcontract = models.ForeignKey(BrokerBasicUserContract, models.DO_NOTHING, db_column='IdContract')  # Field name made lowercase.
 
-    class Meta:
-        managed = True
-        db_table = 'isbindedbycontract'
+#     class Meta:
+#         managed = True
+#         db_table = 'isboundbycontract'

@@ -42,7 +42,7 @@ services:
       - trading-platform-db-dev-net
 
   trading-history-db-dev:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+    image: mongo:7.0
     # healthcheck:
     #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
     #   interval: 10s

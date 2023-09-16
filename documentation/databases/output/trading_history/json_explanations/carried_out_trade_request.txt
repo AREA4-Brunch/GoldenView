@@ -24,7 +24,7 @@
     <!-- value of all assets transactioned (rounded to 2 decimals) -->
     "total_price": 137875,
 
-    <!-- [Optional] contract it was binded by -->
+    <!-- [Optional] contract it was bound by -->
     "contract": {
         <!-- in SQL db - BrokerBasicUserContract table - IdContract -->
         "id": 1,
