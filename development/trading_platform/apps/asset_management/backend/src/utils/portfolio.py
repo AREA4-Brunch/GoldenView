@@ -10,7 +10,8 @@ from django.db.models import Q
 from django.db import transaction
 from apps.asset_management.models import SalesRequest, PurchaseRequest, \
                                          CarriedOutPurchaseTradeRequest, \
-                                         CarriedOutSalesTradeRequest
+                                         CarriedOutSalesTradeRequest, \
+                                         AssetTransaction
 from apps.user_management.models import Trader
 from apps.broker_management.models import BrokerBasicUserContract
 
@@ -18,7 +19,6 @@ from apps.asset_management.backend.src.utils.trading import process_fulfilled_tr
 
 
 
-# function for getting all user trade requests
 def fetch_users_trade_requests(
     trader: Trader,
     filters={},
@@ -193,3 +193,16 @@ def modify_active_trade_request(
     return quantity_required_at_which_stopped, quantity_requested_at_which_stopped, \
            value_at_which_stopped, lower_bound_at_which_stopped, \
            upper_bound_at_which_stopped, did_fulfill
+
+
+def fetch_trade_request_transactions(trade_request_id, is_purchase_request):
+    if is_purchase_request:
+        transactions = AssetTransaction.objects.filter(
+            id_trade_request_purchase=trade_request_id,
+        ).order_by('-time')
+    else:
+        transactions = AssetTransaction.objects.filter(
+            id_trade_request_sale=trade_request_id,
+        ).order_by('-time')
+
+    return transactions

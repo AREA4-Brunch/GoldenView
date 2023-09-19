@@ -36,13 +36,13 @@ def wallet_status(request: HttpRequest):
             'transfer-methods',
             trader.idselectedfundstransfermethod.pk
         ))
-        logging.error(f'Recieved slected field: {transfer_method_id}')
 
         selected_tm_balance = FundsTransferMethod.objects.get(
             idpaymentmethod=transfer_method_id,
         ).makebeliefbalance
 
         context.update({
+            'is_default_tm': transfer_method_id == trader.idselectedfundstransfermethod.pk,
             'selected_tm_id': transfer_method_id,
             'selected_tm_balance': selected_tm_balance,
             'tranfer_methods': fetch_all_transfer_methods(trader.pk),

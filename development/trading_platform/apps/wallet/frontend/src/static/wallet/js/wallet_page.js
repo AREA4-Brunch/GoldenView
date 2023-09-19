@@ -13,7 +13,6 @@ function initTransferMethodOptions() {
     const select = document.getElementById('transfer-methods');
     // when select option is chosen form is immediately submitted
     select.addEventListener('change', (e) => {
-        console.log(`Sleected val: ${select.value}`);
         document.getElementById('transfer-methods-form').submit();
     });
 }

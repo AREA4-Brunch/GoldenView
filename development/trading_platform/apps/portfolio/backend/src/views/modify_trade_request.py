@@ -6,7 +6,10 @@ import logging
 from decimal import Decimal
 from django.http import HttpRequest
 
-from ..utils.cleaning_data import get_cleaned_data_from_trade_request_row
+from ..utils.cleaning_data import (
+    get_cleaned_data_from_trade_request_row,
+    validate_can_update_request_row_data
+)
 
 
 class InvalidForm(Exception):
@@ -20,7 +23,8 @@ def get_cleaned_data(
     request_data: dict
 ):
     request_data = get_cleaned_data_from_trade_request_row(
-        request, response, request_data
+        request, response, request_data,
+        validate_can_update_request_row_data
     )
 
     def parse_data():

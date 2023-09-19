@@ -67,7 +67,7 @@ as a service (you can but it is not neccessary).<br/>
 5. Create the following files as they are not tracked due to `.gitignore`:
     <br/>
     `GoldenView\development\trading_platform\logs\exec_logs\logs.log`
-    `GoldenView\development\trading_platform\logs\mongodb_logs\logs.log`
+    `GoldenView\development\trading_platform\logs\trading_history\logs.log`
 
 6. Navigate to the project directory and run the following `configure_db` command (more on it here: `development/trading_platform/deployment/management/commands/README.md`) and copy paste its output into cmd and press Enter to execute the shell/cmd command that it generated:
     ```cmd

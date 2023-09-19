@@ -28,6 +28,8 @@ RUN_MANAGE_PY='python manage.py'
 
 $RUN_MANAGE_PY makemigrations --no-input
 $RUN_MANAGE_PY migrate --no-input
+$RUN_MANAGE_PY migrate_trading_history
 
 
+$RUN_MANAGE_PY process_tasks &
 $RUN_MANAGE_PY runserver 0.0.0.0:8000

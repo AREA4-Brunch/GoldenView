@@ -119,7 +119,7 @@ class Command(BaseCommand):
 
             config_data['MONGODB_SERVICE_PATH'] = config['MONGODB_SERVICE']['mongodb_path']
             config_data['MONGODB_SERVICE_DB_DATA_PATH'] = config['MONGODB_SERVICE']['mongodb_database_data_path']
-            config_data['MONGODB_SERVICE_LOGS_PATH'] = config['MONGODB_SERVICE']['mongodb_logs_file_path']
+            config_data['MONGODB_SERVICE_LOGS_PATH'] = config['MONGODB_SERVICE']['trading_history_file_path']
 
             config_data['DB_TRADING_HISTORY_NAME'] = config['TRADING_HISTORY']['name']
             config_data['DB_TRADING_HISTORY_USERNAME'] = config['TRADING_HISTORY']['username']
@@ -191,7 +191,7 @@ class Command(BaseCommand):
                             if config_data["MONGODB_SERVICE_DB_DATA_PATH"].strip() == '' \
                             else config_data["MONGODB_SERVICE_DB_DATA_PATH"]
 
-        default_logs_path = './logs/mongodb_logs/logs.log' \
+        default_logs_path = './logs/trading_history/logs.log' \
                             if config_data["MONGODB_SERVICE_LOGS_PATH"].strip() == '' \
                             else config_data["MONGODB_SERVICE_LOGS_PATH"]
 
