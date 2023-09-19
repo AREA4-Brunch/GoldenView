@@ -42,7 +42,8 @@ services:
       - trading-platform-db-dev-net
 
   trading-history-db-dev:
-    image: mongo:7.0
+    # image: mongo:7.0
+    image: mongodb/mongodb-community-server:6.0-ubi8
     # healthcheck:
     #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
     #   interval: 10s
@@ -70,7 +71,7 @@ services:
     environment:
       # trading_history db
       - DB_TRADING_HISTORY_NAME=trading_history
-      - DB_TRADING_HISTORY_HOST=trading-hisotry-db
+      - DB_TRADING_HISTORY_HOST=trading-history-db-dev
       - DB_TRADING_HISTORY_PORT=27017
       - DB_TRADING_HISTORY_USERNAME=root
       - DB_TRADING_HISTORY_PASSWORD=etf
@@ -83,22 +84,22 @@ services:
     volumes:
       - type: bind
         source: ../../../development/trading_platform/logs/
-        target: /usr/app/trading_platform/logs/
+        target: /app/trading_platform/logs/
       - type: bind
         source: ../../../development/trading_platform/deployment/
-        target: /usr/app/trading_platform/deployment/
+        target: /app/trading_platform/deployment/
       - type: bind
         source: ../../../development/trading_platform/apps/
-        target: /usr/app/trading_platform/apps/
+        target: /app/trading_platform/apps/
       - type: bind
         source: ../../../development/trading_platform/static_root/
-        target: /usr/app/trading_platform/static_root/
+        target: /app/trading_platform/static_root/
       - type: bind
         source: ../../../development/trading_platform/trading_platform/
-        target: /usr/app/trading_platform/trading_platform/
+        target: /app/trading_platform/trading_platform/
       - type: bind
         source: ../../../development/trading_platform/manage.py
-        target: /usr/app/trading_platform/manage.py
+        target: /app/trading_platform/manage.py
     depends_on:
       trading-platform-db-dev:
         condition: service_healthy

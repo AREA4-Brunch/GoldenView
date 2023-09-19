@@ -17,6 +17,7 @@ from apps.asset_management.models import PurchaseRequest, \
                                          CarriedOutSalesTradeRequest, \
                                          Asset
 from apps.asset_management.backend.src.utils import portfolio
+from apps.user_management.models import Trader
 
 
 
@@ -24,10 +25,12 @@ class InvalidForm(Exception):
     pass
 
 
+class AccessDenied(Exception):
+    def __init__(self) -> None:
+        super().__init__(f'Unauthorized to view given trade request')
 
-"""
-    Process the form for fetching the request of user by contract.
-"""
+
+
 def get_cleaned_data(
     request: HttpRequest,
     context: dict[str]
@@ -172,3 +175,140 @@ def convert_carried_out_trade_req_to_displayable_data(
         data['idcontract'] = request.contract.id
 
     return data
+
+
+def get_trade_request_details(
+    trader: Trader,
+    idtraderequest: int,
+    is_purchase_request: bool
+) -> tuple[
+    Union[
+        PurchaseRequest,
+        SalesRequest,
+        CarriedOutPurchaseTradeRequest,
+        CarriedOutSalesTradeRequest
+    ],
+    BrokerBasicUserContract
+]:
+    """
+        Checks if given trader has access to view the
+        active or carreid out trade reqeust with given id
+        and if true then returns the trade request else returns None.
+    """
+
+    def format_transactions(transactions):
+        transactions = [
+            {
+                'quantity': transaction.quantity,
+                'unit_price': transaction.unit_price,
+                'time': transaction.time,
+            }
+            for transaction in transactions
+        ]
+        return transactions
+
+    def fetch_carried_out_trade_request_details(trade_request):
+        """ If trader has view access to given trade_request
+            returns trade_request, and contract (id exists) or None,
+            else returns None, None.
+        """
+        contract = trade_request.contract
+        if contract is not None:
+            contract = BrokerBasicUserContract.objects.filter(
+                idcontract=contract.id,
+            ).first()
+
+        if trade_request.id_user != trader.pk \
+        and (contract is None or contract.idbroker.pk != trader.pk):
+            raise AccessDenied()
+
+        trade_request_details = {
+            'quantity_requested': trade_request.quantity,
+            'quantity_required': 0,
+            'total_transactions_val': trade_request.total_price,
+        }
+
+        transactions = portfolio.fetch_trade_request_transactions(
+            idtraderequest, is_purchase_request
+        )
+        transactions = format_transactions(transactions)
+
+        if contract is None:
+            return trade_request_details, transactions, None
+
+        contract_details = {
+            'id': trade_request.contract.id,
+            'fee_percentage': contract.feepercentage,
+            'time_fee_paid': trade_request.contract.time,
+            'status': trade_request.contract.status,
+            'fee_paid': trade_request.contract.fee_paid,
+        }
+
+        return trade_request_details, transactions, contract_details
+
+    def fetch_active_trade_request_details(trade_request):
+        """ If trader has view access to given trade_request
+            returns trade_request, and contract (id exists) or None,
+            else returns None, None.
+        """
+        contract = trade_request.idcontract
+        if contract is not None:
+            contract = BrokerBasicUserContract.objects.filter(
+                idcontract=contract,
+            ).first()
+
+        if trade_request.iduser != trader \
+        and (contract is None or contract.idbroker.pk != trader.pk):
+            raise AccessDenied()
+
+        trade_request_details = {
+            'quantity_requested': trade_request.quantityrequested,
+            'quantity_required': trade_request.quantityrequired,
+            'total_transactions_val': trade_request.totaltransactionsprice,
+        }
+
+        transactions = portfolio.fetch_trade_request_transactions(
+            idtraderequest, is_purchase_request
+        )
+        transactions = format_transactions(transactions)
+
+        if contract is None:
+            return trade_request_details, transactions, None
+
+        contract_details = {
+            'id': contract.pk,
+            'fee_percentage': contract.feepercentage,
+        }
+
+        return trade_request_details, transactions, contract_details
+
+    # filter nosql first as its more likely to be searched
+    if is_purchase_request:
+        trade_request = CarriedOutPurchaseTradeRequest.objects.filter(
+            id_trade_request=idtraderequest
+        ).first()
+
+        if trade_request is not None:
+            return fetch_carried_out_trade_request_details(trade_request)
+
+        trade_request = PurchaseRequest.objects.filter(
+            idpurchaserequest=idtraderequest
+        ).first()
+
+        if trade_request is not None:
+            return fetch_active_trade_request_details(trade_request)
+
+    else:  # is sales request
+        trade_request = CarriedOutSalesTradeRequest.objects.filter(
+            id_trade_request=idtraderequest
+        ).first()
+
+        if trade_request is not None:
+            return fetch_carried_out_trade_request_details(trade_request)
+
+        trade_request = SalesRequest.objects.filter(
+            idsalesrequest=idtraderequest
+        ).first()
+
+        if trade_request is not None:
+            return fetch_active_trade_request_details(trade_request)

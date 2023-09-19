@@ -95,7 +95,8 @@ def cancel_active_trade_request(request: HttpRequest):
         request_data = cleaning_data.get_cleaned_data_from_trade_request_row(
             request=request,
             response=response,
-            request_data=request_data
+            request_data=request_data,
+            validate_request_row_data_func=cleaning_data.validate_can_update_request_row_data
         )
 
         quantity_at_which_stopped, value_at_which_stopped \
@@ -191,6 +192,65 @@ def modify_active_trade_request(request: HttpRequest):
         status = 200
         err_msg = "\n".join(response["errors"])
         logging.error(f'InvalidForm error(s): {err_msg}')
+
+    except Exception as e:
+        status = 500
+        response['errors'].append(f'Internal: {e}')
+        # ajax request so do not set the internal_error
+        # request.session['internal_error'] = str(e)
+        err_msg = "\n".join(response["errors"])
+        logging.exception(f'Internal error(s): {err_msg}')
+
+    finally:
+        return JsonResponse(response, status=status)
+
+
+@require_POST
+@login_required(login_url='login')
+def view_trade_request_details(request: HttpRequest):
+    if request.method == 'GET':
+        request.session['link_404'] = request.get_full_path()
+        return redirect('page_404')
+
+    status = 500
+    response = {
+        'errors': [],
+    }
+
+    try:
+        trader = cast_to_trader(request.user)
+        if trader is None:
+            raise Exception('Only traders have access.')
+
+        request_data = { "trader": trader }
+        request_data, response = cleaning_data.parse_trade_request_row_data(
+            request, request_data, response
+        )
+
+        trade_request_details, asset_transactions, contract_details = (
+            portfolio_page.get_trade_request_details(
+                trader,
+                request_data['trade_request'],
+                request_data['is_purchase_request']
+            )
+        )
+
+        # successfully created request
+        status = 200
+        response['trade_request_details'] = trade_request_details
+        response['asset_transactions'] = asset_transactions
+        response['contract_details'] = contract_details
+
+    except cleaning_data.InvalidForm as e:
+        status = 400
+        err_msg = "\n".join(response["errors"])
+        logging.error(f'InvalidForm error(s): {err_msg}')
+
+    except portfolio_page.AccessDenied as e:
+        status = 403
+        err_msg = f'{e}'
+        response['errors'].append(err_msg)
+        logging.error(f'Access Denied: {err_msg}')
 
     except Exception as e:
         status = 500

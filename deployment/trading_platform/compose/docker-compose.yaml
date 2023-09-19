@@ -36,7 +36,8 @@ services:
       - trading-platform-db-net
 
   trading-history-db:
-    image: mongo:7.0
+    # image: mongo:7.0
+    image: mongodb/mongodb-community-server:6.0-ubi8
     # healthcheck:
     #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
     #   interval: 10s
@@ -75,7 +76,7 @@ services:
     volumes:
       - type: volume
         source: trading-platform-sys-logs
-        target: /usr/app/trading_platform/logs/
+        target: /app/trading_platform/logs/
     depends_on:
       trading-platform-db:
         condition: service_healthy

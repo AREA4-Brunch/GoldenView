@@ -42,7 +42,7 @@ services:
       - trading-platform-db-dev-net
 
   trading-history-db-dev:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+    image: mongo:7.0
     # healthcheck:
     #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
     #   interval: 10s
@@ -70,7 +70,7 @@ services:
     environment:
       # trading_history db
       - DB_TRADING_HISTORY_NAME=trading_history
-      - DB_TRADING_HISTORY_HOST=trading-hisotry-db
+      - DB_TRADING_HISTORY_HOST=trading-history-db-dev
       - DB_TRADING_HISTORY_PORT=27017
       - DB_TRADING_HISTORY_USERNAME=root
       - DB_TRADING_HISTORY_PASSWORD=etf

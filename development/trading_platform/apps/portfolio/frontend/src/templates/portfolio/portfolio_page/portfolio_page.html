@@ -68,6 +68,7 @@
                                     data-trade-request-id="{{ transaction.id }}"
                                     data-request-type="{{ transaction.type }}"
                                     data-modify-url="{% url 'modify_active_trade_request' %}"
+                                    data-view-details-url="{% url 'view_trade_request_details' %}"
                                 >
                                     {% if transaction.is_active %}
                                         <td class="text-center active-trade-request">
@@ -151,6 +152,48 @@
             </div>
         </div>
     </div>
+
+    <div class="modal modal-lg fade" id="trade-request-details-modal" tabindex="-1" aria-labelledby="trade-request-details-modal-title" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-4" id="trade-request-details-modal-title">Details of Purchase Request #1</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <br/>
+            <div class="modal-body">
+                <div id="trade-request-contract-details">
+                </div>
+                <br/>
+                <div id="trade-request-status-details">
+                </div>
+                <br/>
+                <div id="trade-request-transactions">
+                    <div>
+                        <h5 class="fs-5">Transactions</h5>
+                        <hr>
+                    </div>
+                    <div>
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <td> Shares</td>
+                                    <td>Unit Price</td>
+                                    <td>Value</td>
+                                    <td>Executed at</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+            </div>
+          </div>
+        </div>
+    </div>
+
 
 </div>
 {% endblock %}

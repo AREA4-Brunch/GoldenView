@@ -286,7 +286,7 @@ CREATE TABLE `brokerbasicusercontract` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `brokerbasicusercontract` (`IdContract`, `CreationTime`, `ResponseTime`, `WasAccepted`, `FeePercentage`, `ExpirationTime`, `ContractFilePath`, `IdBasicUser`, `IdBroker`) VALUES
-(1,	'2023-09-13 12:23:42.333442',	NULL,	0,	10,	'2024-09-12 12:23:42.333451',	'broker_basicuser_contract/file/AlexBroker/Alex',	4,	5);
+(1,	'2023-09-13 12:23:42.333442',	NULL,	1,	10,	'2024-09-12 12:23:42.333451',	'broker_basicuser_contract/file/AlexBroker/Alex',	4,	5);
 
 DROP TABLE IF EXISTS `brokerbasicusercontractfile`;
 CREATE TABLE `brokerbasicusercontractfile` (

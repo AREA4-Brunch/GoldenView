@@ -77,7 +77,7 @@ The command takes the following options:
 - `-dl` or `--do-log-cmd`: [Optional] Specifies whether to log the generated command. By default, the command is logged. This can only be useful when programatically calling the command.
 - `-thcs` or `--th-config-src`: [Optional] Specifies the path to the folder representing the database configuration. The folder must contain the `db_connection.ini` file. Default path is: `../databases/trading_history/db_config`.
 - `-dp` or `--dbpath`: [Optional] Specifies the path to the folder where MongoDB will store its data. Default is first looked for in `{th-config-src}/db_connection.ini` of the `th-config-src` and only if it is not set there is then set to `../databases/trading_history/mongodb_data`.
-- `-lp` or `--logpath`: [Optional] Specifies the path to the file where MongoDB will store its logs. Default is first looked for in `{th-config-src}/db_connection.ini` of the `th-config-src` and only if it is not set there is then set to `./logs/mongodb_logs/logs.log`.
+- `-lp` or `--logpath`: [Optional] Specifies the path to the file where MongoDB will store its logs. Default is first looked for in `{th-config-src}/db_connection.ini` of the `th-config-src` and only if it is not set there is then set to `./logs/trading_history/logs.log`.
 - `-host` or `--host`: [Optional] Specifies the host for the MongoDB instance. Default is first looked for in `{th-config-src}/db_connection.ini` of the `th-config-src` and only if it is not set there is then set to `127.0.0.1`.
 - `-p` or `--port`: [Optional] Specifies the port for the MongoDB instance. Default is first looked for in `{th-config-src}/db_connection.ini` of the `` and only if it is not set there is then set to `27017`.
 
