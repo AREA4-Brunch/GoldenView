@@ -3,7 +3,22 @@
 }
 
 #balance-section {
-    margin-top: 5vh;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #AF9A70;
+    border-radius: 8px;
+    text-align: center;
+    margin: 0 auto;
+    height: auto;
+    padding: 1px 0px 1px 0px;
+}
+
+#balance-section p {
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0px;
 }
 
 #makebeliefbalance {
@@ -17,4 +32,10 @@
 
 #assets-owned td {
     max-width: 180px;
+}
+
+#make-tm-default {
+    background-color: #AF9A70;
+    border: 1px solid #AF9A70;
+    border-radius: 12px;
 }

@@ -26,3 +26,5 @@ development/databases/trading_history/db_config/db_connection.ini
 
 # development/databases/trading_platform/passwords.md
 # development/databases/trading_platform/passwords.md
+development/databases/trading_history/db_config/db_connection.ini
+development/databases/trading_platform/db_config/db_connection.ini

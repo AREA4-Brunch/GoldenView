@@ -1,3 +1,9 @@
 #heading-container {
     margin-top: 50px;
 }
+
+#create-ftm {
+    background-color: #AF9A70;
+    border: 1px solid #AF9A70;
+    border-radius: 12px;
+}

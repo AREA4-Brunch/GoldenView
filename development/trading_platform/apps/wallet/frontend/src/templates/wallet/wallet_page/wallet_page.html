@@ -1,49 +1,48 @@
-<!-- Aleksandar Radenkovic 2020/0272 -->
 {% extends 'common/base.html' %}
-
 {% load static %}
 
 {% block included_css %}
-
     <!-- Included Components CSS -->
     <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
     <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
-
     <!-- This Page's CSS -->
     <link rel="stylesheet" href="{% static 'wallet/css/wallet_page.css' %}">
-
 {% endblock %}
-
 
 {% block title %}
     Wallet
 {% endblock %}
 
-
 {% block header %}
     {% include 'common/components/header/header.html' %}
 {% endblock %}
 
-
 {% block content %}
 <div id="wallet_page-content">
-
     <div class="container-fluid text-center">
+
+        <div id="balance-section" class="row common-center">
+            <div class="col-12">
+                <p>Balance</p>
+                <p>{{ selected_tm_balance }} US $</p>
+            </div>
+        </div>
+                     
 
         <div id="transfer-methods-container" class="row common-center">
             <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
-                <p class="lead">View your funds transfer method:</p>
+                <h3>View your funds transfer method:</h3>
                 <br/>
             </div>
         </div>
 
         {% if is_default_tm %}
-            <div style="margin-bottom: 25px;" class="row common-center">
-                <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
-                    <span><i>(This is currently your default transfer method)</i></span>
-                    <br/>
-                </div>
+        <div style="margin-bottom: 25px;" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <span><i>(This is currently your default transfer method)</i></span>
+                <br/>
             </div>
+        </div>
         {% endif %}
 
         <div class="row common-center">
@@ -55,9 +54,9 @@
                         <select id="transfer-methods" name="transfer-methods" class="form-select form-select-lg mb-3" aria-label="Selected Funds Transfer Method">
                             {% for tm in tranfer_methods %}
                                 {% if tm.id == selected_tm_id %}
-                                    <option selected value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
+                                <option selected value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
                                 {% else %}
-                                    <option value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
+                                <option value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -76,22 +75,6 @@
                     <br/>
                     To add a new transfer method click <a href="{% url 'create_funds_transfer_method' %}">here</a>
                 </p>
-            </div>
-        </div>
-
-        <!-- Balance -->
-        <div id="balance-section" class="row common-center">
-            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
-                <div class="mb-3">
-                    <label for="selected_tm_balance" class="lead form-label">Balance</label>
-                    <div class="input-group">
-                        <input id="selected_tm_balance" type="number" class="form-control"
-                            value="{{ selected_tm_balance }}"
-                            readonly
-                        >
-                        <span id="balance-currency-label" class="input-group-text">US $</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -130,20 +113,16 @@
                 </table>
             </div>
         </div>
+        <br>
     </div>
-
 </div>
 {% endblock %}
-
 
 {% block footer %}
     {% include 'common/components/footer/footer.html' %}
 {% endblock %}
 
-
 {% block included_js %}
-
     <!-- This Page's JS -->
     <script src="{% static 'wallet/js/wallet_page.js' %}"></script>
-
 {% endblock %}
