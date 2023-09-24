@@ -4,8 +4,6 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth.hashers import check_password, make_password
-
 from ..user_management.backend.src.utils.user_type import cast_to_trader, cast_to_broker
 
 from ..file_management.models import BrokerRequestFile, TextFile

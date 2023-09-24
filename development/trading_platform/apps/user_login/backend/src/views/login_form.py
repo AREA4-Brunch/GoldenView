@@ -1,7 +1,7 @@
 # Aleksandar Radenkovic 2020/0272
 from django.http import HttpRequest
 
-from apps.user_management.backend.src.utils.user_login import login_user, LoginWrongCredentialsException
+from apps.user_management.backend.src.utils.user_login import login_user
 from apps.common.backend.utils.error_handling import internal_error_catcher
 
 

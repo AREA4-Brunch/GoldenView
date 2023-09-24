@@ -1,6 +1,5 @@
 from django.db.models import F
 from apps.user_management.models import FundsTransferMethod
-from apps.user_management.models import Trader
 from apps.wallet.models import MakeBeliefOwns
 
 

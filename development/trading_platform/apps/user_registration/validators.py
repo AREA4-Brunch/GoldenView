@@ -1,5 +1,5 @@
 # Jovana Bjelica 2020/0349
-from typing import Any, Mapping, Optional
+from typing import Any, Mapping
 from django.core.exceptions import ValidationError
 
 # validations for every input

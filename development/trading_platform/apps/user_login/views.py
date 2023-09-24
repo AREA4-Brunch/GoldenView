@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 
 from .backend.src.views import login_form as login_form_backend
-from apps.common.backend.utils.error_handling import internal_error_catcher
 
 from apps.user_management.models import User
 

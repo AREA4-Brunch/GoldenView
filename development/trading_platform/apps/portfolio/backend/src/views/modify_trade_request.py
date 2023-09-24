@@ -2,7 +2,6 @@
     Aleksandar Radenkovic 2020/0272
 """
 
-import logging
 from decimal import Decimal
 from django.http import HttpRequest
 

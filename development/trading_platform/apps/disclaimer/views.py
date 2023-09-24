@@ -5,8 +5,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from ..user_management.backend.src.utils.user_type import cast_to_trader
 
-from ..user_management.models import Trader, User
-
 from apps.user_management.backend.src.utils.user_type import cast_to_trader
 
 

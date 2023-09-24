@@ -1,7 +1,7 @@
 # Jovana Bjelica 2020/0349
 # from datetime import date
 import logging
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
