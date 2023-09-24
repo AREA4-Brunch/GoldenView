@@ -175,10 +175,4 @@ def user_dashboard_send_request_decline_form(request: HttpRequest):
     # return user_dashboard(request)
     return redirect('user_dashboard_page')
 
-
-# function for canceling the request
-def user_dashboard_send_request_cancel_form(request: HttpRequest):
-    # return user_dashboard(request)
-    return redirect('user_dashboard_page')
-
 #################################################################

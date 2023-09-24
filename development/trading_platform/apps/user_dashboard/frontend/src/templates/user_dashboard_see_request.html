@@ -67,10 +67,7 @@
                                 </form>
                                     <form action="{% url 'user_dashboard_send_request_decline_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="color: indianred">Decline contract</button>
-                                    <form action="{% url 'user_dashboard_send_request_cancel_form'%}" method="POST">
-                                    {% csrf_token %}
-                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button">Cancel</button>
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="color: indianred; background-color: white;">Decline contract</button>
                                     
                                 </div>
                             </td>

@@ -82,7 +82,7 @@
                                 </form>
                                     <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
                                     {% csrf_token %}
-                                    <button name="{{dst_user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred">Cancel</button>
+                                    <button name="{{dst_user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred; background-color: white;">Cancel</button>
                                 </div>
                             </td>
                         </tr>
@@ -105,6 +105,5 @@
 {% block included_js %}
 
     <!-- This Page's JS -->
-    <script src="{% static 'broker_request/js/broker_request.js' %}"></script>
 
 {% endblock %}
