@@ -539,9 +539,9 @@
       "id": "1e15091c-56ee-4c08-9e05-c0e49e4b946c",
       "comment": "",
       "command": "click",
-      "target": "css=.col-md-9",
+      "target": "css=.col-10 col-md-10",
       "targets": [
-        ["css=.col-md-9", "css:finder"],
+        ["css=.col-10 col-md-10", "css:finder"],
         ["xpath=//div[@id='assets_list-content']/div[2]", "xpath:idRelative"],
         ["xpath=//div[2]", "xpath:position"]
       ],

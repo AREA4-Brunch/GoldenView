@@ -1,0 +1,88 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'administrator_dashboard/components/side_panel.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'administrator_dashboard/css/administrator_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    administrator_dashboard
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="administrator_dashboard_page-content">
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'administrator_dashboard/components/side_panel.html' %}
+
+            <div class="table-container col-9">
+                <form action="{% url 'administrator_dashboard_request_delete_form' %}" method="POST">
+                {% csrf_token %}
+                    {{form.as_table}}
+                    <table id="table" class="table table-striped">
+                        <tr>
+                            <td colspan="5" style="font-weight: 800">
+                                Users
+                            </td>
+                        </tr>
+                        
+                        <tr class="bold">
+                            <td>Username</td>
+                            <td>Status</td>
+                            <td>Email address</td>
+                            <td>Approve / Delete Request</td>
+                        </tr>
+
+                        {% for broker, user in users %}
+                            <tr class="columns">
+                                <td style="color: gray;">{{user.username}}</td>
+                                <td class="active" style="vertical-align: middle;">
+                                </td>
+                                <td>
+                                    {{user.email}}
+                                </td>
+                                <td>
+                                    <div class="approve-or-del">
+                                        <form action="{% url 'administrator_dashboard_request_approve_form' %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="btn btn-sm approve-req" name="{{broker.filepath.filepath}}" value="aprove" type="submit"><img style="width: 20px; height: 20px;" src="{% static 'administrator_dashboard/images/greenTick.png' %}" alt="Green Tick Icon"></button>
+                                        </form>
+                                        <button class="btn btn-sm delete-req" name="{{broker.filepath.filepath}}" value="delete" type="submit"><img style="width: 20px; height: 20px;" src="{% static 'administrator_dashboard/images/trashBin.jpg' %}" alt="Trash Bin Icon"></button></form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}

@@ -26,25 +26,10 @@
 
 
 {% block content %}
-<div id="broker_dashboard_page-content" class="common-center">
+<div id="broker_dashboard_page-content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 left-nav-bar">
-                <ul class="nav navbar-vertical">
-                    <li class="nav-item nav-item-vertical nav-item-active">
-                        <img src="{% static 'common/images/portfolio.png' %}" alt="">
-                        <a class="nav-link nav-link-vertical" href="../broker_dashboard">Home</a>
-                    </li>
-                    <li class="nav-item nav-item-vertical">
-                        <img src="{% static 'common/images/logout.png' %}" alt="">
-                        <form action="{% url 'adminlogout' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="row"><a class="nav-link nav-link-vertical" href="adminlogout">Logout</a></div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-9">
+        <div class="row common-center">
+            <div class="col-9">
                 <form action="{% url 'broker_dashboard_form' %}" method="POST">
                 {% csrf_token %}
                     <table id="table" class="table table-striped">
@@ -83,19 +68,6 @@
                             </tr>
                         {% endfor %}
                     </table>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
                 </form>
             </div>
         </div>

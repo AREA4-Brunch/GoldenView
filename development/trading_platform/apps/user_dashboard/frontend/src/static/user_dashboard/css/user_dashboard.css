@@ -6,8 +6,13 @@ body {
     max-width: 100%;
 }
 
+main {
+    height: 100%;
+}
+
 table {
     max-width: 100%;
+    margin-bottom: 25px;
 }
 
 #user_dashboard_page-content {
@@ -73,34 +78,6 @@ button {
     all: unset;
 }
 
-.left-nav-bar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #FFFFFF;
-    box-shadow: -1px 9px 16px rgba(0, 0, 0, 0.25);
-    height: 90vh;
-}
-
-.navbar-vertical {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 5vh;
-}
-
-.nav-item-vertical {
-    display: flex;
-    align-items: center;
-    padding: 2px 8px 2px 8px;
-}
-
-.nav-item-active {
-    background: #AF9A70;
-    border-radius: 12px;
-}
-
 #table {
     margin-top: 4vh;
     margin-left: 0.5vw;
@@ -113,10 +90,6 @@ button {
 
 #columns {
     text-align: center;
-}
-
-main {
-    all: unset;
 }
 
 .buttonEn{

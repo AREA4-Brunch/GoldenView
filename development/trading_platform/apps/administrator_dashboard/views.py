@@ -17,14 +17,14 @@ from apps.broker_management.models import Broker
 def rendering1(request, users, form):
     return render(
         request,
-        'administrator_dashboard_page.html',
+        'administrator_dashboard/administrator_dashboard_page.html',
         {"users": users,"form": form}
     )
 
 def createContext1():
-    context = []  
+    context = []
     users = User.objects.all()
-        
+
     for user in users:
         if user.is_staff == 1:
             context.append("Administrator")
@@ -33,12 +33,11 @@ def createContext1():
         elif cast_to_trader(user) is not None:
             context.append("Trader")
         else:
-            context.append("Basic user") 
+            context.append("Basic user")
 
     ziped = zip(users,context)
 
     return ziped
-
 
 #render admin dashboard
 @login_required(login_url='login')
@@ -91,7 +90,7 @@ def administrator_dashboard_form(request: HttpRequest):
 def rendering2(request, users, form):
     return render(
         request,
-        'administrator_dashboard_request.html',
+        'administrator_dashboard/administrator_dashboard_request.html',
         {"users": users,"form":form}
     )
 
