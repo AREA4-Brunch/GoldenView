@@ -1,0 +1,96 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'administrator_dashboard/components/side_panel.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'administrator_dashboard/css/administrator_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    administrator_dashboard
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="administrator_dashboard_page-content">
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'administrator_dashboard/components/side_panel.html' %}
+
+            <div class="table-container col-9">
+                <form action="{% url 'administrator_dashboard_form' %}" method="POST">
+                    {% csrf_token %}
+                    <table id="table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td colspan="5" style="font-weight: 800">
+                                    Users
+                                </td>
+                            </tr>
+                            
+                            <tr class="bold">
+                                <td>Username</td>
+                                <td>Status</td>
+                                <td>Role</td>
+                                <td>Email address</td>
+                                <td>Delete User</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for user, userType in users %}
+                                <tr class="columns">
+                                    <td style="color: gray;">{{user.username}}</td>
+                                    {% if user.is_active %}
+                                        <td style="color: springgreen">Active</td>
+                                    {% else %}
+                                        <td style="color: indianred">Inactive</td>
+                                    {% endif %}
+                                    <td>
+                                        {{userType}}
+                                    </td>
+                                    <td>
+                                        {{user.email}}
+                                    </td>
+                                    <td>
+                                        <button name="{{user.username}}" type="submit" class="btn btn-sm">
+                                            <img src="{% static 'administrator_dashboard/images/trashBin.jpg' %}" alt="Trash Bin Icon" style="width: 20px; height: 20px;">
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}
