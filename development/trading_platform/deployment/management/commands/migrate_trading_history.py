@@ -1,6 +1,3 @@
-import subprocess
-
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
 from apps.asset_management.models import (

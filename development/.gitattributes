@@ -1,3 +1,3 @@
 # Keep .sh file LF as Linux docker container executes it and will report
 # file missing error or similar
-./trading_platform/deployment/entrypoints/migrate_run.sh text eol=lf
+./trading_platform/deployment/entrypoints/*.sh text eol=lf
