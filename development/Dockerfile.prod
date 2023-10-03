@@ -31,7 +31,7 @@ RUN echo '' >> ./trading_platform/logs/exec_logs/logs.log
 # ENV DB_TRADING_PLATFORM_PORT=3306
 
 # entrypoint
-COPY ./trading_platform/deployment/entrypoints/migrate_run.sh /entrypoint.sh
+COPY ./trading_platform/deployment/entrypoints/run_prod.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
 WORKDIR /app/trading_platform

@@ -65,10 +65,11 @@ services:
   trading-platform-sys-dev:
     build:
       context: ../../../development
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     ports:
       - 8001:8000
     environment:
+      - DJANGO_SETTINGS_MODULE=trading_platform.settings_dev
       # trading_history db
       - DB_TRADING_HISTORY_NAME=trading_history
       - DB_TRADING_HISTORY_HOST=trading-history-db-dev

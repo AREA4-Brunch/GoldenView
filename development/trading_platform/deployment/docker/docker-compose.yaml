@@ -66,7 +66,7 @@ services:
       - DJANGO_SECRET_KEY=ynm7bu$1l5qe7h8z03aq^*^1)*yl&%-k+(t6v%t-abnzyq4fh#
       # trading_history db
       - DB_TRADING_HISTORY_NAME=trading_history
-      - DB_TRADING_HISTORY_HOST=trading-history-db
+      - DB_TRADING_HISTORY_HOST=trading-hisotry-db
       - DB_TRADING_HISTORY_PORT=27017
       - DB_TRADING_HISTORY_USERNAME=root
       - DB_TRADING_HISTORY_PASSWORD=etf
