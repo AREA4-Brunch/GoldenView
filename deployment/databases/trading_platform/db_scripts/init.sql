@@ -499,7 +499,7 @@ CREATE TABLE `trader` (
   `Sex` varchar(6) NOT NULL,
   `TermsAcceptanceTime` datetime(6) NOT NULL,
   `IdCountry` int NOT NULL,
-  `IdSelectedFundsTransferMethod` int NOT NULL,
+  `IdSelectedFundsTransferMethod` int DEFAULT NULL,
   PRIMARY KEY (`IdUser`),
   KEY `trader_IdCountry_2add0814_fk_country_IdCountry` (`IdCountry`),
   KEY `trader_IdSelectedFundsTrans_0e5d7148_fk_fundstran` (`IdSelectedFundsTransferMethod`),

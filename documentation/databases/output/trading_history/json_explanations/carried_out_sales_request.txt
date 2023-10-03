@@ -1,14 +1,8 @@
 {
-    <!-- [primary key] from the SQL db - ActiveTradeRequest table -->
+    <!-- [primary key] from the SQL db - SalesRequest table -->
     "id_trade_request": 5,
 
-    <!-- whether the request for purchasing or selling an asset and
-         was tranferred from table in SQL db - PurchaseRequest table
-         or from the table in SQL db - SalesRequest table
-    -->
-    "is_purchase": true,
-
-    <!-- id of user whose account purchases/sells asset (id_asset)
+    <!-- id of user whose account sold the asset (id_asset)
          in SQL db - Trader entity - IdUser
     -->
     "id_user": 1,
