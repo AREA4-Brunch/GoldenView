@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'apps.broker_dashboard.apps.BrokerDashboardConfig',
     'apps.user_dashboard.apps.UserDashboardConfig',
     'apps.portfolio.apps.PortfolioConfig',
-    'apps.comparingCompanies.apps.comparingCompaniesConfig',
+    'apps.comparing_companies.apps.ComparingCompaniesConfig',
     'apps.wallet.apps.WalletConfig',
 ]
 

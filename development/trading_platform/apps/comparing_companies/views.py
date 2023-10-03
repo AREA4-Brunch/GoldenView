@@ -4,9 +4,9 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def comparingCompanies(request: HttpRequest):
+def comparing_companies(request: HttpRequest):
 
     return render(
         request,
-        "comparingCompanies/comparing_companies_page/comparingCompanies.html",
+        "comparing_companies/comparing_companies_page/comparing_companies.html",
     )
