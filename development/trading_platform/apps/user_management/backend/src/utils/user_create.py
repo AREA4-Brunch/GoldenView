@@ -53,5 +53,5 @@ def create_basic_user(email, username, password, birthday, gender, country):
         except Exception as e:
             import traceback
             logging.error(f"Error creating BasicUser: {e}")
-            print(traceback.format_exc())
+            # print(traceback.format_exc())
             raise e

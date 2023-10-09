@@ -71,13 +71,13 @@
         <form action="{% url 'accept_terms_form' %}" method="POST">
             {% csrf_token %}
             <div class="row common-center" id="row3">
-                <div class="col-sm-6 common-left-horizontally">
+                <div class="col-4 common-center-horizontally">
                     <input type="checkbox" name="check" id="check" disabled="true">
                     <label for="check"> &nbsp; I agree to the terms and conditions as set out by the user agreement.</label>
                 </div>
             </div>
             <div class="row common-center" id="row4">
-                <div class="col-sm-6 common-center-horizontally">
+                <div class="col-1 common-center-horizontally">
                     <button type="submit" class="buttonDis" id="buttonContinue" disabled="true">Continue</button>
                 </div>
             </div>

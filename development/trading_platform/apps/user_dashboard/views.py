@@ -75,7 +75,7 @@ def user_dashboard_form(request: HttpRequest):
             return user_dashboard_send_request(request,contract)
             
         else:
-            print("else")
+            # print("else")
             return user_dashboard(request)
 
 
@@ -131,7 +131,7 @@ def user_dashboard_send_request_accept_form(request: HttpRequest):
 
 
     except Exception as e:
-        print("error")
+        # print("error")
         request.session['internal_err'] = str(e)
         logging.exception(f'Internal error: {e}')
         return user_dashboard(request)

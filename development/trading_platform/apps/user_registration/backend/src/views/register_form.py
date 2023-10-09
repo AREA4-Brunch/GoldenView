@@ -129,7 +129,7 @@ def get_cleaned_data(request: HttpRequest):
             request.session['gender_err'] = 'Invalid gender'
 
         if not is_valid:
-            raise InvalidRegisterFormException('parse: Incorrectly filled out form')
+            raise InvalidRegisterFormException('validate: Incorrectly filled out form')
 
     def main():
         parse_data()

@@ -146,7 +146,7 @@ def administrator_dashboard_request_delete_form(request: HttpRequest):
             fp.deleteRow() 
 
         else:
-            print("else")
+            # print("else")
             return administrator_dashboard_request(request)
         pass
 
@@ -169,7 +169,7 @@ def administrator_dashboard_request_approve_form(request: HttpRequest):
 
         form = AdministratorDashboardRequestForm(request.POST)
         if(form.is_valid()):
-            print(request.POST)
+            # print(request.POST)
             broker=""
             for i in BrokerRequestFile.objects.all():
                 if i.filepath.filepath in request.POST:
@@ -192,7 +192,7 @@ def administrator_dashboard_request_approve_form(request: HttpRequest):
             fp.deleteRow() 
 
         else:
-            print("else")
+            # print("else")
             return administrator_dashboard_request(request)
         pass
 

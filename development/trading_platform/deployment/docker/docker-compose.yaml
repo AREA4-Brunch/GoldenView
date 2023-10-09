@@ -62,7 +62,7 @@ services:
       - 8001:8000
     environment:
       - DJANGO_SETTINGS_MODULE=trading_platform.settings_prod
-      # python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key());"
+      # python -c "from django.core.management.utils import get_random_secret_key; # print(get_random_secret_key());"
       - DJANGO_SECRET_KEY=ynm7bu$1l5qe7h8z03aq^*^1)*yl&%-k+(t6v%t-abnzyq4fh#
       # trading_history db
       - DB_TRADING_HISTORY_NAME=trading_history

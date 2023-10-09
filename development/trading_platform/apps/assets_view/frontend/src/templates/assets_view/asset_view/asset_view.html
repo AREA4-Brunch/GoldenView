@@ -33,7 +33,7 @@
     <div class="row">
         {% include 'common/components/trader_dashboard/trader_dashboard.html' %}
 
-        <div class="col-10 col-md-10">
+        <div class="col-10 col-md-10 text-center">
             <!-- TradingView Widget BEGIN -->
             <br>
             <div class="tradingview">
@@ -42,18 +42,20 @@
                 </div>
             </div>
 
-             <form id="buy-sell-form" action="{% url 'page_404' %}" method="post" data-csrf-token="{{ csrf_token }}">
-                {% csrf_token %}
-                <p class="price-range">
-                    <label for="amount">Price range:</label>
-                    <input type="text" id="amount" readonly>
-                </p>
-                 <div class="range-inputs">
-                     <input type="number" id="min-price" name="min-price" min="0" step="0.01" class="range-input" value="0">
-                     <input type="number" id="max-price" name="max-price" min="0" step="0.01" class="range-input" value="0">
-                 </div>
-                 <div id="slider-range"></div>
-            </form>
+            <div class="buttons">
+                <form id="buy-sell-form" action="{% url 'page_404' %}" method="post" data-csrf-token="{{ csrf_token }}">
+                    {% csrf_token %}
+                    <p class="price-range">
+                        <label for="amount">Price range:</label>
+                        <input type="text" id="amount" readonly>
+                    </p>
+                    <div class="range-inputs">
+                        <input type="number" id="min-price" name="min-price" min="0" step="0.01" class="range-input" value="0">
+                        <input type="number" id="max-price" name="max-price" min="0" step="0.01" class="range-input" value="0">
+                    </div>
+                    <div id="slider-range"></div>
+                </form>
+            </div>
 
             <div class="buttons">
                 <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>

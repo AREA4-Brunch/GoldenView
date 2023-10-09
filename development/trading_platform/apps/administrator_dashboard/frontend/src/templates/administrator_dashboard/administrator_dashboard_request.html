@@ -32,7 +32,7 @@
             {% include 'administrator_dashboard/components/side_panel.html' %}
 
             <div class="table-container col-9">
-                <form action="{% url 'administrator_dashboard_request_delete_form' %}" method="POST">
+                <form action="{% url 'administrator_dashboard_request_approve_form' %}" method="POST">
                 {% csrf_token %}
                     {{form.as_table}}
                     <table id="table" class="table table-striped">
@@ -59,9 +59,9 @@
                                 </td>
                                 <td>
                                     <div class="approve-or-del">
-                                        <form action="{% url 'administrator_dashboard_request_approve_form' %}" method="POST">
+                                        <form action="{% url 'administrator_dashboard_request_delete_form' %}" method="POST">
                                         {% csrf_token %}
-                                        <button class="btn btn-sm approve-req" name="{{broker.filepath.filepath}}" value="aprove" type="submit"><img style="width: 20px; height: 20px;" src="{% static 'administrator_dashboard/images/greenTick.png' %}" alt="Green Tick Icon"></button>
+                                        <button class="btn btn-sm approve-req" name="{{broker.filepath.filepath}}" value="approve" type="submit"><img style="width: 20px; height: 20px;" src="{% static 'administrator_dashboard/images/greenTick.png' %}" alt="Green Tick Icon"></button>
                                         </form>
                                         <button class="btn btn-sm delete-req" name="{{broker.filepath.filepath}}" value="delete" type="submit"><img style="width: 20px; height: 20px;" src="{% static 'administrator_dashboard/images/trashBin.jpg' %}" alt="Trash Bin Icon"></button></form>
                                     </div>

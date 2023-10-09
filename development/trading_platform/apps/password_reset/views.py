@@ -38,8 +38,8 @@ def password_reset_form(request: HttpRequest):
         if(form.is_valid()):
             old = form.cleaned_data['old']
             new = form.cleaned_data['new']
-            #print(old,new)
-            #print(request.user.username)
+            # print(old,new)
+            # print(request.user.username)
             user = User.objects.get(username=request.user.username)
 
             if(check_password(old, user.password)==False):

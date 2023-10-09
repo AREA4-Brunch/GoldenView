@@ -35,10 +35,10 @@
                 <form action="{% url 'user_dashboard_send_request_accept_form'%}" method="POST">
                     {% csrf_token %}
                 <div class="">
-                    <h2>Contact form</h2>
+                    <h2>Contract</h2>
                 </div>
                 <div style="color: gray;">
-                    Send contract to Basic User <label name="username" id="message">{{contract.filepath.filepath}}</label>
+                    Sent contract: <label name="username" id="message">{{contract.filepath.filepath}}</label>
                 </div>
                 
                     <table>

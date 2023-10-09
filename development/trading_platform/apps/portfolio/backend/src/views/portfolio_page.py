@@ -254,7 +254,7 @@ def get_trade_request_details(
         contract = trade_request.idcontract
         if contract is not None:
             contract = BrokerBasicUserContract.objects.filter(
-                idcontract=contract,
+                idcontract=contract.idcontract,
             ).first()
 
         if trade_request.iduser != trader \
