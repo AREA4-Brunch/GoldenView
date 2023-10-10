@@ -8,14 +8,19 @@
 ## Trading Showcase Video
 
 
-https://github.com/AREA4-Brunch/GoldenView/assets/42544707/2b0e4237-a96b-4722-b0a2-17d3b6fdcf26
+
+https://github.com/AREA4-Brunch/GoldenView/assets/42544707/e695b7c0-1004-4a3b-833d-069c01740ece
+
 
 
 
 ## Become Broker Showcase Video
 
 
-https://github.com/AREA4-Brunch/GoldenView/assets/42544707/a901b7a1-3b16-421c-8654-af60888b7219
+
+
+https://github.com/AREA4-Brunch/GoldenView/assets/42544707/bcf55ace-c6cb-4884-bc88-e7cc08803ffc
+
 
 
 
