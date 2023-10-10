@@ -1,0 +1,27 @@
+/* Andrej Dujovic 2020/0306 */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    display: grid;
+}
+
+.common-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.common-center-horizontally {
+    display: flex;
+    justify-content: center;
+}
+
+.common-center-vertically {
+    display: flex;
+    align-items: center;
+}

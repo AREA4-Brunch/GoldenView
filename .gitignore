@@ -1,0 +1,31 @@
+# ========================
+# Local execution stuff:
+
+
+development/venv
+
+# for some reason **/__pycache__/** does not do the trick ?
+development/trading_platform/trading_platform/__pycache__/**
+
+**/__pycache__/**
+
+
+# ========================
+# Local project files:
+
+
+**/.idea/**
+**/.vscode
+
+
+# ========================
+# Company secrets:
+
+
+development/databases/trading_platform/db_config/db_connection.ini
+development/databases/trading_history/db_config/db_connection.ini
+
+# development/databases/trading_platform/passwords.md
+# development/databases/trading_platform/passwords.md
+development/databases/trading_history/db_config/db_connection.ini
+development/databases/trading_platform/db_config/db_connection.ini

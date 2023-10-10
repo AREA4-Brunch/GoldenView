@@ -1,0 +1,83 @@
+<!-- Aleksandar Radenkovic 2020/0272 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'user_login/css/login_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="login_page-content">
+
+    <div class="container-fluid">
+        <div id="login" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <form action="{% url 'login_form' %}" method="POST">
+                    {% csrf_token %}
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="user-input" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="user-input" name="username" aria-describedby="user-input-help" value="{% if usr %}{{ usr }}{% endif %}">
+
+                        {%if usr_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ usr_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password-input" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password-input" name="password">
+
+                        {%if pwd_err %}
+                            <div class="invalid-feedback" style="display: flex;">
+                                {{ pwd_err }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3 common-center-horizontally">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'user_login/js/login_page.js' %}"></script>
+
+{% endblock %}

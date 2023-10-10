@@ -1,0 +1,90 @@
+<!-- Jovan Jovanovic 2020/0083 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'broker_request/css/broker_request.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Broker request
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="contact_page_page-content" class="common-center">
+
+    <div class="container">
+        <div class="row common-center">
+            <div class="col-sm-6">
+                <div>
+                    <img style="width:90% " src="../static/broker_request/images/broker_request.PNG" alt="slikalevo">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="">
+                    <h2>Request</h2>
+                </div>
+                <div style="color: gray;">
+                    Send the request to become a Broker.
+                </div>
+                <form action="{% url 'broker_request_form' %}" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>
+                                <br>
+                                Why do you think you are qualified to become a Broker?
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea name="message" id="message" cols="60" rows="10"></textarea>
+                                <br>
+                                <b style="color:red">{{errmsg}}</b>
+                                <br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <div>
+                                    <button type="submit" class="buttonEn" id="button" style="width:50%;">Send request</button>
+                                </div>
+                            </td>
+                        </tr>
+        
+                    </table>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}

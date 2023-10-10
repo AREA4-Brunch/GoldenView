@@ -1,0 +1,128 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block included_css %}
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'wallet/css/wallet_page.css' %}">
+{% endblock %}
+
+{% block title %}
+    Wallet
+{% endblock %}
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wallet_page-content">
+    <div class="container-fluid text-center">
+
+        <div id="balance-section" class="row common-center">
+            <div class="col-12">
+                <p>Balance</p>
+                <p>{{ selected_tm_balance }} US $</p>
+            </div>
+        </div>
+                     
+
+        <div id="transfer-methods-container" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <h3>View your funds transfer method:</h3>
+                <br/>
+            </div>
+        </div>
+
+        {% if is_default_tm %}
+        <div style="margin-bottom: 25px;" class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <span><i>(This is currently your primary transfer method)</i></span>
+                <br/>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <form id="transfer-methods-form" action="{% url 'wallet_status' %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <select id="transfer-methods" name="transfer-methods" class="form-select form-select-lg mb-3" aria-label="Selected Funds Transfer Method">
+                            {% for tm in tranfer_methods %}
+                                {% if tm.id == selected_tm_id %}
+                                <option selected value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
+                                {% else %}
+                                <option value="{{ tm.id }}">{{ forloop.counter }}. {{ tm.access_key }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="common-center-horizontally">
+                        <button id="make-tm-default" data-url="{% url 'update_transfer_method_form' %}" type="submit" class="btn btn-primary">
+                            Set as Primary
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <p>
+                    <br/>
+                    To add a new transfer method click <a href="{% url 'create_funds_transfer_method' %}">here</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Assets Owned -->
+        <div class="row common-center">
+            <div class="col-8 col-xs-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 col-xxl-4 common-center-horizontally">
+                <table id="assets-owned" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td class="lead">Asset</td>
+                            <td class="lead">Stocks Owned</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for asset_owned in assets_owned %}
+                            <tr>
+                                <td>
+                                    <div class="input-group text-center">
+                                        <input type="text" class="form-control"
+                                            value="{{ asset_owned.ticker }}"
+                                            readonly
+                                        >
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group text-center">
+                                        <input type="number" class="form-control"
+                                            value="{{ asset_owned.quantity }}"
+                                            readonly
+                                        >
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+{% block included_js %}
+    <!-- This Page's JS -->
+    <script src="{% static 'wallet/js/wallet_page.js' %}"></script>
+{% endblock %}

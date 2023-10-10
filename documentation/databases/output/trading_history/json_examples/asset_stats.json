@@ -1,0 +1,12 @@
+{
+    "asset_id": 1,
+    "daily_predictions": {
+        "start_day": "2023-06-21",
+        "pred_vals": [
+            275.87,
+            276.17,
+            232.37,
+            298
+        ]
+    }
+}

@@ -1,0 +1,108 @@
+html,
+
+body {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+#searchbar{
+    width: 100%;
+    border-radius: 12px;
+    border-color: lightgray;
+}
+
+table {
+    max-width: 100%;
+}
+
+#portfolio_page-content {
+    display: flex;
+    height: 100%;
+    margin: 0;
+}
+
+#trade-requests {
+    margin-top: 4vh;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    vertical-align: middle;
+}
+
+#bold {
+    font-weight: 500;
+    text-align: center;
+}
+
+.trade-request {
+    text-align: center;
+}
+
+#content-row {
+    height: 100%;
+}
+
+#trade-requests tr:first-child td:nth-child(1) {
+    width: 7% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(2) {
+    width: 5%;
+}
+
+#trade-requests tr:first-child td:nth-child(3) {
+    width: 7% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(4) {
+    width: 20% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(5) {
+    width: 20% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(6) {
+    width: 20% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(7) {
+    width: 12% !important;
+}
+
+#trade-requests tr:first-child td:nth-child(8) {
+    width: 7% !important;
+}
+
+#trade-requests .input-group {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.active-trade-request {
+    color: rgb(23, 239, 23) !important;
+}
+
+#trade-requests thead td {
+    vertical-align: top;
+}
+
+#trade-requests .input-group:has(.modify-lower-bound) {
+    max-width: 220px;
+    min-width: 165px;
+}
+
+#trade-requests .input-group:has(.modify-upper-bound) {
+    max-width: 220px;
+    min-width: 165px;
+}
+
+#trade-requests .input-group:has(.modify-quantity-requested) {
+    max-width: 250px;
+    min-width: 180px;
+}
+
+#trade-requests td {
+    text-align: -webkit-center;
+    height: 55px;
+}

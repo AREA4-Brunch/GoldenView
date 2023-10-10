@@ -1,2 +1,7 @@
 # enable adding .docx without problems:
 *.docx    binary
+*.mdj    binary
+
+# Keep .sh file LF as Linux docker container executes it and will report
+# file missing error or similar
+development/trading_platform/deployment/entrypoints/*.sh text eol=lf

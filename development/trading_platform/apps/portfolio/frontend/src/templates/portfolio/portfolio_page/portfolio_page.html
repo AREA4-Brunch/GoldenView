@@ -1,0 +1,216 @@
+<!-- 
+    Jovana Bjelica 2020/0349
+    Aleksandar Radenkovic 2020/0272
+ -->
+
+
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/trader_dashboard/trader_dashboard.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio/css/portfolio.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="portfolio_page-content">
+
+    <div class="container-fluid">
+        <div id="content-row" class="row">
+
+            {% include 'common/components/trader_dashboard/trader_dashboard.html' %}
+
+            <div class="col col-sm-10">
+                <!-- <form action="" method="POST"> -->
+                    <!-- {% csrf_token %} -->
+                    <table id="trade-requests" class="table table-striped" data-csrf-token="{{ csrf_token }}">
+                        <!-- <tr style="display: None;">
+                            <td colspan="10" style="font-weight: 800">
+                                <input placeholder="Search transactions" id="searchbar" type="text" name="" id="">
+                            </td>
+                        </tr> -->
+
+                        <thead>
+                            <tr id="bold">
+                                <td>Name</td>
+                                <td class="active-trade-request">Active</td>
+                                <td>Contract ID</td>
+                                <td>Min Unit Price</td>
+                                <td>Max Unit Price</td>
+                                <td>Quantity</td>
+                                <td>Value<br/>[USD]</td>
+                                <td>Type</td>
+                            </tr>
+                        </thead>
+
+                        {% if transactions %}
+                            {% for transaction in transactions %}
+                                <tr class="trade-request"
+                                    data-trade-request-id="{{ transaction.id }}"
+                                    data-request-type="{{ transaction.type }}"
+                                    data-modify-url="{% url 'modify_active_trade_request' %}"
+                                    data-view-details-url="{% url 'view_trade_request_details' %}"
+                                >
+                                    {% if transaction.is_active %}
+                                        <td class="text-center active-trade-request">
+                                            {{ transaction.ticker }}
+                                        </td>
+                                    {% else %}
+                                        <td>{{ transaction.ticker }}</td>
+                                    {% endif %}
+
+                                    <td>
+                                        {% if transaction.is_active %}
+                                            <button type="button" class="btn btn-outline-danger cancel-request"
+                                             data-url="{% url 'cancel_active_trade_request' %}"
+                                            >
+                                                Cancel
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.idcontract %}
+                                            {{ transaction.idcontract }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.min %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control modify-lower-bound"
+                                                       placeholder="min"
+                                                       min="0" step="0.01" value="{{ transaction.min | floatformat:2  }}"
+                                                >
+                                                <span class="input-group-text">US $</span>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.max %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control modify-upper-bound"
+                                                    placeholder="max"
+                                                    min="0" step="0.01" value="{{ transaction.max | floatformat:2  }}"
+                                                >
+                                                <span class="input-group-text">US $</span>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.quantity_requested is not None %}
+                                            <div class="input-group text-center">
+                                                <input type="number" class="form-control"
+                                                    value="{{ transaction.quantity_acquired }}"
+                                                    readonly
+                                                >
+
+                                                <span class="input-group-text"> / </span>
+
+                                                <input type="number" class="form-control modify-quantity-requested"
+                                                    placeholder="quantity"
+                                                    min="0" step="1" value="{{ transaction.quantity_requested }}"
+                                                >
+                                            </div>
+                                        {% else %}
+                                            {{ transaction.quantity_acquired }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ transaction.value | floatformat:2 }}</td>
+                                    <td>{{ transaction.type }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                <!-- </form> -->
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-lg fade" id="trade-request-details-modal" tabindex="-1" aria-labelledby="trade-request-details-modal-title" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-4" id="trade-request-details-modal-title">Details of Purchase Request #1</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <br/>
+            <div class="modal-body">
+                <div id="trade-request-contract-details">
+                </div>
+                <br/>
+                <div id="trade-request-status-details">
+                </div>
+                <br/>
+                <div id="trade-request-transactions">
+                    <div>
+                        <h5 class="fs-5">Transactions</h5>
+                        <hr>
+                    </div>
+                    <div>
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <td> Shares</td>
+                                    <td>Unit Price</td>
+                                    <td>Value</td>
+                                    <td>Executed at</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
+    <script src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+    <script src="{% static 'portfolio/js/portfolio.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+}
+
+table {
+    margin: 0 25px 25px 25px;
+}
+
+button {
+    all: unset;
+}
+
+.bold {
+    font-weight: 500;
+    text-align: center;
+}
+
+.columns {
+    text-align: center;
+}
+
+.table-container {
+    margin: 30px 30px 30px 30px;
+}
+
+.approve-or-del {
+    display: inline-flex;
+}
+
+.approve-req {
+    margin-right: 10px;
+}
+
+.delete-req {
+    margin-left: 10px;
+}

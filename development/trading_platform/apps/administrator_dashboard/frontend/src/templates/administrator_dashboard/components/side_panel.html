@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="col-2 col-sm-2 left-nav-bar">
+    <ul class="nav navbar-vertical">
+
+        {% if request.resolver_match.view_name == 'administrator_dashboard_page' %}
+            <li class="nav-item nav-item-vertical nav-item-active">
+        {% else %}
+            <li class="nav-item nav-item-vertical">
+        {% endif %}
+            <img src="{% static 'common/images/portfolio.png' %}" alt="">
+            <a class="nav-link nav-link-vertical" href="{% url 'administrator_dashboard_page' %}">Users</a>
+        </li>
+
+        {% if request.resolver_match.view_name == 'administrator_dashboard_request' %}
+            <li class="nav-item nav-item-vertical nav-item-active">
+        {% else %}
+            <li class="nav-item nav-item-vertical">
+        {% endif %}
+            <img src="{% static 'assets_view/images/assetsview.png' %}" alt="">
+            <a class="nav-link nav-link-vertical" href="{% url 'administrator_dashboard_request' %}">Requests</a>
+        </li>
+
+    </ul>
+</div>

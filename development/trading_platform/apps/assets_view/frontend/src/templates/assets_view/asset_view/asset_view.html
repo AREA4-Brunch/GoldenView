@@ -1,0 +1,125 @@
+<!-- Andrej Dujovic 2020/0306 -->
+<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+<!-- Included Components CSS -->
+<link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+<link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+<!-- This Page's CSS -->
+<link rel="stylesheet" href="{% static 'common/components/trader_dashboard/trader_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'assets_view/css/asset_view.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+{% endblock %}
+
+
+{% block title %}
+{{ symbol }}
+{% endblock %}
+
+
+{% block header %}
+{% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="asset_view-content" data-asset-ticker="{{ symbol }}">
+    <div class="row">
+        {% include 'common/components/trader_dashboard/trader_dashboard.html' %}
+
+        <div class="col-10 col-md-10 text-center">
+            <!-- TradingView Widget BEGIN -->
+            <br>
+            <div class="tradingview">
+                <div class="tradingview-widget-container">
+                    <div id="tradingview_3edba"></div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <form id="buy-sell-form" action="{% url 'page_404' %}" method="post" data-csrf-token="{{ csrf_token }}">
+                    {% csrf_token %}
+                    <p class="price-range">
+                        <label for="amount">Price range:</label>
+                        <input type="text" id="amount" readonly>
+                    </p>
+                    <div class="range-inputs">
+                        <input type="number" id="min-price" name="min-price" min="0" step="0.01" class="range-input" value="0">
+                        <input type="number" id="max-price" name="max-price" min="0" step="0.01" class="range-input" value="0">
+                    </div>
+                    <div id="slider-range"></div>
+                </form>
+            </div>
+
+            <div class="buttons">
+                <button class="buy" id="buy-btn" data-url="{% url 'asset_buy' %}">Buy</button>
+                <input type="number" min="0" id="quantity" class="quantity" placeholder="Quantity" value="0">
+                <button class="sell" id="sell-btn" data-url="{% url 'asset_sell' %}">Sell</button>
+            </div>
+            <div class="buttons">
+                <span>Contract ID (Optional)</span>
+            </div>
+            <div class="buttons">
+                <input type="number" min="1" id="contract" class="quantity" value="0">
+            </div>
+
+            <!-- Button trigger modal -->
+            <button id="modal-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#predictionsModal">
+                Stock predictions
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="predictionsModal" tabindex="-1" aria-labelledby="predictionsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="predictionsModalLabel">Predictions</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% if preds %}
+                                {{ preds }}
+                            {% else %}
+                                We do not have the predictions for this asset at this time.
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+<!-- This Page's JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+<!-- not using CDN for sending jquery as django's is needed for CSRF with AJAX -->
+<script src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script src="{% static 'assets_view/js/asset_view.js' %}"></script>
+
+
+{% endblock %}

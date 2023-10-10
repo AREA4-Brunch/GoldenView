@@ -1,0 +1,109 @@
+/* Andrej Dujovic 2020/0306 */
+.tradingview {
+    margin-left: 0.2vw;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+}
+
+.buy {
+    background: #A2E3C4;
+    border: 1px solid #D0D5DD;
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 12px;
+    margin-right: 1vw;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 3vh;
+}
+
+.sell {
+    background: #F49393;
+    border: 1px solid #D0D5DD;
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 12px;
+    margin-left: 1vw;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 3vh;
+    margin-right: 1vw;
+}
+
+#content {
+    display: flex;
+    height: 100%;
+}
+
+.nav {
+    all: unset;
+}
+
+.quantity {
+    /* White */
+    background: #FFFFFF;
+    /* Gray/300 */
+    border: 1px solid #D0D5DD;
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 12px;
+    text-align: center;
+    color: #AF9A70;
+    margin-bottom: 3vh;
+}
+
+#amount {
+    border:0;
+    color:#AF9A70;
+    font-weight:bold;
+}
+
+.price-range {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+}
+
+.range-inputs {
+    display: flex;
+    justify-content: center;
+}
+
+.range-input {
+    /* White */
+    background: #FFFFFF;
+    /* Gray/300 */
+    border: 1px solid #D0D5DD;
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 12px;
+    text-align: center;
+    color: #AF9A70;
+    margin-bottom: 3vh;
+}
+
+.ui-slider {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+    margin-left: 25vw;
+    width: 20vw;
+}
+
+#slider-range {
+    margin: 0;
+}
+
+.row {
+    margin-right: 0;
+}
+
+#modal-button {
+    background-color: #AF9A70;
+    border-color: #AF9A70;
+}

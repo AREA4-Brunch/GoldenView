@@ -1,0 +1,45 @@
+/* Jovan Jovanovic 2020/0083 */
+
+ol{
+    mask-type: 1;
+}
+
+.scroll{
+    margin:4px, 4px;
+    padding:4px;
+    width: 900px;
+    height: 350px;
+    border: 3px solid rgb(175,154,112);
+    border-radius: 6px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+
+#row3{
+    margin-top: 27px;
+}
+
+#row4{
+    margin-bottom: 30px;
+}
+
+.buttonDis{
+    background-color: grey;
+    width: 100%;
+    height: 45px;
+    border-radius: 12px;
+    border: 1px solid grey;
+    color: black;
+    margin-top: 27px;
+}
+
+.buttonEn{
+    background-color: rgb(175,154,112);
+    width: 100%;
+    height: 45px;
+    border-radius: 12px;
+    border: 1px solid rgb(175,154,112);
+    color: white;
+    margin-top: 27px;
+}

@@ -1,0 +1,14 @@
+/* Aleksandar Radenkovic 2020/0272 */
+#login {
+    height: 50vh;
+}
+
+form {
+    width: 100%;
+    max-width: 400px;
+}
+
+main {
+    display: grid;
+    align-items: center;
+}

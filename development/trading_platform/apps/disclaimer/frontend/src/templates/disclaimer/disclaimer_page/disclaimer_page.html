@@ -1,0 +1,100 @@
+<!-- Jovan Jovanovic 2020/0083 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'disclaimer/css/disclaimer.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Disclaimer
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="disclaimer_page-content" class="common-center">
+
+    <div class="container-fluid">
+        <div id="page-txt" class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
+                <h2>
+                    Disclaimer
+                </h2>
+            </div>
+        </div>
+        <div class="row common-center">
+            <div class="col-sm-6 common-center-horizontally">
+                <div class="scroll" id="scroll">
+                    <table class="t" id="content">
+                        <tr>
+                            <td> 
+                                <ol>
+                                    <li>Eligibility: The app is intended for use by individuals who are at least 18 years old and <br> 
+                                        are legally permitted to participate in stock trading activities.</li>
+                                    <li>Risk Disclosure: Stock trading involves risk, including the potential loss of principal. <br> 
+                                        Users are responsible for understanding the risks associated with trading and making informed decisions.</li>
+                                    <li>Use of Information: All information provided by the app, including market data and trading recommendations, is for informational purposes only and should not be considered financial advice. <br> 
+                                        Users should perform their own research and consult with a licensed financial advisor before making any trading decisions.</li>
+                                    <li>Account Security: Users are responsible for keeping their account login credentials secure <br>
+                                        and should not share them with others. The app is not responsible for any unauthorized access to user accounts.</li>
+                                    <li>Fees: The app may charge fees for various services, such as trading commissions or account <br> 
+                                        maintenance fees. Users should review the fee schedule before using the app.</li>
+                                    <li>Termination: The app reserves the right to terminate user accounts for any reason, including <br> 
+                                        violation of these terms and conditions.</li>
+                                    <li>Intellectual Property: The app's content and intellectual property, including trademarks and <br> 
+                                        copyrights, are owned by the app and should not be used or reproduced without permission.</li>
+                                    <li>Limitation of Liability: The app is not liable for any losses or damages resulting from the <br>
+                                        use of the app or any information provided by the app.</li>
+                                    <li>Governing Law: These terms and conditions are governed by the laws of the state or jurisdiction 
+                                        in which the app is located.</li>
+                                </ol>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <form action="{% url 'accept_terms_form' %}" method="POST">
+            {% csrf_token %}
+            <div class="row common-center" id="row3">
+                <div class="col-4 common-center-horizontally">
+                    <input type="checkbox" name="check" id="check" disabled="true">
+                    <label for="check"> &nbsp; I agree to the terms and conditions as set out by the user agreement.</label>
+                </div>
+            </div>
+            <div class="row common-center" id="row4">
+                <div class="col-1 common-center-horizontally">
+                    <button type="submit" class="buttonDis" id="buttonContinue" disabled="true">Continue</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'disclaimer/js/disclaimer.js' %}"></script>
+
+{% endblock %}

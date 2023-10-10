@@ -1,0 +1,12 @@
+{
+    "id_trade_request": 5,
+    "id_user": 1,
+    "id_asset": 1,
+    "quantity": 500,
+    "total_price": 137875,
+    "contract": {
+        "id": 1,
+        "time": "2023-04-18T14:30:01.000Z",
+        "status": "FB"
+    }
+}

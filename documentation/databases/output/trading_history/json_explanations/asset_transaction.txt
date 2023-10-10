@@ -1,0 +1,25 @@
+{
+    <!-- auto generated -->
+    "_id": "61512345bca0a50d0f8a8c2b",
+
+    <!-- [Optional] id of purchase request created in SQL db - PurchaseRequest table
+         it is optional as the person purchasing could have been someone outside our
+         system (for example some other real world brokerage system) 
+    -->
+    "id_trade_request_purchase": 5,
+
+    <!-- [Optional] id of sales request created in SQL db - SalesRequest table
+         it is optional as the person selling could have been someone outside our
+         system (for example some other real world brokerage system) 
+    -->
+    "id_trade_request_sale": 6,
+
+    <!-- number of assets transactioned -->
+    "quantity": 500,
+
+    <!-- value of single asset (rounded to 2 decimals) -->
+    "unit_price": 275.75,
+
+    <!-- time (ISODate) at which the transaction was successfuly completed -->
+    "time": "2023-04-18T14:30:00.000Z"
+}

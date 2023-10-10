@@ -1,0 +1,317 @@
+{
+  "id": "6c41c694-2dee-4258-84d5-a293faa9ac68",
+  "version": "2.0",
+  "name": "Administrator dashboard",
+  "url": "http://127.0.0.1:8000/administrator_dashboard/",
+  "tests": [{
+    "id": "088da80b-0f5d-4475-a2d1-65cda85df684",
+    "name": "Delete user through administrator dashboard",
+    "commands": [{
+      "id": "389cc7e1-625a-4b81-ab50-4bb0e95fdb07",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/administrator_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a5ff0a10-13f9-43e6-9949-b515ea32e5b6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x840",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c1a0cbd3-3aaa-42c7-8354-5b16086b26d6",
+      "comment": "",
+      "command": "click",
+      "target": "name=dima123",
+      "targets": [
+        ["name=dima123", "name"],
+        ["xpath=//button[@name='dima123']", "xpath:attributes"],
+        ["xpath=(//tr[@id='columns']/td[5]/button)[3]", "xpath:idRelative"],
+        ["xpath=//tr[5]/td[5]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b9d2bc8-fc84-4968-a74e-92ae215b0e2a",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": "Email address"
+    }, {
+      "id": "4687c9cb-9520-40f4-8aa9-01d132d27507",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//tr[@id='columns']/td[5]/button/img)[9]",
+      "targets": [
+        ["xpath=(//tr[@id='columns']/td[5]/button/img)[9]", "xpath:idRelative"],
+        ["xpath=//tr[11]/td[5]/button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1e9c8518-3f67-46ca-a13a-78d4f4c24793",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=tr:nth-child(1) > td",
+      "targets": [
+        ["css=tr:nth-child(1) > td", "css:finder"],
+        ["xpath=//table[@id='table']/tbody/tr/td", "xpath:idRelative"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Users')]", "xpath:innerText"]
+      ],
+      "value": "Users"
+    }]
+  }, {
+    "id": "c2ed3524-9b6e-474e-bbfb-76ef69d621cb",
+    "name": "Accept broker request",
+    "commands": [{
+      "id": "d02338a0-adc4-4dc1-b205-19c03a97765a",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/administrator_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9749b2e9-8625-4013-bdbc-f0dcc0c67315",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x840",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f18b1ab9-8aca-4d6d-b417-0556295a9222",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Requests",
+      "targets": [
+        ["linkText=Requests", "linkText"],
+        ["css=.nav-item:nth-child(2) .row > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Requests')]", "xpath:link"],
+        ["xpath=//div[@id='administrator_dashboard_page-content']/div/div/div/ul/li[2]/form/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'administrator_dashboard_request')]", "xpath:href"],
+        ["xpath=//form/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Requests')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "875a4b56-11b6-435a-875c-b9a4b1284955",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//tr[@id='columns']/td[5]/div/form/button/img",
+      "targets": [
+        ["xpath=//tr[@id='columns']/td[5]/div/form/button/img", "xpath:idRelative"],
+        ["xpath=//form/button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "631d75ab-ad51-4428-b587-76c46b28800a",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": "Email address"
+    }]
+  }, {
+    "id": "fe7bafcf-c0be-4883-93a5-adc875f760c5",
+    "name": "Decline broker request",
+    "commands": [{
+      "id": "03f9fa52-c747-4507-9923-c70763d4f812",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/administrator_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7be06857-e287-44b0-893e-35205a8c0501",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x840",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5203299f-f716-46ec-b974-9e491b3fb210",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Requests",
+      "targets": [
+        ["linkText=Requests", "linkText"],
+        ["css=.nav-item:nth-child(2) .row > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Requests')]", "xpath:link"],
+        ["xpath=//div[@id='administrator_dashboard_page-content']/div/div/div/ul/li[2]/form/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'administrator_dashboard_request')]", "xpath:href"],
+        ["xpath=//form/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Requests')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad1b6ea9-3ab5-4389-8986-c2e124407b36",
+      "comment": "",
+      "command": "click",
+      "target": "css=td > div > button > img",
+      "targets": [
+        ["css=td > div > button > img", "css:finder"],
+        ["xpath=//tr[@id='columns']/td[5]/div/button/img", "xpath:idRelative"],
+        ["xpath=//td[5]/div/button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e7d0e5d1-1226-4ed2-b483-833c0b5dea33",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": "Username"
+    }, {
+      "id": "f0c43196-537f-44ca-968e-8409b0b2305a",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=td:nth-child(4)",
+      "targets": [
+        ["css=td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": "Email address"
+    }]
+  }, {
+    "id": "7085daff-f917-43c7-b53b-1186eb7b9a9b",
+    "name": "Requests button",
+    "commands": [{
+      "id": "ef652ffe-16ec-4e89-9674-778327fe75a0",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/administrator_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "75a89ac4-6c97-47c9-b068-8e8e3ff5d55a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x840",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ec77de16-fb0a-4a23-ae8f-72d7143edcd8",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Requests",
+      "targets": [
+        ["linkText=Requests", "linkText"],
+        ["css=.nav-item:nth-child(2) .row > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Requests')]", "xpath:link"],
+        ["xpath=//div[@id='administrator_dashboard_page-content']/div/div/div/ul/li[2]/form/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'administrator_dashboard_request')]", "xpath:href"],
+        ["xpath=//form/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Requests')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "119e27fa-bed1-40c0-a621-5d050a45232f",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": "Username"
+    }, {
+      "id": "bc31904d-2fb4-42e9-8c11-be55d685d7a6",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=tr:nth-child(1) > td",
+      "targets": [
+        ["css=tr:nth-child(1) > td", "css:finder"],
+        ["xpath=//table[@id='table']/tbody/tr/td", "xpath:idRelative"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Users')]", "xpath:innerText"]
+      ],
+      "value": "Users"
+    }]
+  }, {
+    "id": "0055c543-17e7-4dd4-bbfa-703ed29e8f09",
+    "name": "Log out button",
+    "commands": [{
+      "id": "31dd7565-14b0-4df3-bd68-a0f1bbff7bfc",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/administrator_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9aa8d1a0-2262-434b-b739-a0887a05c628",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1552x840",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f8dea379-c235-44f3-98c7-320296eef1c7",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=.nav-item:nth-child(3) .row > .nav-link", "css:finder"],
+        ["xpath=(//a[contains(text(),'Logout')])[2]", "xpath:link"],
+        ["xpath=//div[@id='administrator_dashboard_page-content']/div/div/div/ul/li[3]/form/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'adminlogout')]", "xpath:href"],
+        ["xpath=//li[3]/form/div/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c42850a8-82c3-4bed-ae1c-2de7490e1c6a",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=.mb-3:nth-child(2) > .form-label",
+      "targets": [
+        ["css=.mb-3:nth-child(2) > .form-label", "css:finder"],
+        ["xpath=//div[@id='login']/div/form/div/label", "xpath:idRelative"],
+        ["xpath=//label", "xpath:position"],
+        ["xpath=//label[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": "Username"
+    }, {
+      "id": "0a856c41-99b4-4bed-83fc-e5abb9de1d88",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=.mb-3:nth-child(3) > .form-label",
+      "targets": [
+        ["css=.mb-3:nth-child(3) > .form-label", "css:finder"],
+        ["xpath=//div[@id='login']/div/form/div[2]/label", "xpath:idRelative"],
+        ["xpath=//div[2]/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Password')]", "xpath:innerText"]
+      ],
+      "value": "Password"
+    }]
+  }],
+  "suites": [{
+    "id": "212454e1-6a32-4120-ad44-bed910b8c406",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://127.0.0.1:8000/administrator_dashboard/"],
+  "plugins": []
+}

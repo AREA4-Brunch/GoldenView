@@ -1,0 +1,101 @@
+# Mounts trading_platform logs to local folder: `../../trading_platform/logs/`
+# Uses instead init.sql init_development.sql found:
+# `../../databases/trading_platform/db_scripts/init_development.sql`
+
+version: '3.8'
+
+
+networks:
+  trading-platform-db-dev-net:
+  trading-history-db-dev-net:
+  trading-platform-sys-dev-net:
+
+
+services:
+
+  trading-platform-db-dev:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=etf
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 80s
+    ports:
+      - 3307:3306
+    networks:
+      - trading-platform-db-dev-net
+    volumes:
+      # init the db from .sql file
+      - ../../databases/trading_platform/db_scripts/init_development.sql:/docker-entrypoint-initdb.d/1.sql
+      - type: volume
+        source: trading-platform-db-dev-data
+        target: /var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
+    networks:
+      - trading-platform-db-dev-net
+
+  trading-history-db-dev:
+    # image: mongo:7.0
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    # healthcheck:
+    #   test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+    #   interval: 10s
+    #   timeout: 10s
+    #   retries: 30
+    #   start_period: 30s
+    ports:
+      - 27018:27017
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=etf
+    volumes:
+      - type: volume
+        source: trading-history-db-dev-data
+        target: /data/db
+    networks:
+      - trading-history-db-dev-net
+
+  trading-platform-sys-dev:
+    build:
+      context: ../../../development
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - 8001:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=trading_platform.settings_dev
+      # trading_history db
+      - DB_TRADING_HISTORY_NAME=trading_history
+      - DB_TRADING_HISTORY_HOST=trading-history-db-dev
+      - DB_TRADING_HISTORY_PORT=27017
+      - DB_TRADING_HISTORY_USERNAME=root
+      - DB_TRADING_HISTORY_PASSWORD=etf
+      # trading_platform db
+      - DB_TRADING_PLATFORM_NAME=trading_platform
+      - DB_TRADING_PLATFORM_USER=root
+      - DB_TRADING_PLATFORM_PASSWORD=etf
+      - DB_TRADING_PLATFORM_HOST=trading-platform-db-dev
+      - DB_TRADING_PLATFORM_PORT=3306
+    volumes:
+      - type: bind
+        source: ../../trading_platform/logs/
+        target: /app/trading_platform/logs/
+    depends_on:
+      trading-platform-db-dev:
+        condition: service_healthy
+      trading-history-db-dev:
+        condition: service_started
+    networks:
+      - trading-platform-sys-dev-net
+      - trading-platform-db-dev-net
+      - trading-history-db-dev-net
+
+volumes:
+  trading-platform-db-dev-data:
+  trading-history-db-dev-data:

@@ -1,0 +1,95 @@
+<!-- Jovan Jovanovic 2020/0083 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'user_dashboard/css/user_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Broker request
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="contact_page_page-content" class="common-center">
+
+    <div class="container">
+        <div class="row common-center">
+            
+            <div class="middleContent">
+                <form action="{% url 'user_dashboard_send_request_accept_form'%}" method="POST">
+                    {% csrf_token %}
+                <div class="">
+                    <h2>Contract</h2>
+                </div>
+                <div style="color: gray;">
+                    Sent contract: <label name="username" id="message">{{contract.filepath.filepath}}</label>
+                </div>
+                
+                    <table>
+                        <tr>
+                            <td>
+                                <br>
+                                {{contract.filepath.filepath}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                {{contract.contractcontent}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <div class="centerButtons">
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button">Accept contract</button>
+                                </form>
+                                    <form action="{% url 'user_dashboard_send_request_decline_form'%}" method="POST">
+                                    {% csrf_token %}
+                                    <button name="{{contract.filepath.filepath}}" type="submit" class="buttonEn" id="button" style="color: indianred; background-color: white;">Decline contract</button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+        
+                    </table>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}

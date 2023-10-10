@@ -1,0 +1,124 @@
+<!-- Jovana Bjelica 2020/0349 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'contact_page/css/contact_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Contact_page
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="contact_page_page-content" class="common-center">
+
+    <div class="container">
+        <div class="row common-center">
+            <div class="col-sm-6">
+                <div>
+                    <img style="width:100%" src="../static/contact_page/images/slikalevo.png" alt="slikalevo">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="">
+                    <h2>Contact us</h2>
+                </div>
+                <div class="">
+                    You can reach us anytime via <span><a href="mailto:contact@goldenview.com" style="color:rgb(175,154,112)">contact@goldenview.com</a></span>
+                    {% if success_msg %}
+                        <br/>
+                        <span style="color: #A2E3C4;">{{ success_msg }}</span>
+                    {% endif %}
+                </div>
+                <form action="{% url 'form_contact_page' %}" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>
+                                <br>
+                                <b>Name</b>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="name" id="name" size="60" placeholder=" Your name">
+                                <br>
+                                <b style="color:red">{{errname}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <b>Email</b>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="email" id="email" size="60" placeholder=" you@comapny.com">
+                                <br>
+                                <b style="color:red">{{erremail}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <b>How can we help?</b>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea name="message" id="message" cols="63" rows="5" placeholder=" Write a message..."></textarea>
+                                <br>
+                                <b style="color:red">{{errmsg}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <div style="text-align:center">
+                                    <button type="submit" class="buttonEn" id="button" style="width:50%;">Send</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                    
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+    <script src="{% static 'contact_page/js/contact_page.js' %}"></script>
+
+{% endblock %}

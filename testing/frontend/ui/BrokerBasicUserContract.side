@@ -1,0 +1,534 @@
+{
+  "id": "d5647feb-fe52-45b9-811f-2613641b0c84",
+  "version": "2.0",
+  "name": "BrokerBasicUserContract",
+  "url": "http://127.0.0.1:8000/broker_dashboard",
+  "tests": [{
+    "id": "2234d13c-deaf-4951-a3a9-1376c1068fab",
+    "name": "InvalidFormTextEmpty",
+    "commands": [{
+      "id": "aa16845f-e34f-457c-b85f-ac7bd8619433",
+      "comment": "",
+      "command": "open",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f11ae368-b0b0-4a34-9cac-3acd95fb946a",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bd9f71ce-c595-4b50-9499-2e32e527b673",
+      "comment": "",
+      "command": "click",
+      "target": "name=Jim",
+      "targets": [
+        ["name=Jim", "name"],
+        ["xpath=//button[@name='Jim']", "xpath:attributes"],
+        ["xpath=//tr[@id='columns']/td[5]/button", "xpath:idRelative"],
+        ["xpath=//td[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e244fb4a-c30d-472c-9107-e14e98510450",
+      "comment": "",
+      "command": "click",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "822f22a5-6333-4f25-bd1e-942e0c6d4549",
+      "comment": "",
+      "command": "type",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": "20"
+    }, {
+      "id": "8b6923d7-048f-4fd8-b4bc-0ba9a63924ad",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "0295d4db-1068-4881-880b-d375f71f4144",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(4) > td",
+      "targets": [
+        ["css=tr:nth-child(4) > td", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[4]/td", "xpath:idRelative"],
+        ["xpath=//tr[4]/td", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cf4a502-1ff5-4914-b112-9bc6e6ee9a24",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=tr:nth-child(4) b",
+      "targets": [
+        ["css=tr:nth-child(4) b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[4]/td/b", "xpath:idRelative"],
+        ["xpath=//tr[4]/td/b", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "0e94d8b5-244c-4848-915f-e05180959467",
+    "name": "InvalidFormFeeEmpty",
+    "commands": [{
+      "id": "09c1f2dc-26cf-4fca-833f-3f1ad85fd668",
+      "comment": "",
+      "command": "open",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9a8f39d9-9fb0-41ee-b560-c8c271976122",
+      "comment": "",
+      "command": "click",
+      "target": "name=Jim",
+      "targets": [
+        ["name=Jim", "name"],
+        ["xpath=//button[@name='Jim']", "xpath:attributes"],
+        ["xpath=//tr[@id='columns']/td[5]/button", "xpath:idRelative"],
+        ["xpath=//td[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "af0d936f-cfd3-4cab-9de4-b0e87cf3d7c1",
+      "comment": "",
+      "command": "click",
+      "target": "name=message",
+      "targets": [
+        ["name=message", "name"],
+        ["css=td > #message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[4]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5d8f4b5-1628-4641-bdbd-55fb1eb18b59",
+      "comment": "",
+      "command": "type",
+      "target": "name=message",
+      "targets": [
+        ["name=message", "name"],
+        ["css=td > #message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[4]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "you know\\n"
+    }, {
+      "id": "67c14976-acbb-4f9a-bd19-6921f2e0e406",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=div > #button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[5]/td/div/button", "xpath:idRelative"],
+        ["xpath=//td/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "eed539ef-6d74-48ba-b3ae-426804bfeed0",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) b",
+      "targets": [
+        ["css=tr:nth-child(2) b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/b", "xpath:idRelative"],
+        ["xpath=//b", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9c8dcb94-a5cd-4f71-bb62-7f7df37b4730",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=tr:nth-child(2) b",
+      "targets": [
+        ["css=tr:nth-child(2) b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/b", "xpath:idRelative"],
+        ["xpath=//b", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "5e28c3db-034c-4b54-abb5-034704ebc87f",
+    "name": "CancelForm",
+    "commands": [{
+      "id": "135de0b1-596c-43d2-b8bf-4a3ac6dc116e",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/broker_dashboard/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9fc513fa-db45-49f8-a855-9e29b64cc3a8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1025x606",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "010223a2-52b9-4b43-910d-300eef7b52d2",
+      "comment": "",
+      "command": "click",
+      "target": "name=Jim",
+      "targets": [
+        ["name=Jim", "name"],
+        ["xpath=//button[@name='Jim']", "xpath:attributes"],
+        ["xpath=//tr[@id='columns']/td[5]/button", "xpath:idRelative"],
+        ["xpath=//td[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1015a31b-39c6-4548-b483-a80b583e174c",
+      "comment": "",
+      "command": "click",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "63eb3df0-354b-4882-94f1-72d40fea7859",
+      "comment": "",
+      "command": "type",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": "20"
+    }, {
+      "id": "fcca94f5-af7e-437b-af15-06667150af24",
+      "comment": "",
+      "command": "click",
+      "target": "css=form > #button",
+      "targets": [
+        ["css=form > #button", "css:finder"],
+        ["xpath=(//button[@id='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[5]/td/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cancel')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8382e911-96ca-43b0-8b13-2b13c209b1f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "35eb0eac-d6e2-4479-b512-4639f4ef460b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "30559519-4925-4eb4-9eb9-c3c2c0f55e47",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "930946c0-dade-4730-8fbe-2081fadbe682",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b941ff87-3922-4401-8158-8e8f19921833",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "eac4c386-5d4d-468f-8cdc-fbae75cba6f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "869f9518-895d-448b-bcd2-c87e52d9fb0c",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d4d0073-1160-4bc6-9f4a-e1ee41fa3673",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c45d31a3-12b4-4e61-8f5c-b435c37ba8a0",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b60db1f8-3682-4d2c-8c85-4d2fe9e188b0",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=#bold > td:nth-child(4)",
+      "targets": [
+        ["css=#bold > td:nth-child(4)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[4]", "xpath:idRelative"],
+        ["xpath=//td[4]", "xpath:position"],
+        ["xpath=//td[contains(.,'Email address')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f77bb92-c02a-43c2-bf6e-b0f806597974",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(2)",
+      "targets": [
+        ["css=#bold > td:nth-child(2)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Status')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e44403d6-fc55-4428-8add-6dd66262ed5c",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(2)",
+      "targets": [
+        ["css=#bold > td:nth-child(2)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Status')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbade3dd-240c-45eb-93bd-a5647e8b20e4",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=#bold > td:nth-child(2)",
+      "targets": [
+        ["css=#bold > td:nth-child(2)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Status')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e4724b4-031e-45ac-9c51-cab73ecc5eec",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=#bold > td:nth-child(2)",
+      "targets": [
+        ["css=#bold > td:nth-child(2)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Status')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "9f980ba2-40ff-4c23-9fd0-0cb21562bef0",
+    "name": "FormSuccess",
+    "commands": [{
+      "id": "0039c0a5-e617-4224-82f9-58f782553b7f",
+      "comment": "",
+      "command": "open",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c731f23d-1f64-47dd-8145-553b6b470b42",
+      "comment": "",
+      "command": "click",
+      "target": "name=Jim",
+      "targets": [
+        ["name=Jim", "name"],
+        ["xpath=//button[@name='Jim']", "xpath:attributes"],
+        ["xpath=//tr[@id='columns']/td[5]/button", "xpath:idRelative"],
+        ["xpath=//td[5]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e1502a60-0a56-44d9-90ee-1e156b246a5c",
+      "comment": "",
+      "command": "click",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "181e0bfe-62ae-49f9-96b3-bb91f1251734",
+      "comment": "",
+      "command": "type",
+      "target": "name=fee",
+      "targets": [
+        ["name=fee", "name"],
+        ["css=tr:nth-child(2) .inputInfo", "css:finder"],
+        ["xpath=//input[@name='fee']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[2]/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": "10"
+    }, {
+      "id": "369ce9b1-4346-49b1-ac5c-4358d13c3b15",
+      "comment": "",
+      "command": "type",
+      "target": "name=message",
+      "targets": [
+        ["name=message", "name"],
+        ["css=td > #message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[4]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "You know why.\\n"
+    }, {
+      "id": "adcd1fc4-fc41-4578-a5c2-a649f2822e29",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=div > #button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div/form/table/tbody/tr[5]/td/div/button", "xpath:idRelative"],
+        ["xpath=//td/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send contract')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6f28367b-4f49-42da-aaf3-d38dae88381b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#bold > td:nth-child(1)",
+      "targets": [
+        ["css=#bold > td:nth-child(1)", "css:finder"],
+        ["xpath=//tr[@id='bold']/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"],
+        ["xpath=//td[contains(.,'Username')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "e7ce58f6-a444-4aef-b915-c9b5eca75c1a",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }, {
+    "id": "226ed53e-26a2-4b05-bae3-fa452c01118b",
+    "name": "StandardUseCase",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/broker_dashboard"],
+  "plugins": []
+}

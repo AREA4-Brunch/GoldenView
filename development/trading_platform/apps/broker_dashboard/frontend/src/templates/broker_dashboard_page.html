@@ -1,0 +1,88 @@
+<!-- Jovan Jovanovic 2020/0083 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'broker_dashboard/css/broker_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    broker_dashboard
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="broker_dashboard_page-content">
+    <div class="container-fluid">
+        <div class="row common-center">
+            <div class="col-9">
+                <form action="{% url 'broker_dashboard_form' %}" method="POST">
+                {% csrf_token %}
+                    <table id="table" class="table table-striped">
+                        <tr>
+                            <td colspan="5" style="font-weight: 800">
+                                Users
+                            </td>
+                        </tr>
+
+                       <tr id="bold">
+                            <td>Username</td>
+                            <td>Status</td>
+                            <td>Role</td>
+                            <td>Email address</td>
+                            <td id="trash"></td>
+                        </tr>
+
+                        {% for user_, userType in users %}
+                            
+                            <tr id="columns">
+                                <td style="color: gray;">@{{user_.username}}</td>
+                                {% if user_.is_active %}
+                                    <td style="color: lightgreen">Active</td>
+                                {% else %}
+                                    <td style="color: indianred">Inactive</td>
+                                {% endif %}
+                                <td>
+                                    {{userType}}
+                                </td>
+                                <td>
+                                    {{user_.email}}
+                                </td>
+                                <td>
+                                    <button name={{user_.username}} type="submit" style="color: #AF9A70">Send contract</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}

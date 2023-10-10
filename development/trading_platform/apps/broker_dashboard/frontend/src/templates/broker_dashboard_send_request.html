@@ -1,0 +1,109 @@
+<!-- Jovan Jovanovic 2020/0083 -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+    <!-- Included Components CSS -->
+    <link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+    <!-- This Page's CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'broker_dashboard/css/broker_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+    Broker request
+{% endblock %}
+
+
+{% block header %}
+    {% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="contact_page_page-content" class="common-center">
+
+    <div class="container">
+        <div class="row common-center">
+            
+            <div class="col-sm-6">
+                <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
+                    {% csrf_token %}
+                <div class="">
+                    <h2>Contract form</h2>
+                </div>
+                <div style="color: gray;">
+                    Send contract to Basic User: <label name="username" id="message">{{dst_user.username}}</label>
+                    {% if success_msg %}
+                        <br/>
+                        <span style="color: #A2E3C4;">{{ success_msg }}</span>
+                    {% endif %}
+                </div>
+                
+                    <table>
+                        <tr>
+                            <td>
+                                <br>
+                                Fee (Percentage)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="fee" class="inputInfo">
+                                <br>
+                                <b style="color:red">{{errfee}}</b>
+                                <br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                Why do you think you are perfect Broker for this user?
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea name="message" id="message" cols="60" rows="10" class="inputInfo"></textarea>
+                                <br>
+                                <b style="color:red">{{errmsg}}</b>
+                                <br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br>
+                                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                    <button name="{{dst_user.username}}" type="submit" id="button" class="buttonEn">Send contract</button>
+                                </form>
+                                    <form action="{% url 'broker_dashboard_send_request_form'%}" method="POST">
+                                    {% csrf_token %}
+                                    <button name="{{dst_user.username}}" type="submit" class="buttonEn" id="button" style="color:indianred; background-color: white;">Cancel</button>
+                                </div>
+                            </td>
+                        </tr>
+        
+                    </table>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+    <!-- This Page's JS -->
+
+{% endblock %}

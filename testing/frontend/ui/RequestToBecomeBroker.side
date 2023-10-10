@@ -1,0 +1,317 @@
+{
+  "id": "480e444f-b07f-412a-b065-ef3d54944ee8",
+  "version": "2.0",
+  "name": "RequestToBecomeBroker",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "91845a97-5548-4ebb-9838-572e85c2f60a",
+    "name": "InvalidFormEmptyField",
+    "commands": [{
+      "id": "f2c5129e-84c0-4ce9-a4a5-56a93344f3d2",
+      "comment": "",
+      "command": "open",
+      "target": "/website/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dc1bddef-d613-4dd5-9105-9a06fa92283c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1025x606",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a55091ed-afb7-44ad-916e-82792372d22a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Become a Broker",
+      "targets": [
+        ["linkText=Become a Broker", "linkText"],
+        ["css=.nav-item:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Become a Broker')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/broker_request/')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Become a Broker')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b231786-1de0-4d34-b463-42cf2f906cb9",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[3]/td/div/button", "xpath:idRelative"],
+        ["xpath=//td/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1888970-a282-476d-a570-8faca7604b12",
+      "comment": "",
+      "command": "click",
+      "target": "css=b",
+      "targets": [
+        ["css=b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/b", "xpath:idRelative"],
+        ["xpath=//b", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8cc27162-6355-4568-9259-9989e6ff4790",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=b",
+      "targets": [
+        ["css=b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/b", "xpath:idRelative"],
+        ["xpath=//b", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "cb1d027e-e1c0-4d9d-aad4-76e8d92fdfdd",
+    "name": "SendingRequestForSecondTime",
+    "commands": [{
+      "id": "7a7b4373-ff7b-47b0-8203-2f7ce4698940",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4c818fee-c427-42b8-8ee6-371864b5776b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1025x606",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f741d796-377c-49ce-838d-fb5cf8846a76",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Become a Broker",
+      "targets": [
+        ["linkText=Become a Broker", "linkText"],
+        ["css=.nav-item:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Become a Broker')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/broker_request/')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Become a Broker')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b93dcc8-a2ab-481d-aee6-5ea771eda981",
+      "comment": "",
+      "command": "click",
+      "target": "id=message",
+      "targets": [
+        ["id=message", "id"],
+        ["name=message", "name"],
+        ["css=#message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8c504155-30bf-4b79-af35-d5ea2bdf451a",
+      "comment": "",
+      "command": "type",
+      "target": "id=message",
+      "targets": [
+        ["id=message", "id"],
+        ["name=message", "name"],
+        ["css=#message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Cause I am awesome.\\n"
+    }, {
+      "id": "0bf1ff8c-474d-4a72-9cb8-e4eaf0240514",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[3]/td/div/button", "xpath:idRelative"],
+        ["xpath=//td/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0fe2958f-8f5f-4d60-8c0e-a172647729b6",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) > td",
+      "targets": [
+        ["css=tr:nth-child(2) > td", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td", "xpath:idRelative"],
+        ["xpath=//tr[2]/td", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2279f274-bcbc-41ff-9b0e-a9a0532b9a05",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=b",
+      "targets": [
+        ["css=b", "css:finder"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/b", "xpath:idRelative"],
+        ["xpath=//b", "xpath:position"],
+        ["xpath=//b[contains(.,'You already sent request.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "d1e66927-6e07-40d1-9bee-9ba8ff08683c",
+    "name": "SuccessfulSendForFirstTime",
+    "commands": [{
+      "id": "30885fe2-7b5a-4f8a-a926-68e20f0a3ed3",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7c0c1040-311a-46d1-bd83-d9350133068f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1025x606",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "596ce931-6f96-4036-a841-b12e35242449",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Become a Broker",
+      "targets": [
+        ["linkText=Become a Broker", "linkText"],
+        ["css=.nav-item:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Become a Broker')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/broker_request/')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Become a Broker')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "dd12cd81-0217-466b-abcb-fbccd39e4a3d",
+      "comment": "",
+      "command": "click",
+      "target": "id=message",
+      "targets": [
+        ["id=message", "id"],
+        ["name=message", "name"],
+        ["css=#message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7145683e-bf0e-4447-8410-a1172ebce42d",
+      "comment": "",
+      "command": "type",
+      "target": "id=message",
+      "targets": [
+        ["id=message", "id"],
+        ["name=message", "name"],
+        ["css=#message", "css:finder"],
+        ["xpath=//textarea[@id='message']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[2]/td/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Cause I am awesome.\\n"
+    }, {
+      "id": "027ba333-cc1a-45c8-a456-a4f30fb42e51",
+      "comment": "",
+      "command": "click",
+      "target": "id=button",
+      "targets": [
+        ["id=button", "id"],
+        ["css=#button", "css:finder"],
+        ["xpath=//button[@id='button']", "xpath:attributes"],
+        ["xpath=//div[@id='contact_page_page-content']/div/div/div[2]/form/table/tbody/tr[3]/td/div/button", "xpath:idRelative"],
+        ["xpath=//td/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Send request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "87630dda-55dd-46e0-81b7-2b4ec813eacd",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//div[@id='navbarSupportedContent']/div/div/button", "xpath:idRelative"],
+        ["xpath=//div/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "51abd39c-9050-4bd5-9ecb-7a994dfbc87d",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "linkText=Profile",
+      "targets": [
+        ["linkText=Profile", "linkText"],
+        ["css=.dropdown-item:nth-child(1)", "css:finder"],
+        ["xpath=//a[contains(text(),'Profile')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/div/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Profile')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbc7d452-d6fa-468e-89aa-e7f405d83cac",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "linkText=Settings",
+      "targets": [
+        ["linkText=Settings", "linkText"],
+        ["css=.dropdown-item:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Settings')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/div/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/password_reset/')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Settings')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1f0d6b2-be79-4a92-8ee8-31b6793b81f2",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=.dropdown-item:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/div/div/div/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/logout/')]", "xpath:href"],
+        ["xpath=//a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "a2a9f60d-2427-42ff-890e-2ac7acb27d1b",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}

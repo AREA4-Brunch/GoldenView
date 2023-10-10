@@ -1,0 +1,12 @@
+#buttonCompare {
+    margin-top: 40px;
+}
+
+#better-company-text {
+    margin-top: 40px;
+}
+
+.favourable-company-text {
+    visibility: hidden;
+    font-style: italic;
+}

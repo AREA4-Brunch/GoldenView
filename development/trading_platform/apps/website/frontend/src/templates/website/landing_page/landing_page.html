@@ -1,0 +1,206 @@
+<!-- Andrej Dujovic 2020/0306 -->
+<!-- { % extends 'common/frontend/src/templates/base.html' % } -->
+{% extends 'common/base.html' %}
+
+{% load static %}
+
+{% block included_css %}
+
+<!-- Included Components CSS -->
+<link rel="stylesheet" href="{% static 'common/components/header/header.css' %}">
+<link rel="stylesheet" href="{% static 'common/components/footer/footer.css' %}">
+
+<!-- This Page's CSS -->
+<link rel="stylesheet" href="{% static 'website/css/landing_page.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+Landing Page
+{% endblock %}
+
+
+{% block header %}
+{% include 'common/components/header/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="landing_page-content">
+    <div id="header-section">
+        <div class="header-text">Best financial trading web application</div>
+        <div class="header-text-small">Monitor and analyze stock prices in real time, as well as access other
+            information that is important for trading.</div>
+        <a href="{% url 'register' %}" class="btn sign-up-btn">Sign up</a>
+    </div>
+    <hr>
+    <div id="features-section">
+        <div class="features-text">Features</div>
+        <div class="features-text-big">Financial wellbeing for everyone</div>
+        <div class="features-text-small">Plenty of features. Every feature designed to be intuitive and easy to use
+        </div>
+        <div class="row features-row">
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/email.png' %}">
+                </div>
+                <div class="features-title">
+                    Access from any device
+                </div>
+                <div class="features-description">
+                    Since this is a web application, users can access it from any device, independent of the
+                    platform. The only requirement is that they have access to Internet.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/bolt.png' %}">
+                </div>
+                <div class="features-title">
+                    Best user experience for trading stocks
+                </div>
+                <div class="features-description">
+                    Our goal is to have the best user experience so that even novice users can understand how to
+                    trade stocks
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/smiley.png' %}">
+                </div>
+                <div class="features-title">
+                    Lates tips and news about stock market
+                </div>
+                <div class="features-description">
+                    A page with all the news and advice on what is happening on the stock market
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/chart.png' %}">
+                </div>
+                <div class="features-title">
+                    Analyze asset values in real time
+                </div>
+                <div class="features-description">
+                    With the trading view page users can track and analyze changes in asset value in real time, this
+                    feature makes it easier to buy/sell assets at their current price
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/people.png' %}">
+                </div>
+                <div class="features-title">
+                    Assign brokers to users' portfolios
+                </div>
+                <div class="features-description">
+                    Brokers can make trades for basic users and charge a fee
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="features-picture">
+                    <img src="{% static 'website/images/briefcase.png' %}">
+                </div>
+                <div class="features-title">
+                    Compare companies
+                </div>
+                <div class="features-description">
+                    Capability to compare two user-selected companies, using a range of collected parameters, and
+                    then provide the user with a clear indication of the more favorable option.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quotes-section">
+        <div class="quotes-text">
+            We've been using GoldenView for years to make better financial decisions and we are more than satisfied.
+        </div>
+        <div class="quotes-avatar">
+            <img src="{% static 'website/images/avatar.png' %}">
+        </div>
+        <div class="quotes-avatar-name">Candice Wu</div>
+        <div class="quotes-avatar-name">(User)</div>
+    </div>
+    <div id="feature-real-time-section">
+        <div class="features-text">Features</div>
+        <div class="features-text-big">Real time assets view</div>
+        <div class="features-text-small">User can access the prices view that includes choosing the asset that will
+            be shown, graph of changes in value over time and other basic information regarding that asset.
+            Additionally, graphs could display GoldenView's predictions of future trends.
+        </div>
+        <div class="feature-real-time-image">
+            <img src="{% static 'website/images/assetslistlive.png' %}" class="img-fluid">
+        </div>
+    </div>
+    <hr>
+    <div id="faq-section">
+        <div class="faq-title">
+            Frequently asked questions
+        </div>
+        <div class="faq-title-small">
+            Everything you need to know about the application.
+        </div>
+        <div class="faq-question">
+            Why GoldenView and not other applications?
+        </div>
+        <div class="faq-answer">
+            We have identified a significant issue common to all of them - non user-friendly interface which results
+            in a steep learning curve for beginners. The “GoldenView” would resolve this issue with its intuitive
+            interface while preserving some of the most significant features in existing programs. This would enable
+            users with little to no prior experience to enter the world of finance with ease.
+        </div>
+        <div class="faq-question">
+            What features do I get?
+        </div>
+        <div class="faq-answer">
+            You get a lot of features such as: best UX, asset values in real time, broker help, access from any
+            device and many more.
+        </div>
+        <div class="faq-question">
+            Does using GoldenView pose any risks in trading?
+        </div>
+        <div class="faq-answer">
+            Any trades done on any platform always pose a risk, since the stock market is changing in unpredictable
+            ways. Please understand that by using GoldenView you acknowledge that we are not at fault if you have
+            any losses.
+        </div>
+        <div class="faq-question">
+            How do I become a Broker for GoldenView?
+        </div>
+        <div class="faq-answer">
+            Sending a broker request is very easy. You just need to press the Become a Broker button in the top menu
+            and fill in the form. Wait for the request to be accepted and you are ready to help others.
+        </div>
+        <div class="faq-question">
+            Are their any costs for using GoldenView?
+        </div>
+        <div class="faq-answer">
+            GoldenView is currently a free non-profit software that is made as a project for the School of
+            Electrical Engineering, University of Belgrade.
+        </div>
+    </div>
+    <hr>
+    <div id="final-section">
+        <div class="header-text">Start using our application</div>
+        <div class="header-text-small">Join other users that are already using GoldenView.</div>
+        <a href="{% url 'register' %}" class="btn sign-up-btn">Get started</a>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'common/components/footer/footer.html' %}
+{% endblock %}
+
+
+{% block included_js %}
+
+<!-- This Page's JS -->
+<script src="{% static 'website/js/landing_page.js' %}"></script>
+
+{% endblock %}
