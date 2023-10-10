@@ -1,11 +1,34 @@
 # GoldenView
 
-Done by team Terminal.
-<br>
-<br>
+<strong><i>Done by team Terminal.</i></strong>
+<br/>
+<br/>
+
+
+## Trading Showcase Video
+
+
+## Become Broker Showcase Video
+
+
+## Some screenshots:
+
+
+![Screenshot](./github_showcase/screenshots/view_sales_request_1.png)
+![Screenshot](./github_showcase/screenshots/view_purchase_request_1.png)
+![Screenshot](./github_showcase/screenshots/view_asset.png)
+![Screenshot](./github_showcase/screenshots/contact_page_screenshot.png)
+![Screenshot](./github_showcase/screenshots/request_become_broker.png)
+![Screenshot](./github_showcase/screenshots/view_broker_request.png)
+![Screenshot](./github_showcase/screenshots/accept_terms.png)
+![Screenshot](./github_showcase/screenshots/invalid_registration.png)
+
+<br/>
+<br/>
+
 
 # Project Structure
-<br>
+<br/>
 <pre>
 GoldenView/
 |
